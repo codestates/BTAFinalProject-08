@@ -1,7 +1,11 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
+// const express = require("express");
+// const bodyParser = require("body-parser");
+// const cookieParser = require("cookie-parser");
+// const cors = require("cors");
+import express from "express";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 
 const app = express();
