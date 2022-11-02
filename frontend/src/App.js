@@ -11,7 +11,14 @@ function App() {
   return (
     <Layout>
       <Navbar />
-      <Content style={{ marginTop: 84, padding: "0 50px" }}>
+      <Content
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 84,
+          padding: "0 50px",
+        }}
+      >
         <Routes>
           <Route index element={<Home />} />
           <Route path="validators" element={<Validators />} />
