@@ -9,7 +9,7 @@ import { Content } from "antd/lib/layout/layout";
 
 function App() {
   return (
-    <Layout>
+    <Layout style={{width: "100%", height: "100%"}}>
       <Navbar />
       <Content
         style={{
