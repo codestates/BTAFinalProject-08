@@ -3,7 +3,7 @@ import { GiToken } from 'react-icons/gi'
 import { Card, Col, Divider, Row, Table } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import CardSecondRowCol from '../components/HomeDivideCard'
+import CardSecondRow from '../components/HomeSecodeRow'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -43,13 +43,6 @@ const IntroduceCard = styled(Card)`
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 `
 
-const CardSecondRow = styled.div`
-    height: 190px;
-    margin: 10px;
-    display: flex;
-    justify-content: space-between;
-`
-
 const CardThirdRow = styled.div`
     margin: 10px;
     display: flex;
@@ -87,57 +80,15 @@ const Home = () => {
                         <IntroduceCard style={{ height: '100%' }} />
                     </CardFirstRow2Col>
                 </CardFirstRow>
-                <CardSecondRow>
-                    <CardSecondRowCol
-                        icon1={
-                            <Icon
-                                icon="clarity:blocks-group-solid"
-                                width="32"
-                            />
-                        }
-                        header1={'Height'}
-                        data1={'1'}
-                        icon2={<Icon icon="uil:transaction" width="32" />}
-                        header2={'Transactions'}
-                        data2={'2'}
-                    />
-                    <CardSecondRowCol
-                        icon1={<GiToken size={24} />}
-                        header1={'Bonded Token'}
-                        data1={'1'}
-                        icon2={
-                            <Icon
-                                icon="mdi:google-circles-communities"
-                                width="32"
-                            />
-                        }
-                        header2={'Community Pool'}
-                        data2={'2'}
-                    />
-                    <CardSecondRowCol
-                        icon1={<Icon icon="octicon:graph-16" width="32" />}
-                        header1={'Inflation'}
-                        data1={'1'}
-                        icon2={
-                            <Icon icon="iconoir:percentage-square" width={32} />
-                        }
-                        header2={'Staking APR'}
-                        data2={'2'}
-                    />
-                    <CardSecondRowCol
-                        icon1={
-                            <Icon
-                                icon="clarity:blocks-group-solid"
-                                width="32"
-                            />
-                        }
-                        header1={'Staking APR'}
-                        data1={'1'}
-                        icon2={<Icon icon="uil:transaction" width="32" />}
-                        header2={'Transactions'}
-                        data2={'2'}
-                    />
-                </CardSecondRow>
+                <CardSecondRow
+                    height={1}
+                    transaction={1}
+                    bondedToken={2}
+                    communnityPool={2}
+                    inflation={2}
+                    stakingApr={2}
+                />
+
                 <CardThirdRow>
                     <CardThirdRow1Col>
                         <HomeTableHeader>BLOCKS</HomeTableHeader>
