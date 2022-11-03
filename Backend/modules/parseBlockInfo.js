@@ -1,3 +1,4 @@
+// gas used/wanted 추가해야함
 export const parseBlock = (data) => {
     const blockInfo = JSON.parse(data);
     if (!blockInfo.result) return {};
@@ -8,6 +9,7 @@ export const parseBlock = (data) => {
         time,
         hash,
         numOfTx: txs.length,
+        gas: [],
         round,
         proposerAddress,
         txs
@@ -15,6 +17,7 @@ export const parseBlock = (data) => {
     return res;
 }
 
+// gas used/wanted 추가해야함
 export const parseBlockFromSub = (data) => {
     const blockInfo = JSON.parse(data);
     if (!blockInfo.result.data) return {};
@@ -25,6 +28,7 @@ export const parseBlockFromSub = (data) => {
         time,
         hash,
         numOfTx: txs.length,
+        gas: [],
         round,
         proposerAddress,
         txs
