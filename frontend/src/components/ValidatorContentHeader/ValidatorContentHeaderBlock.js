@@ -3,12 +3,12 @@ import { blockText, defaultText } from '../../utils/color'
 import { Icon } from '@iconify/react'
 
 const ContentHeaderinfoBlock = styled.div`
+    background-color: #ffffff;
     width: 22%;
     height: 80%;
     font-size: 13px;
     font-weight: 500;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-        rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     border-radius: 10px;
     padding: 12px;
 `
