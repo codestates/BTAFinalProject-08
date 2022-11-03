@@ -4,9 +4,9 @@ import ValidatorContentHeader from '../components/ValidatorContentHeader'
 import ValidatorTable from '../components/ValidatorTable'
 
 const Wrapper = styled.div`
+    max-width: 1300px;
     width: 100%;
     height: 100%;
-    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,6 +18,10 @@ const ContentBody = styled.div`
 `
 
 const ContentBodyWrapTable = styled.div`
+    background-color: #ffffff;
+    padding: 10px;
+
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     width: 100%;
 `
 
