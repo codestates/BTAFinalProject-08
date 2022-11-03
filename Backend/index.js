@@ -6,10 +6,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import db from './models/index.js';
+
 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 
 // api 통신을 위한 모듈 설정
@@ -24,6 +26,17 @@ app.use(
         methods: ["GET", "POST", "PUT", "DELETE"],
     })
 );
+
+
+db.sequelize
+    .sync()
+    .then(() => {
+        console.log(" DB 연결 성공");
+    })
+    .catch((err) => {
+        console.log("연결 실패");
+        console.log(err);
+    });
 
 
 app.listen(PORT, async () => {
