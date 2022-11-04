@@ -66,6 +66,8 @@ export const getExtractedBlockInfoOrNullFromHeight = async (blockHeight) => { //
     const height = Number(blockHeight);
     const block = await axios.get(process.env.END_POINT + "block?height=" + height);
     if (!block) return null;
-    const parsedBlock = await parseBlock(JSON.stringify(block.data));
-    return parsedBlock;
+    const extractedBlock = await extractBlockInfo(block.data);
+    return extractedBlock;
 }
+
+
