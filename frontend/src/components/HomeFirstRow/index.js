@@ -1,10 +1,10 @@
 import { Card } from 'antd'
 import styled from 'styled-components'
 import { defaultText } from '../../utils/color'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CardFirstRow2Col from './HomeCardFistRow2Col'
 import { osmosisLogo } from '../../utils/logo'
-import { Area } from '@ant-design/plots'
+import HomeCardFirstRowGragh from './HomeCardFirstRowGragh'
 
 const CardFirstRowRoot = styled.div`
     display: flex;
@@ -14,6 +14,7 @@ const CardFirstRowRoot = styled.div`
 `
 const CardFirstRow1Col = styled.div`
     width: 68%;
+    min-width: 514px;
     height: 100%;
 `
 
@@ -85,42 +86,7 @@ const CardPriceFooterDivHeader = styled.div`
     font-weight: 500;
 `
 
-const CardGraph = styled.div`
-    width: 60%;
-    height: 240px;
-`
-
 export default function HomeCardFirstRow() {
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        asyncFetch()
-    }, [])
-
-    const asyncFetch = () => {
-        fetch(
-            'https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json'
-        )
-            .then((response) => response.json())
-            .then((json) => setData(json))
-            .catch((error) => {
-                console.log('fetch data failed', error)
-            })
-    }
-    const config = {
-        data,
-        xField: 'Date',
-        yField: 'scales',
-        xAxis: {
-            range: [0, 1],
-            tickCount: 5,
-        },
-        areaStyle: () => {
-            return {
-                fill: 'l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff',
-            }
-        },
-    }
     return (
         <CardFirstRowRoot>
             <CardFirstRow1Col>
@@ -161,9 +127,7 @@ export default function HomeCardFirstRow() {
                                 </CardPriceFooterDiv>
                             </CardPriceFooter>
                         </CardPrice>
-                        <CardGraph>
-                            <Area {...config} />
-                        </CardGraph>
+                        <HomeCardFirstRowGragh />
                     </div>
                 </GraphPriceCard>
             </CardFirstRow1Col>

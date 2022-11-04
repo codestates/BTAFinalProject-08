@@ -35,14 +35,24 @@ const CardFirstRow2ColBody = styled.div`
 const CardFirstRow2ColFooter = styled.div`
     height: 30px;
 `
+const CardFirstRow2ColWrapIcon = styled.div`
+    width: 30%;
+    height: 100%;
+`
 
 export default function CardFirstRow2Col() {
     return (
         <CardFirstRow2ColRoot>
             <IntroduceCard>
                 <CardFirstRow2ColHeader>
-                    <img src={osmosisLogo} alt="logo" />
-                    <p>osmosis</p>
+                    <CardFirstRow2ColWrapIcon>
+                        <img
+                            src={osmosisLogo}
+                            style={{ width: '52px' }}
+                            alt="logo"
+                        />
+                    </CardFirstRow2ColWrapIcon>
+                    osmosis
                 </CardFirstRow2ColHeader>
                 <CardFirstRow2ColBody>
                     The interchain AMM powered by the Cosmos Inter-Blockchain

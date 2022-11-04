@@ -4,7 +4,6 @@ import ValidatorContentHeader from '../components/ValidatorContentHeader'
 import ValidatorTable from '../components/ValidatorTable'
 
 const Wrapper = styled.div`
-    max-width: 1300px;
     width: 100%;
     height: 100%;
     display: flex;
