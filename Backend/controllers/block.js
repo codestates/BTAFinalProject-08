@@ -8,7 +8,7 @@ import { parseBlock } from "../modules/parseBlockInfo.js";
 const endPoint = process.env.END_POINT // 노드 주소
 const {createRPCQueryClient} = osmosis.ClientFactory;
 const rpcClient = await createRPCQueryClient({rpcEndpoint: endPoint});
-const signingClient = await SigningStargateClient.connect(endPoint)
+const signingClient = await SigningStargateClient.connect(endPoint);
 const tendermintClient = await StargateClient.connect(endPoint);
 
 
@@ -26,7 +26,7 @@ export const getBlockInfoFromHeight = async (req, res) => { //  해당 height �
         let height = Number(req.query.height);
         // console.log(typeof height);
         const block = await axios.get(process.env.END_POINT + "block?height=" + height);
-        const parsedBlock = parseBlock(JSON.stringify(block.data));
+        const parsedBlock = await parseBlock(JSON.stringify(block.data));
         console.log(parsedBlock);
         // const block_signing = await signingClient.getBlock(height);
         res.status(200).json(parsedBlock);

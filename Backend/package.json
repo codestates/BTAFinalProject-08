@@ -27,7 +27,8 @@
     "nodemon": "^2.0.19",
     "osmojs": "^0.35.0",
     "sequelize": "^6.21.2",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "ws": "^8.10.0"
   },
   "bugs": {
     "url": "https://github.com/codestates/BTAFinalProject-08/issues"
