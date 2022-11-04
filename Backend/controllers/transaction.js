@@ -1,14 +1,14 @@
 import {decodeTxRaw} from '@cosmjs/proto-signing';
 import {SigningStargateClient, StargateClient} from'@cosmjs/stargate';
-import { toHex} from "@cosmjs/encoding";
-import { sha256 }from "@cosmjs/crypto";
+import { toHex } from "@cosmjs/encoding";
+import { sha256 } from "@cosmjs/crypto";
 import "dotenv/config"
 
 const endPoint = process.env.END_POINT // 노드 주소
 const signingClient = await SigningStargateClient.connect(endPoint)
 
 
-export const getTxHashFromTxRaw = async (req, res) => { // txRaw로부터 해당 트랜잭션 해쉬 리턴
+export const getTxHashFromTxRaw = async (req, res) => { // txRaw로부터 해당 트랜잭션 해쉬 리턴 Tx Raw to Tx Hash
     try {
         let {txRaw} = req.body;
         console.log(txRaw)
