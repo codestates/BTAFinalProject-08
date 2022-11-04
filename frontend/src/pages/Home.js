@@ -1,10 +1,10 @@
-import { Icon } from '@iconify/react'
-import { GiToken } from 'react-icons/gi'
-import { Card, Col, Divider, Row, Table } from 'antd'
+import { Card, Col, Divider, Layout, Row, Table } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import CardSecondRow from '../components/HomeSecodeRow'
-
+import CardFirstRow from '../components/HomeCardFirstRow'
+import HomeCardFirstRow from '../components/HomeCardFirstRow'
+import HomeCardSecondRow from '../components/HomeSecodeRow'
 const Wrapper = styled.div`
     width: 100%;
     height: 95%;
@@ -17,30 +17,6 @@ const Wrapper = styled.div`
 const CardWHeaderrapper = styled.div`
     width: 100%;
     height: 300px;
-`
-
-const CardFirstRow = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    height: 310px;
-`
-const CardFirstRow1Col = styled.div`
-    width: 68%;
-    height: 100%;
-`
-const CardFirstRow2Col = styled.div`
-    width: 27%;
-    height: 100%;
-`
-const GraphCard = styled(Card)`
-    height: 100%;
-
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-`
-const IntroduceCard = styled(Card)`
-    height: 100%;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 `
 
 const CardThirdRow = styled.div`
@@ -72,21 +48,15 @@ const Home = () => {
     return (
         <Wrapper>
             <CardWHeaderrapper>
-                <CardFirstRow>
-                    <CardFirstRow1Col>
-                        <GraphCard>Content</GraphCard>
-                    </CardFirstRow1Col>
-                    <CardFirstRow2Col>
-                        <IntroduceCard style={{ height: '100%' }} />
-                    </CardFirstRow2Col>
-                </CardFirstRow>
-                <CardSecondRow
+                <HomeCardFirstRow />
+                <HomeCardSecondRow
                     height={1}
-                    transaction={1}
-                    bondedToken={2}
-                    communnityPool={2}
-                    inflation={2}
-                    stakingApr={2}
+                    transaction={2}
+                    bondedToken={3}
+                    communnityPool={4}
+                    inflation={5}
+                    stakingApr={6}
+                    loading={true}
                 />
 
                 <CardThirdRow>
