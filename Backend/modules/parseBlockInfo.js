@@ -1,14 +1,13 @@
-// gas used/wanted 추가해야함
 import { SigningStargateClient } from '@cosmjs/stargate';
 import axios from 'axios';
 import { toHex } from "@cosmjs/encoding";
 import { sha256 } from "@cosmjs/crypto";
 import "dotenv/config"
 
-export const parseBlock = async(data) => {
-    const blockInfo = typeof data === "string" ? JSON.parse(data) : data;
-    if (!blockInfo.result) return null;
-    const {result: {block: {header: {chain_id: chainId, height, time, last_block_id: {hash}, proposer_address: proposerAddress}, data: {txs}, last_commit: {round}}}} = blockInfo;
+export const extractBlockInfo = async(data) => {
+    const blockData = typeof data === "string" ? JSON.parse(data) : data;
+    if (!blockData.result) return null;
+    const {result: {block: {header: {chain_id: chainId, height, time, last_block_id: {hash}, proposer_address: proposerAddress}, data: {txs}, last_commit: {round}}}} = blockData;
     const gas = await getTotalGasFromBlock(height);
     const res = {
         chainId,
@@ -24,11 +23,10 @@ export const parseBlock = async(data) => {
     return res;
 }
 
-// gas used/wanted 추가해야함
-export const parseBlockFromSub = async(data) => {
-    const blockInfo = typeof data === "string" ? JSON.parse(data) : data;
-    if (!blockInfo.result.data) return null;
-    const { result: { data: { value: { block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress, last_block_id: { hash } }, data: { txs }, last_commit: { round } } } } } } = blockInfo;
+export const extractBlockInfoFromSub = async(data) => {
+    const blockData = typeof data === "string" ? JSON.parse(data) : data;
+    if (!blockData.result.data) return null;
+    const { result: { data: { value: { block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress, last_block_id: { hash } }, data: { txs }, last_commit: { round } } } } } } = blockData;
     const gas = await getTotalGasFromBlock(height);
     const res = {
         chainId,
@@ -64,7 +62,7 @@ export const getTotalGasFromBlock = async (blockHeight) => {
     return result;
 }
 
-export const getParsedBlockOrNullFromHeight = async (blockHeight) => { //  DB에 저장 및 싱크 맞출 때 사용
+export const getExtractedBlockInfoOrNullFromHeight = async (blockHeight) => { //  DB에 저장 및 싱크 맞출 때 사용
     const height = Number(blockHeight);
     const block = await axios.get(process.env.END_POINT + "block?height=" + height);
     if (!block) return null;
