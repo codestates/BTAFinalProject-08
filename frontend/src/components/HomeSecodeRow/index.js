@@ -13,13 +13,14 @@ const CardSecondRowRoot = styled.div`
     justify-content: space-between;
 `
 
-export default function CardSecondRow({
+export default function HomeCardSecondRow({
     height,
     transaction,
     bondedToken,
     communnityPool,
     inflation,
     stakingApr,
+    loading,
 }) {
     return (
         <CardSecondRowRoot>
