@@ -6,7 +6,7 @@ import { sha256 } from "@cosmjs/crypto";
 import "dotenv/config"
 
 export const parseBlock = async(data) => {
-    const blockInfo = JSON.parse(data);
+    const blockInfo = typeof data === "string" ? JSON.parse(data) : data;
     if (!blockInfo.result) return null;
     const {result: {block: {header: {chain_id: chainId, height, time, last_block_id: {hash}, proposer_address: proposerAddress}, data: {txs}, last_commit: {round}}}} = blockInfo;
     const gas = await getTotalGasFromBlock(height);
@@ -26,7 +26,7 @@ export const parseBlock = async(data) => {
 
 // gas used/wanted 추가해야함
 export const parseBlockFromSub = async(data) => {
-    const blockInfo = JSON.parse(data);
+    const blockInfo = typeof data === "string" ? JSON.parse(data) : data;
     if (!blockInfo.result.data) return null;
     const { result: { data: { value: { block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress, last_block_id: { hash } }, data: { txs }, last_commit: { round } } } } } } = blockInfo;
     const gas = await getTotalGasFromBlock(height);
