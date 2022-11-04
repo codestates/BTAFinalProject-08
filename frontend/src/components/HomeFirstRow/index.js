@@ -14,6 +14,7 @@ const CardFirstRowRoot = styled.div`
 `
 const CardFirstRow1Col = styled.div`
     width: 68%;
+    min-width: 514px;
     height: 100%;
 `
 

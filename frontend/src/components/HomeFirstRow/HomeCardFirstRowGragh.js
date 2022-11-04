@@ -85,13 +85,13 @@ const HomeCardFirstRowGraph = () => {
                     <GraphButtonWrap>
                         <GraphButton
                             off={toggle}
-                            onClick={() => setToggle(!toggle)}
+                            onClick={() => setToggle(false)}
                         >
                             Price
                         </GraphButton>
                         <GraphButton
                             off={!toggle}
-                            onClick={() => setToggle(!toggle)}
+                            onClick={() => setToggle(true)}
                         >
                             Volume
                         </GraphButton>

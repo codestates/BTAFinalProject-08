@@ -2,8 +2,8 @@ import { Card, Col, Divider, Layout, Row, Table } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import CardSecondRow from '../components/HomeSecodeRow'
-import CardFirstRow from '../components/HomeCardFirstRow'
-import HomeCardFirstRow from '../components/HomeCardFirstRow'
+import CardFirstRow from '../components/HomeFirstRow'
+import HomeCardFirstRow from '../components/HomeFirstRow'
 import HomeCardSecondRow from '../components/HomeSecodeRow'
 const Wrapper = styled.div`
     width: 100%;
@@ -44,7 +44,40 @@ const HomeTableHeader = styled.div`
     font-size: 18px;
 `
 
+const columnsBlock = [
+    {
+        title: 'Height',
+    },
+    {
+        title: 'Proposer',
+    },
+    {
+        title: 'Txs',
+    },
+    {
+        title: 'Time',
+    },
+]
+const columnsTransaction = [
+    {
+        title: 'Tx Hash',
+    },
+    {
+        title: 'Type',
+    },
+    {
+        title: 'Height',
+    },
+    {
+        title: 'Time',
+    },
+]
+
 const Home = () => {
+    /*
+        NOTE 블록, 트랜잭션, 본디드 토큰, 풀, 인플레이션, 스테이킹 apr, 로딩을 요청하고 데이터
+        를 뿌려준다.
+    */
     return (
         <Wrapper>
             <CardWHeaderrapper>
@@ -62,11 +95,11 @@ const Home = () => {
                 <CardThirdRow>
                     <CardThirdRow1Col>
                         <HomeTableHeader>BLOCKS</HomeTableHeader>
-                        <Table></Table>
+                        <Table columns={columnsBlock}></Table>
                     </CardThirdRow1Col>
                     <CardThirdRow2Col>
                         <HomeTableHeader>TRANSACTIONS</HomeTableHeader>
-                        <Table></Table>
+                        <Table columns={columnsTransaction}></Table>
                     </CardThirdRow2Col>
                 </CardThirdRow>
             </CardWHeaderrapper>
