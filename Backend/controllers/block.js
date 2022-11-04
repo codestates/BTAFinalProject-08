@@ -23,11 +23,12 @@ export const getBlockHeight = async (req, res) => { // 블록 높이 리턴
 
 export const getBlockInfoFromHeight = async (req, res) => { //  해당 height 의 블록 정보 리턴
     try {
-        let height = Number(req.query.height);
+        const height = Number(req.query.height);
         // console.log(typeof height);
         const block = await axios.get(process.env.END_POINT + "block?height=" + height);
         const parsedBlock = await parseBlock(JSON.stringify(block.data));
-        console.log(parsedBlock);
+        if (!parsedBlock) "Parsed block is null!";
+        // console.log(parsedBlock);
         // const block_signing = await signingClient.getBlock(height);
         res.status(200).json(parsedBlock);
     } catch(err) {
