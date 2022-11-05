@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import ValidatorContentHeader from '../components/ValidatorContentHeader'
 import ValidatorTable from '../components/ValidatorTable'
+import { useQuery } from 'react-query'
+import { getAllValidator } from '../api/validator'
+import axios from 'axios'
+//import axios from 'axios'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -25,12 +29,19 @@ const ContentBodyWrapTable = styled.div`
 `
 
 const Validators = () => {
+    const { data, isLoading } = useQuery('valida', async () => {
+        const { data } = await axios.get(
+            'http://34.155.184.217:1317/staking/validators'
+        )
+        return data
+    })
+    //console.log(data)
     return (
         <Wrapper>
             <ValidatorContentHeader />
             <ContentBody>
                 <ContentBodyWrapTable>
-                    <ValidatorTable />
+                    <ValidatorTable valArray={data} />
                 </ContentBodyWrapTable>
             </ContentBody>
         </Wrapper>
