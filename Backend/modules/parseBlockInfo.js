@@ -1,8 +1,10 @@
 import { SigningStargateClient } from '@cosmjs/stargate';
+import {decodeTxRaw} from '@cosmjs/proto-signing';
 import axios from 'axios';
 import { toHex } from "@cosmjs/encoding";
 import { sha256 } from "@cosmjs/crypto";
 import "dotenv/config"
+import { getFeeFromTxRaw } from './parseTxInfo.js';
 
 export const extractBlockInfo = async(data) => {
     const blockData = typeof data === "string" ? JSON.parse(data) : data;
@@ -23,7 +25,7 @@ export const extractBlockInfo = async(data) => {
     return res;
 }
 
-export const extractBlockInfoFromSub = async(data) => {
+export const extractBlockInfoFromSub = async(data) => { // subscribe (ws)
     const blockData = typeof data === "string" ? JSON.parse(data) : data;
     if (!blockData.result.data) return null;
     const { result: { data: { value: { block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress, last_block_id: { hash } }, data: { txs }, last_commit: { round } } } } } } = blockData;
@@ -62,12 +64,44 @@ export const getTotalGasFromBlock = async (blockHeight) => {
     return result;
 }
 
-export const getExtractedBlockInfoOrNullFromHeight = async (blockHeight) => { //  DB에 저장 및 싱크 맞출 때 사용
+export const getExtractedBlockInfoOrNullFromBlock = async (blockHeight) => { //  DB에 블록 정보 저장 및 싱크 맞출 때 사용
     const height = Number(blockHeight);
     const block = await axios.get(process.env.END_POINT + "block?height=" + height);
     if (!block) return null;
     const extractedBlock = await extractBlockInfo(block.data);
     return extractedBlock;
 }
+
+export const getExtractedTxsOrNullFromBlock = async (blockHeight) => { // Block 상세 페이지 Transactions (Array로 반환)
+    const height = Number(blockHeight);
+    const block = await axios.get(process.env.END_POINT + "block?height=" + String(height));
+    const data = block.data;
+    const blockData = typeof data === "string" ? JSON.parse(data) : data;
+    if (!blockData.result) return null;
+    const { result: { block: { header: { time }, data: { txs } } } } = blockData;
+    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx,'base64'))));
+    const signingClient = await SigningStargateClient.connect(process.env.END_POINT);
+    let extractedTxs = [];
+    for(let i = 0; i < txHashes.length; ++i) {
+        const txHash = String(txHashes[i]).toUpperCase();
+        const txFromHash = await signingClient.getTx(txHash);
+        if (!txFromHash) return null;
+        const txRaw = txFromHash.tx;
+        const fee = getFeeFromTxRaw(txRaw);
+        const extractedTx = { // type, result, amount 현재 구현 안되어있음 추후 개발 예정
+            txHash,
+            type: "TBD",
+            result: "TBD",
+            amount: "TBD",
+            fee,
+            height,
+            time
+        }
+        extractedTxs.push(extractedTx);
+    }
+    return extractedTxs;
+}
+
+
 
 
