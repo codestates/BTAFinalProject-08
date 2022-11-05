@@ -27,9 +27,10 @@ export const extractTxInfo = async (data) => {
                 fee = getFeeFromTxRaw(txRaw);
                 const txInfoAfterSigned = decodeTxRaw(txRaw);
                 const { body: { messages, memo } } = txInfoAfterSigned;
-                const res = { // status, fee, memo 추후 개발 예정
+                const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
+                    type: "TBD",
                     status: "TBD",
                     height,
                     time,
@@ -59,9 +60,10 @@ export const extractTxInfo = async (data) => {
                 fee = getFeeFromTxRaw(txRaw);
                 const txInfoAfterSigned = decodeTxRaw(txRaw);
                 const { body: { messages, memo } } = txInfoAfterSigned;
-                const res = { // status, fee, memo 추후 개발 예정
+                const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
+                    type: "TBD",
                     status: "TBD",
                     height,
                     time,
@@ -92,3 +94,10 @@ export const getFeeFromTxRaw = (txRaw) => {
     });
     return fee;
 }
+
+const txHash = "DF5AE9D7EC95FD2140C75C1794BB95EF5B534AE7570B314C8331BE360D64503D";
+const txFromHash = await signingClient.getTx(txHash);
+const ex = await extractTxInfo(txFromHash);
+console.log(ex);
+const decoder = new TextDecoder();
+console.log(decoder.decode(ex.messages[1].value));

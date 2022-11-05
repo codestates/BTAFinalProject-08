@@ -19,8 +19,8 @@ export const extractBlockInfo = async(data) => {
         numOfTx: txs.length,
         gas,
         round,
-        proposerAddress,
-        txs
+        proposerAddress, // >> moniker
+        txs // tx base64 Encoding >> txHashes array (FE)
     }
     return res;
 }
