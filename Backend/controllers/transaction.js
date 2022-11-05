@@ -3,6 +3,7 @@ import {SigningStargateClient, StargateClient} from'@cosmjs/stargate';
 import { toHex } from "@cosmjs/encoding";
 import { sha256 } from "@cosmjs/crypto";
 import "dotenv/config"
+import { extractTxInfo } from '../modules/parseTxInfo.js';
 
 const endPoint = process.env.END_POINT // 노드 주소
 const signingClient = await SigningStargateClient.connect(endPoint)
@@ -31,9 +32,10 @@ export const getTxInfoFromTxRaw = async (req, res) => { // txRaw로부터 해당
 
 export const getTxInfoFromTxHash = async (req, res) => { // txHash로부터 해당 트랜잭션 정보 리턴
     try {
-        let txHash = req.query.txhash;
-        const tx_fromHash_signing = await signingClient.getTx(txHash)
-        res.status(200).json(tx_fromHash_signing);
+        let txHash = req.query.hash;
+        const txInfoAfterSigned = await signingClient.getTx(txHash);
+        const extractedTx = await extractTxInfo(txInfoAfterSigned);
+        res.status(200).json(extractedTx);
     } catch(err) {
         res.status(400).json({message: err.message});
     }
