@@ -13,6 +13,7 @@ async function extractBlockInfo(data) {
     if (!blockData.result) return null;
     const { result: { block_id: { hash }, block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress }, data: { txs }, last_commit: { round } } } } = blockData;
     const gas = await getTotalGasFromBlock(height);
+    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx,'base64'))).toUpperCase());
     const res = {
         chainId,
         height: Number(height),
@@ -22,7 +23,7 @@ async function extractBlockInfo(data) {
         gas,
         round,
         proposerAddress, // >> moniker
-        txs // tx base64 Encoding >> txHashes array (FE)
+        txHashes // tx base64 Encoding >> txHashes array (FE)
     }
     return res;
 }
@@ -31,6 +32,7 @@ async function extractBlockInfoFromSub(data) { // for subscription (websocket)
     const blockData = typeof data === "string" ? JSON.parse(data) : data;
     if (!blockData.result.data) return null;
     const { result: { block_id: { hash }, block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress }, data: { txs }, last_commit: { round } } } } = blockData;
+    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx,'base64'))).toUpperCase());
     const res = {
         chainId,
         height: Number(height),
@@ -39,7 +41,7 @@ async function extractBlockInfoFromSub(data) { // for subscription (websocket)
         numOfTxs: txs.length,
         round,
         proposerAddress,
-        txs
+        txHashes
     }
     return res;
 }
