@@ -1,9 +1,8 @@
-import express from "express";
-import {
+const router = require("express").Router();
+const {
     getBlockHeight,
     getBlockInfoFromHeight
-} from '../controllers/block.js';
-const router = express.Router();
+} = require("../controllers/block");
 
 
 router.get('/', getBlockInfoFromHeight);
@@ -13,5 +12,4 @@ router.get('/blockHeight', getBlockHeight);
 
 
 
-
-export default router;
+module.exports = router;

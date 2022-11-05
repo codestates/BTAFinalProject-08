@@ -1,10 +1,11 @@
-import express from "express";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import db from './models/index.js';
-import blockRoutes from "./routes/block.js";
-import transactionRoutes from "./routes/transaction.js";
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const models = require("./models/index.js");
+const blockRoutes = require("./routes/block");
+const transactionRoutes = require("./routes/transaction");
+const {test} = require("./modules/parseBlockInfo");
+
 
 
 const app = express();
@@ -12,7 +13,6 @@ const PORT = process.env.PORT;
 
 
 // api 통신을 위한 모듈 설정
-app.use(cookieParser());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -32,7 +32,7 @@ app.use(
 );
 
 
-db.sequelize
+models.sequelize
     .sync()
     .then(() => {
         console.log(" DB 연결 성공");
@@ -44,5 +44,6 @@ db.sequelize
 
 
 app.listen(PORT, async () => {
+    await test()
     console.log(`      🚀 HTTP Server is starting on ${PORT}`);
 });

@@ -1,31 +1,40 @@
-const Block = (sequelize, DataTypes) => {
-    const Block = sequelize.define(
-        "Block",
+
+"use strict";
+const { Model } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+    class Block extends Model {
+        static associate(models) {}
+    }
+    Block.init(
         {
-            //id가 기본적으로 들어있다.
-            email: {
-                type: DataTypes.STRING(30),
-                allowNull: false, //필수
-                unique: true,
-            },
-            nickname: {
-                type: DataTypes.STRING(30),
+
+            proposer: {
+                type: DataTypes.STRING(50),
                 allowNull: false,
             },
-            password: {
-                type: DataTypes.STRING(100),
+            txs: {
+                type: DataTypes.INTEGER(30),
                 allowNull: false,
             },
+            dateTime: {
+                type: DataTypes.DATE(),
+                allowNull: false,
+            },
+
         },
         {
+            sequelize,
+            modelName: "Block",
             charset: "utf8",
-            collate: "utf8_general_ci", // 한글 저장
-        },
+            collate: "utf8_general_ci",
+            underscored: true,
+            timestamps: false
+        }
     );
-    Block.associate = (db) => {
+    Block.associate = function (models) {
 
     };
     return Block;
 };
 
-export default Block;
+

@@ -1,4 +1,6 @@
-import "dotenv/config"
+require("dotenv").config();
+const env = process.env;
+
 const development = {
   username: process.env.DEV_MYSQL_USERNAME,
   password: process.env.DEV_MYSQL_PASSWORD,
@@ -9,4 +11,5 @@ const development = {
   //port: env.MYSQL_PORT
 };
 
-export default development;
+
+module.exports = { development};
