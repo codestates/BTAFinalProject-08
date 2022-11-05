@@ -8,13 +8,14 @@ const {getFeeFromTxRaw,extractTxInfo} = require("./parseTxInfo");
 const axios = require("axios");
 const env = process.env;
 
-module.exports = {
 
-    extractBlockInfo : async (data) => {
+
+    async function extractBlockInfo(data) {
+        console.log("asdddd")
         const blockData = typeof data === "string" ? JSON.parse(data) : data;
         if (!blockData.result) return null;
         const {result: {block: {header: {chain_id: chainId, height, time, last_block_id: {hash}, proposer_address: proposerAddress}, data: {txs}, last_commit: {round}}}} = blockData;
-        const gas = await this.getTotalGasFromBlock(height);
+        const gas = await getTotalGasFromBlock(height);
         const res = {
             chainId,
             height,
@@ -27,14 +28,14 @@ module.exports = {
             txs // tx base64 Encoding >> txHashes array (FE)
         }
         return res;
-    },
+    }
 
 // gas used/wanted 추가해야함
-    extractBlockInfoFromSub : async (data) => {
+    async function extractBlockInfoFromSub(data)  {
         const blockData = typeof data === "string" ? JSON.parse(data) : data;
         if (!blockData.result.data) return null;
         const { result: { data: { value: { block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress, last_block_id: { hash } }, data: { txs }, last_commit: { round } } } } } } = blockData;
-        const gas = await this.getTotalGasFromBlock(height);
+        const gas = await getTotalGasFromBlock(height);
         const res = {
             chainId,
             height,
@@ -47,9 +48,9 @@ module.exports = {
             txs
         }
         return res;
-    },
+    }
 
-    getTotalGasFromBlock : async (blockHeight) => {
+    async function getTotalGasFromBlock(blockHeight)  {
         const signingClient = await SigningStargateClient.connect(process.env.END_POINT);
         const signedBlock = await signingClient.getBlock(Number(blockHeight));
         const txs = [...signedBlock.txs];
@@ -67,8 +68,8 @@ module.exports = {
             result.gasWanted += gasWanted;
         }
         return result;
-    },
-    getExtractedBlockInfoOrNullFromBlock : async (blockHeight) => {
+    }
+    async function getExtractedBlockInfoOrNullFromBlock(blockHeight) {
         const height = Number(blockHeight);
         const block = await axios.get(process.env.END_POINT + "block?height=" + String(height));
         const data = block.data;
@@ -96,26 +97,7 @@ module.exports = {
             extractedTxs.push(extractedTx);
         }
         return extractedTxs;
-    },
-
-    test: async () =>{
-
-        // const signingClient =  await SigningStargateClient.connect(env.END_POINT);
-        // const height_signing = await signingClient.getHeight();
-        // console.log(height_signing)
-        //
-        // let blockinfo
-        // blockinfo = await signingClient.getBlock(1)
-    //     for(let i =1;i<=100;i++){
-    //         // blockinfo = await signingClient.getBlock(i)
-    //
-    //     await Block.create({
-    //             proposer:"asd" ,
-    //             txs:i,
-    //             dateTime:Date.now()
-    //
-    //     });
-    //         console.log("added"+ i)
-    //     }
     }
-}
+
+
+module.exports = { extractBlockInfo,extractBlockInfoFromSub,getTotalGasFromBlock,getExtractedBlockInfoOrNullFromBlock, };

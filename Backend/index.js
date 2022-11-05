@@ -44,6 +44,5 @@ models.sequelize
 
 
 app.listen(PORT, async () => {
-    await test()
     console.log(`      🚀 HTTP Server is starting on ${PORT}`);
 });
