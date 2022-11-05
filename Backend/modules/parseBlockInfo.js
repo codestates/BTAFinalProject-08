@@ -45,8 +45,8 @@ async function extractBlockInfoFromSub(data) { // for subscription (websocket)
 }
 
 async function extractBlocksInfoFromMinHeightToMaxHeight(minHeight, maxHeight) {
-    if (typeof minHeight !== "number" || typeof maxHeight !== "number") null;
-    if ((maxHeight - minHeight) >= 20) null;
+    if (typeof minHeight !== "number" || typeof maxHeight !== "number") return null;
+    if ((maxHeight - minHeight) >= 20 || (maxHeight - minHeight) < 0) return null;
     const blocks = await axios.get(process.env.END_POINT + "blockchain?minHeight=" + minHeight + "&maxHeight=" + maxHeight);
     if (!blocks || !blocks.data) return null;
     const { result: { last_height: lastHeight, block_metas: blocksInfo } } = blocks.data;
