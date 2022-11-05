@@ -8,13 +8,11 @@ const {getFeeFromTxRaw,extractTxInfo} = require("./parseTxInfo");
 const axios = require("axios");
 const env = process.env;
 
-
-
     async function extractBlockInfo(data) {
         console.log("asdddd")
         const blockData = typeof data === "string" ? JSON.parse(data) : data;
         if (!blockData.result) return null;
-        const {result: {block: {header: {chain_id: chainId, height, time, last_block_id: {hash}, proposer_address: proposerAddress}, data: {txs}, last_commit: {round}}}} = blockData;
+        const { result: { block_id: { hash }, block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress }, data: { txs }, last_commit: { round } } } } = blockData;
         const gas = await getTotalGasFromBlock(height);
         const res = {
             chainId,
@@ -30,8 +28,7 @@ const env = process.env;
         return res;
     }
 
-// gas used/wanted 추가해야함
-    async function extractBlockInfoFromSub(data)  {
+    async function extractBlockInfoFromSub(data)  { // for subscription (websocket)
         const blockData = typeof data === "string" ? JSON.parse(data) : data;
         if (!blockData.result.data) return null;
         const { result: { data: { value: { block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress, last_block_id: { hash } }, data: { txs }, last_commit: { round } } } } } } = blockData;
@@ -40,7 +37,7 @@ const env = process.env;
             chainId,
             height,
             time,
-            hash,
+            lastBlockHash: hash,
             numOfTx: txs.length,
             gas,
             round,
