@@ -5,17 +5,16 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import enUS from 'antd/lib/calendar/locale/en_US'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const queryClient = new QueryClient()
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
                 <App />
-            </QueryClientProvider>
-        </BrowserRouter>
+            </BrowserRouter>
+        </QueryClientProvider>
     </React.StrictMode>
 )
 

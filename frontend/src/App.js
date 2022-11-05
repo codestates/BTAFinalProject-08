@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Validators from './pages/Validators'
 import Blocks from './pages/Blocks'
 import { Content } from 'antd/lib/layout/layout'
+import ValidatorDetails from './pages/ValidatorDetails'
 
 function App() {
     //const { isLoading, isError, data, error } = useQuery(['notes'], fetchNotes)
@@ -30,6 +31,10 @@ function App() {
                 <Routes>
                     <Route index element={<Home />} />
                     <Route path="validators" element={<Validators />} />
+                    <Route
+                        path="validators/:valaddress"
+                        element={<ValidatorDetails />}
+                    />
                     <Route path="blocks" element={<Blocks />} />
                 </Routes>
             </Content>
