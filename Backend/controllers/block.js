@@ -36,6 +36,23 @@ module.exports = {
         } catch (err) {
             res.status(400).json({message: err.message});
         }
-    }
+    },
+
+    getRecentBlock: async (req, res) => { //  해당 height 의 블록 정보 리턴
+        try {
+            const recentBlocks=await Block.findAll({
+                order: [["height","DESC"]],
+                offset: 0,
+                limit: 10
+            })
+            res.status(200).json(recentBlocks);
+        } catch (err) {
+            res.status(400).json({message: err.message});
+        }
+    },
+
+
+
+
 }
 
