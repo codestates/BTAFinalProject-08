@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 
 const ContentBody = styled.div`
     width: 100%;
-    padding: 0 20px 20px 20px;
 `
 
 const ContentBodyWrapTable = styled.div`

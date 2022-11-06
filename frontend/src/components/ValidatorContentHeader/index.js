@@ -9,7 +9,6 @@ import ValidatorContentHeaderBlock from './ValidatorContentHeaderBlock'
 const ContentHeader = styled.div`
     width: 100%;
     height: 220px;
-    padding: 20px;
 `
 const ContentHeaderText = styled.div`
     font-size: 28px;

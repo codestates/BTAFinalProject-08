@@ -7,16 +7,18 @@ const ThirdRowRoot = styled.div`
     margin-top: 10px;
     min-width: 780px;
     max-width: 1000px;
-    height: 400px;
+
     background-color: #ffffff;
     border-radius: ${cardBorderRadius};
     box-shadow: ${cardShadow};
     padding: 10px;
-    margin-bottom: 20px;
 `
 const ThirdRowHeader = styled.div`
     font-size: 24px;
     color: ${headerColor};
+`
+const MarginDiv = styled.div`
+    height: 20px;
 `
 const column = [
     {
@@ -38,9 +40,12 @@ const column = [
 
 export default function ThirdRow() {
     return (
-        <ThirdRowRoot>
-            <ThirdRowHeader>Votes</ThirdRowHeader>
-            <Table columns={column}></Table>
-        </ThirdRowRoot>
+        <>
+            <ThirdRowRoot>
+                <ThirdRowHeader>Votes</ThirdRowHeader>
+                <Table columns={column}></Table>
+            </ThirdRowRoot>
+            <MarginDiv />
+        </>
     )
 }

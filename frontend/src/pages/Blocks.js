@@ -10,7 +10,7 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    padding: 20px;
+    //padding: 20px;
 `
 
 const BlockContent = styled.div`
@@ -25,7 +25,7 @@ const BlockContent = styled.div`
 const Header = styled.div`
     width: 100%;
     height: 40px;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 500;
     display: flex;
     align-items: flex-end;
@@ -78,6 +78,12 @@ const columnsBlock = [
 const columnsTransaction = [
     {
         title: 'Tx Hash',
+        dataIndex: 'txHash',
+        render: (txt) => (
+            <Link to={`/txs/${txt}`}>
+                {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
+            </Link>
+        ),
     },
     {
         title: 'Type',
@@ -101,6 +107,12 @@ const columnsTransaction = [
 const data = [
     {
         height: 1,
+    },
+]
+const data2 = [
+    {
+        txHash:
+            '514B7D7C064C04403DDC45612519DC19D17BB5F2074406FD499DBD9B240F12D7',
     },
 ]
 
@@ -129,7 +141,7 @@ const Blocks = () => {
                 {!toggle ? (
                     <Table columns={columnsBlock} dataSource={data} />
                 ) : (
-                    <Table columns={columnsTransaction} />
+                    <Table columns={columnsTransaction} dataSource={data2} />
                 )}
             </BlockContent>
         </Wrapper>
