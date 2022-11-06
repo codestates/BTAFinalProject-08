@@ -1,4 +1,5 @@
 import { Card, Divider, Progress } from 'antd'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { cardShadow, defaultColor } from '../../utils/color'
 import { cardBorderRadius } from '../../utils/size'
@@ -101,7 +102,7 @@ export default function FirstRow({
                         <FirstRowHeaderRightBody>
                             <h3>Address</h3>
                             <p>
-                                <a>{addr}</a>
+                                <Link to={`/account/${addr}`}>{addr}</Link>
                             </p>
                         </FirstRowHeaderRightBody>
                     </FirstRowHeaderRight>

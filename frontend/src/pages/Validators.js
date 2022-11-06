@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
+import { useQuery } from 'react-query'
 import styled from 'styled-components'
+import { getAllValidator } from '../api/validator'
 import ValidatorContentHeader from '../components/ValidatorContentHeader'
 import ValidatorTable from '../components/ValidatorTable'
-import { useQuery } from 'react-query'
-import { getAllValidator } from '../api/validator'
-import axios from 'axios'
-import { cardBorderRadius } from '../utils/size'
+import { cardBorderRadius, refetchTime } from '../utils/size'
 //import axios from 'axios'
 
 const Wrapper = styled.div`
@@ -32,19 +31,15 @@ const ContentBodyWrapTable = styled.div`
 `
 
 const Validators = () => {
-    const { data, isLoading } = useQuery('valida', async () => {
-        const { data } = await axios.get(
-            'http://34.155.184.217:1317/staking/validators'
-        )
-        return data
+    const { isLoading, data } = useQuery(['validators'], getAllValidator, {
+        refetchInterval: refetchTime,
     })
-    console.log(data)
     return (
         <Wrapper>
             <ValidatorContentHeader />
             <ContentBody>
                 <ContentBodyWrapTable>
-                    <ValidatorTable valArray={data} />
+                    <ValidatorTable valArray={data} loading={isLoading} />
                 </ContentBodyWrapTable>
             </ContentBody>
         </Wrapper>
