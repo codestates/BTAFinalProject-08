@@ -8,19 +8,19 @@ import { cardShadow, defaultColor, headerColor } from '../utils/color'
 import { headerBold, headerSize } from '../utils/size'
 
 const Wrapper = styled.div`
-    width: 100%;
+    min-width: 1000px;
+    max-width: 1200px;
     display: flex;
     justify-content: center;
 `
 
 const WrapContent = styled.div`
-    width: 90%;
-    min-width: 780px;
-    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 200px;
 `
 const Header = styled.div`
     width: 100%;
-    min-height: 100px;
+    min-height: 50px;
     display: flex;
     align-items: flex-end;
     font-size: ${headerSize};
@@ -46,8 +46,12 @@ export default function ValidatorDetails() {
                     details="none"
                     loading={true}
                 />
-                <SecondRow />
-                <ThirdRow />
+                <SecondRow
+                    delegateData={''}
+                    proposedData={''}
+                    loading={false}
+                />
+                <ThirdRow voteData={''} loading={false} />
             </WrapContent>
         </Wrapper>
     )

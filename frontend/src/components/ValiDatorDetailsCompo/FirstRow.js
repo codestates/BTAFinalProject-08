@@ -1,13 +1,14 @@
 import { Card, Divider, Progress } from 'antd'
 import styled from 'styled-components'
 import { cardShadow, defaultColor } from '../../utils/color'
+import { cardBorderRadius } from '../../utils/size'
 
 const FirstRowRoot = styled.div`
     min-width: 780px;
     max-width: 1000px;
     height: 500px;
     background-color: #ffffff;
-    border-radius: 4px;
+    border-radius: ${cardBorderRadius};
     box-shadow: ${cardShadow};
     margin-top: 10px;
 `

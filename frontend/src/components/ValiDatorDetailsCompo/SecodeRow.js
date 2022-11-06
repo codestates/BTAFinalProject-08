@@ -1,6 +1,7 @@
 import { Table } from 'antd'
 import styled from 'styled-components'
 import { cardShadow, defaultColor } from '../../utils/color'
+import { cardBorderRadius } from '../../utils/size'
 const SecondRowRoot = styled.div`
     margin-top: 10px;
     height: 400px;
@@ -15,7 +16,7 @@ const SecondRowCol = styled.div`
     box-shadow: ${cardShadow};
     height: 100%;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: ${cardBorderRadius};
 `
 
 const SecondRowColHeader = styled.div`

@@ -1,7 +1,8 @@
 import { Table } from 'antd'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { buttonColor } from '../utils/color'
+import { buttonColor, cardShadow } from '../utils/color'
 
 const Wrapper = styled.div`
     max-width: 1200px;
@@ -9,7 +10,7 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    padding: 20px;
+    //padding: 20px;
 `
 
 const BlockContent = styled.div`
@@ -18,12 +19,13 @@ const BlockContent = styled.div`
     margin-top: 10px;
     padding: 10px;
     border-radius: 4px;
+    box-shadow: ${cardShadow};
 `
 
 const Header = styled.div`
     width: 100%;
-    height: 70px;
-    font-size: 24px;
+    height: 40px;
+    font-size: 28px;
     font-weight: 500;
     display: flex;
     align-items: flex-end;
@@ -57,6 +59,8 @@ const HeaderBtn = styled.div`
 const columnsBlock = [
     {
         title: 'Height',
+        dataIndex: 'height',
+        render: (txt) => <Link to={`/blocks/${txt}`}>{txt}</Link>,
     },
     {
         title: 'Block Hash',
@@ -74,6 +78,12 @@ const columnsBlock = [
 const columnsTransaction = [
     {
         title: 'Tx Hash',
+        dataIndex: 'txHash',
+        render: (txt) => (
+            <Link to={`/txs/${txt}`}>
+                {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
+            </Link>
+        ),
     },
     {
         title: 'Type',
@@ -92,6 +102,17 @@ const columnsTransaction = [
     },
     {
         title: 'Time',
+    },
+]
+const data = [
+    {
+        height: 1,
+    },
+]
+const data2 = [
+    {
+        txHash:
+            '514B7D7C064C04403DDC45612519DC19D17BB5F2074406FD499DBD9B240F12D7',
     },
 ]
 
@@ -118,9 +139,9 @@ const Blocks = () => {
                     </HeaderWrapButton>
                 </BlockHeader>
                 {!toggle ? (
-                    <Table columns={columnsBlock} />
+                    <Table columns={columnsBlock} dataSource={data} />
                 ) : (
-                    <Table columns={columnsTransaction} />
+                    <Table columns={columnsTransaction} dataSource={data2} />
                 )}
             </BlockContent>
         </Wrapper>

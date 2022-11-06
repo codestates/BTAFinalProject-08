@@ -8,6 +8,8 @@ import Blocks from './pages/Blocks'
 import { Content } from 'antd/lib/layout/layout'
 import ValidatorDetails from './pages/ValidatorDetails'
 import BlockDetails from './pages/BlockDetails'
+import TransactionDetail from './pages/TransactionDetails'
+import AddressDetails from './pages/AddressDetails'
 
 function App() {
     return (
@@ -30,6 +32,14 @@ function App() {
                     />
                     <Route path="blocks" element={<Blocks />} />
                     <Route path="blocks/:blockid" element={<BlockDetails />} />
+                    <Route
+                        path="/txs/:transactionid"
+                        element={<TransactionDetail />}
+                    />
+                    <Route
+                        path="/account/:addressid"
+                        element={<AddressDetails />}
+                    />
                 </Routes>
             </Content>
         </Layout>
