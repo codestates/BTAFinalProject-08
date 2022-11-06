@@ -22,6 +22,7 @@ const ContentHeaderinfoBlockHeader = styled.div`
     height: 30%;
     display: flex;
     align-items: center;
+
     color: ${blockColor};
 `
 

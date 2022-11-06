@@ -7,7 +7,7 @@ import { headerColor, headerText } from '../../utils/color'
 import ValidatorContentHeaderBlock from './ValidatorContentHeaderBlock'
 
 const ContentHeader = styled.div`
-    width: 90%;
+    width: 100%;
     height: 220px;
     padding: 20px;
 `

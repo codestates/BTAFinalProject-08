@@ -7,6 +7,7 @@ import Validators from './pages/Validators'
 import Blocks from './pages/Blocks'
 import { Content } from 'antd/lib/layout/layout'
 import ValidatorDetails from './pages/ValidatorDetails'
+import BlockDetails from './pages/BlockDetails'
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         element={<ValidatorDetails />}
                     />
                     <Route path="blocks" element={<Blocks />} />
+                    <Route path="blocks/:blockid" element={<BlockDetails />} />
                 </Routes>
             </Content>
         </Layout>

@@ -13,6 +13,7 @@ const IntroduceCard = styled.div`
     padding: 15px;
     background-color: #ffffff;
     width: 100%;
+    border-radius: 4px;
     height: 100%;
     display: flex;
     flex-direction: column;

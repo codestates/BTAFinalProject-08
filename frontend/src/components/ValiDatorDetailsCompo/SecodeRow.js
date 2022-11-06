@@ -15,6 +15,7 @@ const SecondRowCol = styled.div`
     box-shadow: ${cardShadow};
     height: 100%;
     padding: 10px;
+    border-radius: 4px;
 `
 
 const SecondRowColHeader = styled.div`
