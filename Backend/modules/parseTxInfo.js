@@ -1,7 +1,7 @@
-const {decodeTxRaw} = require('@cosmjs/proto-signing');
-const {SigningStargateClient, StargateClient} = require('@cosmjs/stargate');
-const {toHex} = require("@cosmjs/encoding");
-const {sha256} = require("@cosmjs/crypto");
+const { decodeTxRaw } = require('@cosmjs/proto-signing');
+const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
+const { toHex } = require("@cosmjs/encoding");
+const { sha256 } = require("@cosmjs/crypto");
 const env = process.env;
 const axios = require('axios');
 
@@ -10,11 +10,11 @@ async function extractTxInfo(data) {
     const signingClient = await SigningStargateClient.connect(env.END_POINT);
     const txData = typeof data === "string" ? JSON.parse(data) : data;
     if (txData.result) { // from axios get (query: txHash)
-        const {result: {hash, height, tx_result: {gas_wanted: gasWanted, gas_used: gasUsed}}} = txData;
+        const { result: { hash, height, tx_result: { gas_wanted: gasWanted, gas_used: gasUsed } } } = txData;
         const block = await axios.get(env.END_POINT + "block?height=" + String(height));
         if (!block || !block.data.result) return null;
         const blockData = block.data;
-        const {result: {block: {header: {chain_id: chainId, time}, data: {txs}}}} = blockData;
+        const { result: { block: { header: { chain_id: chainId, time }, data: { txs } } } } = blockData;
         const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx, 'base64'))));
         let fee;
         for (let i = 0; i < txHashes.length; ++i) {
@@ -26,7 +26,17 @@ async function extractTxInfo(data) {
                 const txRaw = txFromHash.tx;
                 fee = getFeeFromTxRaw(txRaw);
                 const txInfoAfterSigned = decodeTxRaw(txRaw);
-                const {body: {messages, memo}} = txInfoAfterSigned;
+                const { body: { messages, memo } } = txInfoAfterSigned;
+                const decodedMessages = messages.map(msg => {
+                    const decoder = new TextDecoder();
+                    const value = decoder.decode(msg.value);
+                    const decodedMessage = {
+                        typeUrl: msg.typeUrl,
+                        value
+                    }
+                    return decodedMessage;
+                });
+                console.log(decodedMessages);
                 const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
@@ -35,20 +45,20 @@ async function extractTxInfo(data) {
                     height,
                     time,
                     fee,
-                    gas: {gasUsed, gasWanted},
+                    gas: { gasUsed, gasWanted },
                     memo,
-                    messages
+                    messages: decodedMessages
                 }
                 return res;
             }
         }
         return null;
     } else if (txData.height) { // from signing client method
-        const {hash, height, gasUsed, gasWanted} = txData;
+        const { hash, height, gasUsed, gasWanted } = txData;
         const block = await axios.get(env.END_POINT + "block?height=" + String(height));
         if (!block || !block.data.result) return null;
         const blockData = block.data;
-        const {result: {block: {header: {chain_id: chainId, time}, data: {txs}}}} = blockData;
+        const { result: { block: { header: { chain_id: chainId, time }, data: { txs } } } } = blockData;
         const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx, 'base64'))));
         let fee;
         for (let i = 0; i < txHashes.length; ++i) {
@@ -59,7 +69,17 @@ async function extractTxInfo(data) {
                 const txRaw = txFromHash.tx;
                 fee = getFeeFromTxRaw(txRaw);
                 const txInfoAfterSigned = decodeTxRaw(txRaw);
-                const {body: {messages, memo}} = txInfoAfterSigned;
+                const { body: { messages, memo } } = txInfoAfterSigned;
+                const decodedMessages = messages.map(msg => {
+                    const decoder = new TextDecoder();
+                    const value = decoder.decode(msg.value);
+                    const decodedMessage = {
+                        typeUrl: msg.typeUrl,
+                        value
+                    }
+                    return decodedMessage;
+                });
+                console.log(decodedMessages);
                 const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
@@ -68,9 +88,9 @@ async function extractTxInfo(data) {
                     height,
                     time,
                     fee,
-                    gas: {gasUsed, gasWanted},
+                    gas: { gasUsed, gasWanted },
                     memo,
-                    messages
+                    messages: decodedMessages
                 }
                 return res;
             }
@@ -81,9 +101,9 @@ async function extractTxInfo(data) {
     }
 }
 
-async function getFeeFromTxRaw(txRaw) {
+function getFeeFromTxRaw(txRaw) {
     const txInfoAfterSigned = decodeTxRaw(txRaw);
-    const {authInfo: {fee: {amount}}} = txInfoAfterSigned;
+    const { authInfo: { fee: { amount } } } = txInfoAfterSigned;
     const fee = {
         amount: 0,
         unit: "uosmo"
@@ -101,4 +121,4 @@ async function getFeeFromTxRaw(txRaw) {
 // const decoder = new TextDecoder();
 // console.log(decoder.decode(ex.messages[1].value));
 
-module.exports = { extractTxInfo,getFeeFromTxRaw };
+module.exports = { extractTxInfo, getFeeFromTxRaw };
