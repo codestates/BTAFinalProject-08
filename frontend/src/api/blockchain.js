@@ -7,3 +7,7 @@ export const getAllValidator = () =>
 
 export const getBlocks = () =>
     axios.get(`${BASE_URL_RPC}/blockchain`).then((res) => res.data)
+//http://34.155.184.217:1317/txs?message.action
+
+export const getTrans = () =>
+    axios.get(`${BASE_URL_API}/txs?message.action`).then((res) => res.data)

@@ -4,6 +4,8 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getBlocks } from '../api/blockchain'
+import BlocksTable from '../components/BlockCompo/BlockTable'
+import TransTable from '../components/BlockCompo/TransactionTable'
 import { buttonColor, cardShadow } from '../utils/color'
 import { refetchTime } from '../utils/size'
 import { subtractNowAndTime } from '../utils/time'
@@ -60,76 +62,9 @@ const HeaderBtn = styled.div`
     align-items: center;
     justify-content: center;
 `
-const columnsBlock = [
-    {
-        title: 'Height',
-        dataIndex: 'header',
-        render: (txt) => (
-            <Link to={`/blocks/${txt.height}`}>#{txt.height}</Link>
-        ),
-    },
-    {
-        title: 'Block Hash',
-        dataIndex: 'header',
-        render: (txt) => (
-            <Link to={`/blocks/${txt.height}`}>
-                {txt.app_hash.slice(0, 15) +
-                    '...' +
-                    txt.app_hash.slice(-15, -1)}
-            </Link>
-        ),
-    },
-    {
-        title: 'Proposer',
-        dataIndex: 'header',
-        render: (txt) => <Link>{txt.proposer_address.slice(0, 10)}</Link>,
-    },
-    {
-        title: 'Txs',
-        dataIndex: 'num_txs',
-    },
-    {
-        title: 'Time',
-        dataIndex: 'header',
-        render: (txt) => <>{subtractNowAndTime(txt.time) + 's ago'}</>,
-    },
-]
-const columnsTransaction = [
-    {
-        title: 'Tx Hash',
-        dataIndex: 'header',
-        render: (txt) => (
-            <Link to={`/txs/${txt}`}>
-                {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
-            </Link>
-        ),
-    },
-    {
-        title: 'Type',
-    },
-    {
-        title: 'Result',
-    },
-    {
-        title: 'Amount',
-    },
-    {
-        title: 'Fee',
-    },
-    {
-        title: 'Height',
-    },
-    {
-        title: 'Time',
-    },
-]
 
 const Blocks = () => {
     const [toggle, setToggle] = useState(false)
-    const { isLoading, data } = useQuery(['blocks'], getBlocks, {
-        refetchInterval: refetchTime,
-    })
-    console.log(data)
 
     return (
         <Wrapper>
@@ -151,16 +86,7 @@ const Blocks = () => {
                         </HeaderBtn>
                     </HeaderWrapButton>
                 </BlockHeader>
-                {!toggle ? (
-                    <Table
-                        columns={columnsBlock}
-                        dataSource={!data ? null : data.result.block_metas}
-                        loading={isLoading}
-                        pagination={false}
-                    />
-                ) : (
-                    <Table columns={columnsTransaction} dataSource={''} />
-                )}
+                {!toggle ? <BlocksTable /> : <TransTable />}
             </BlockContent>
         </Wrapper>
     )

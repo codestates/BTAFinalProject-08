@@ -1,8 +1,8 @@
 import { Table } from 'antd'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
-import { getTrans } from '../../api/blockchain'
+import { getBlocks, getTrans } from '../../api/blockchain'
 import { refetchTime } from '../../utils/size'
 import { subtractNowAndTime } from '../../utils/time'
 
@@ -28,6 +28,24 @@ const columnsTransaction = [
         ),
     },
     {
+        title: 'Result',
+        dataIndex: 'tx',
+        render: (txt) => <>success</>,
+    },
+
+    {
+        title: 'Fee',
+        dataIndex: 'tx',
+        render: (txt) => (
+            <>
+                {!txt.value.fee?.amount[0]?.amount
+                    ? '-'
+                    : txt.value.fee.amount[0].amount +
+                      txt.value.fee.amount[0].denom}
+            </>
+        ),
+    },
+    {
         title: 'Height',
         dataIndex: 'height',
     },
@@ -37,15 +55,18 @@ const columnsTransaction = [
         render: (txt) => <>{subtractNowAndTime(txt)}</>,
     },
 ]
-export default function HomeTranTable() {
+
+export default function TransTable() {
     const [toggle, setToggle] = useState(false)
     const { isLoading, data } = useQuery(['transaction'], getTrans, {
         refetchInterval: refetchTime,
     })
+    console.log(Array(data.txs).reverse())
+
     return (
         <Table
             columns={columnsTransaction}
-            dataSource={!data ? null : data.txs.slice(-5).reverse()}
+            dataSource={!data ? null : data.txs.slice(-20).reverse()}
             pagination={false}
         />
     )

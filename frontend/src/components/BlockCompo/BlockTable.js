@@ -1,16 +1,29 @@
 import { Table } from 'antd'
+import React from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
-import { getBlocks } from '../../api/blockchain'
-import { validatorMap } from '../../utils/blockchain'
 import { refetchTime } from '../../utils/size'
 import { subtractNowAndTime } from '../../utils/time'
+import { getBlocks } from '../../api/blockchain'
+import { validatorMap } from '../../utils/blockchain'
+
 const columnsBlock = [
     {
         title: 'Height',
         dataIndex: 'header',
         render: (txt) => (
             <Link to={`/blocks/${txt.height}`}>#{txt.height}</Link>
+        ),
+    },
+    {
+        title: 'Block Hash',
+        dataIndex: 'header',
+        render: (txt) => (
+            <Link to={`/blocks/${txt.height}`}>
+                {txt.app_hash.slice(0, 15) +
+                    '...' +
+                    txt.app_hash.slice(-15, -1)}
+            </Link>
         ),
     },
     {
@@ -28,7 +41,8 @@ const columnsBlock = [
         render: (txt) => <>{subtractNowAndTime(txt.time)}</>,
     },
 ]
-export default function HomeBlockTable() {
+
+export default function BlocksTable() {
     const { isLoading, data } = useQuery(['blocks'], getBlocks, {
         refetchInterval: refetchTime,
     })
@@ -36,9 +50,9 @@ export default function HomeBlockTable() {
     return (
         <Table
             columns={columnsBlock}
-            pagination={false}
+            dataSource={!data ? null : data.result.block_metas}
             loading={isLoading}
-            dataSource={!data ? null : data.result.block_metas.slice(0, 5)}
+            pagination={false}
         />
     )
 }
