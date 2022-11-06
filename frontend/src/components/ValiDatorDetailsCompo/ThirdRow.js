@@ -1,6 +1,7 @@
 import { Table } from 'antd'
 import styled from 'styled-components'
 import { cardShadow, headerColor } from '../../utils/color'
+import { cardBorderRadius } from '../../utils/size'
 
 const ThirdRowRoot = styled.div`
     margin-top: 10px;
@@ -8,7 +9,7 @@ const ThirdRowRoot = styled.div`
     max-width: 1000px;
     height: 400px;
     background-color: #ffffff;
-    border-radius: 4px;
+    border-radius: ${cardBorderRadius};
     box-shadow: ${cardShadow};
     padding: 10px;
     margin-bottom: 20px;

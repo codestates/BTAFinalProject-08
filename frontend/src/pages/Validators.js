@@ -5,6 +5,7 @@ import ValidatorTable from '../components/ValidatorTable'
 import { useQuery } from 'react-query'
 import { getAllValidator } from '../api/validator'
 import axios from 'axios'
+import { cardBorderRadius } from '../utils/size'
 //import axios from 'axios'
 
 const Wrapper = styled.div`
@@ -25,6 +26,7 @@ const ContentBody = styled.div`
 const ContentBodyWrapTable = styled.div`
     background-color: #ffffff;
     padding: 10px;
+    border-radius: ${cardBorderRadius};
 
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     width: 100%;

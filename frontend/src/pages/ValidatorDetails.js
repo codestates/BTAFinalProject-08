@@ -20,7 +20,7 @@ const WrapContent = styled.div`
 `
 const Header = styled.div`
     width: 100%;
-    min-height: 100px;
+    min-height: 50px;
     display: flex;
     align-items: flex-end;
     font-size: ${headerSize};
@@ -46,8 +46,8 @@ export default function ValidatorDetails() {
                     details="none"
                     loading={true}
                 />
-                <SecondRow />
-                <ThirdRow />
+                <SecondRow delegateData={''} proposedData={''} />
+                <ThirdRow voteData={''} />
             </WrapContent>
         </Wrapper>
     )

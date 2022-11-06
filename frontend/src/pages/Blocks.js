@@ -1,7 +1,8 @@
 import { Table } from 'antd'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { buttonColor } from '../utils/color'
+import { buttonColor, cardShadow } from '../utils/color'
 
 const Wrapper = styled.div`
     max-width: 1200px;
@@ -18,11 +19,12 @@ const BlockContent = styled.div`
     margin-top: 10px;
     padding: 10px;
     border-radius: 4px;
+    box-shadow: ${cardShadow};
 `
 
 const Header = styled.div`
     width: 100%;
-    height: 70px;
+    height: 40px;
     font-size: 24px;
     font-weight: 500;
     display: flex;
@@ -57,6 +59,8 @@ const HeaderBtn = styled.div`
 const columnsBlock = [
     {
         title: 'Height',
+        dataIndex: 'height',
+        render: (txt) => <Link to={`/blocks/${txt}`}>{txt}</Link>,
     },
     {
         title: 'Block Hash',
@@ -94,6 +98,11 @@ const columnsTransaction = [
         title: 'Time',
     },
 ]
+const data = [
+    {
+        height: 1,
+    },
+]
 
 const Blocks = () => {
     const [toggle, setToggle] = useState(false)
@@ -118,7 +127,7 @@ const Blocks = () => {
                     </HeaderWrapButton>
                 </BlockHeader>
                 {!toggle ? (
-                    <Table columns={columnsBlock} />
+                    <Table columns={columnsBlock} dataSource={data} />
                 ) : (
                     <Table columns={columnsTransaction} />
                 )}
