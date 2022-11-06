@@ -140,9 +140,7 @@ const ContentBodyHeaderWrapinput = styled.div`
 
 export default function ValidatorTable({ loading, valArray }) {
     const [checkStrictly, setCheckStrictly] = useState(true)
-    //dataSource={data}
-    //console.log(data)
-    //console.log(valArray.result)
+
     return (
         <>
             <ContentBodyHeader>

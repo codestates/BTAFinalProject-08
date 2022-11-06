@@ -35,7 +35,7 @@ const Validators = () => {
         )
         return data
     })
-    //console.log(data)
+    console.log(data)
     return (
         <Wrapper>
             <ValidatorContentHeader />

@@ -1,6 +1,6 @@
 import { Card } from 'antd'
 import styled from 'styled-components'
-import { defaultText } from '../../utils/color'
+import { defaultColor, defaultText } from '../../utils/color'
 import React from 'react'
 import CardFirstRow2Col from './HomeCardFistRow2Col'
 import { osmosisLogo } from '../../utils/logo'
@@ -43,7 +43,7 @@ const CardPriceHeaderText = styled.div`
     display: flex;
     align-items: center;
     font-size: 16px;
-    color: ${defaultText};
+    color: ${defaultColor};
     font-weight: 500;
 `
 const CardPriceBody = styled.div`
@@ -62,7 +62,7 @@ const CardPriceBodyContent = styled.div`
 `
 
 const CardPriceBodyFooter = styled.div`
-    color: ${defaultText};
+    color: ${defaultColor};
     height: 30%;
     padding: 5px 10px 10px 10px;
     width: 100%;

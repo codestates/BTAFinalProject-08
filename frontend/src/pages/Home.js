@@ -1,8 +1,6 @@
-import { Card, Col, Divider, Layout, Row, Table } from 'antd'
+import { Table } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import CardSecondRow from '../components/HomeSecodeRow'
-import CardFirstRow from '../components/HomeFirstRow'
 import HomeCardFirstRow from '../components/HomeFirstRow'
 import HomeCardSecondRow from '../components/HomeSecodeRow'
 const Wrapper = styled.div`

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import React from 'react'
-import { defaultText } from '../../utils/color'
+import { defaultColor, defaultText } from '../../utils/color'
 import { osmosisLogo } from '../../utils/logo'
 
 const CardFirstRow2ColRoot = styled.div`
@@ -23,7 +23,7 @@ const IntroduceCard = styled.div`
 const CardFirstRow2ColHeader = styled.div`
     height: 15%;
     width: 30%;
-    color: ${defaultText};
+    color: ${defaultColor};
     font-size: 20px;
     display: flex;
     flex-direction: column;
