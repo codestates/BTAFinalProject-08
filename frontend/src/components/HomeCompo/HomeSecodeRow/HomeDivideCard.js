@@ -1,6 +1,6 @@
 import { Card, Divider } from 'antd'
 import styled from 'styled-components'
-import { cardBorderRadius } from '../../utils/size'
+import { cardBorderRadius } from '../../../utils/size'
 
 const CardSecondRowColRoot = styled.div`
     background-color: #ffffff;

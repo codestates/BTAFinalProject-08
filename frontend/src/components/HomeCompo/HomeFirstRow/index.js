@@ -1,9 +1,9 @@
 import { Card } from 'antd'
 import styled from 'styled-components'
-import { defaultColor, defaultText } from '../../utils/color'
+import { defaultColor, defaultText } from '../../../utils/color'
 import React from 'react'
 import CardFirstRow2Col from './HomeCardFistRow2Col'
-import { osmosisLogo } from '../../utils/logo'
+import { osmosisLogo } from '../../../utils/logo'
 import HomeCardFirstRowGragh from './HomeCardFirstRowGragh'
 
 const CardFirstRowRoot = styled.div`

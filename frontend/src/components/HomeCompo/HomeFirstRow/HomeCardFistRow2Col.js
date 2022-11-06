@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { Icon } from '@iconify/react'
 import React from 'react'
-import { defaultColor, defaultText } from '../../utils/color'
-import { osmosisLogo } from '../../utils/logo'
+import { defaultColor, defaultText } from '../../../utils/color'
+import { osmosisLogo } from '../../../utils/logo'
 
 const CardFirstRow2ColRoot = styled.div`
     width: 27%;

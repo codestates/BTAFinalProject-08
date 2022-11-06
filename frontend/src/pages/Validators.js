@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import styled from 'styled-components'
-import { getAllValidator } from '../api/validator'
+import { getAllValidator } from '../api/blockchain'
 import ValidatorContentHeader from '../components/ValidatorContentHeader'
 import ValidatorTable from '../components/ValidatorTable'
 import { cardBorderRadius, refetchTime } from '../utils/size'
@@ -34,12 +34,16 @@ const Validators = () => {
     const { isLoading, data } = useQuery(['validators'], getAllValidator, {
         refetchInterval: refetchTime,
     })
+
     return (
         <Wrapper>
             <ValidatorContentHeader />
             <ContentBody>
                 <ContentBodyWrapTable>
-                    <ValidatorTable valArray={data} loading={isLoading} />
+                    <ValidatorTable
+                        valArray={!data ? '' : data}
+                        loading={isLoading}
+                    />
                 </ContentBodyWrapTable>
             </ContentBody>
         </Wrapper>
