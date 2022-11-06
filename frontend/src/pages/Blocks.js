@@ -4,15 +4,32 @@ import styled from 'styled-components'
 import { buttonColor } from '../utils/color'
 
 const Wrapper = styled.div`
+    max-width: 1200px;
+    min-width: 600px;
     width: 100%;
     height: 100%;
-    background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     padding: 20px;
 `
 
+const BlockContent = styled.div`
+    width: 100%;
+    background-color: #ffffff;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+`
+
 const Header = styled.div`
+    width: 100%;
+    height: 70px;
+    font-size: 24px;
+    font-weight: 500;
+    display: flex;
+    align-items: flex-end;
+`
+
+const BlockHeader = styled.div`
     height: 40px;
     width: 100%;
     border-radius: 10px;
@@ -82,21 +99,30 @@ const Blocks = () => {
     const [toggle, setToggle] = useState(false)
     return (
         <Wrapper>
-            <Header>
-                <HeaderWrapButton>
-                    <HeaderBtn off={toggle} onClick={() => setToggle(false)}>
-                        Blocks
-                    </HeaderBtn>
-                    <HeaderBtn off={!toggle} onClick={() => setToggle(true)}>
-                        Transactions
-                    </HeaderBtn>
-                </HeaderWrapButton>
-            </Header>
-            {!toggle ? (
-                <Table columns={columnsBlock} />
-            ) : (
-                <Table columns={columnsTransaction} />
-            )}
+            <Header>BLOCKS</Header>
+            <BlockContent>
+                <BlockHeader>
+                    <HeaderWrapButton>
+                        <HeaderBtn
+                            off={toggle}
+                            onClick={() => setToggle(false)}
+                        >
+                            Blocks
+                        </HeaderBtn>
+                        <HeaderBtn
+                            off={!toggle}
+                            onClick={() => setToggle(true)}
+                        >
+                            Transactions
+                        </HeaderBtn>
+                    </HeaderWrapButton>
+                </BlockHeader>
+                {!toggle ? (
+                    <Table columns={columnsBlock} />
+                ) : (
+                    <Table columns={columnsTransaction} />
+                )}
+            </BlockContent>
         </Wrapper>
     )
 }

@@ -8,8 +8,10 @@ const CardSecondRowColRoot = styled.div`
     padding: 0px;
     min-width: 190px;
     height: 100%;
+    border-radius: 4px;
 `
 const TwoDivideCard = styled(Card)`
+    border-radius: 4px;
     height: 100%;
     width: 100%;
     padding: 0px;

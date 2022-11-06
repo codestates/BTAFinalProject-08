@@ -3,11 +3,11 @@ import { IoPeople } from 'react-icons/io5'
 import { GiToken } from 'react-icons/gi'
 import { AiOutlineFieldTime } from 'react-icons/ai'
 import { Icon } from '@iconify/react'
-import { headerText } from '../../utils/color'
+import { headerColor, headerText } from '../../utils/color'
 import ValidatorContentHeaderBlock from './ValidatorContentHeaderBlock'
 
 const ContentHeader = styled.div`
-    width: 90%;
+    width: 100%;
     height: 220px;
     padding: 20px;
 `
@@ -15,7 +15,7 @@ const ContentHeaderText = styled.div`
     font-size: 28px;
     height: 20%;
     width: 100%;
-    color: ${headerText};
+    color: ${headerColor};
 `
 const ContnetHeaderBlockWrapper = styled.div`
     width: 100%;

@@ -1,30 +1,27 @@
-import { Card, Col, Divider, Layout, Row, Table } from 'antd'
+import { Table } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import CardSecondRow from '../components/HomeSecodeRow'
-import CardFirstRow from '../components/HomeFirstRow'
 import HomeCardFirstRow from '../components/HomeFirstRow'
 import HomeCardSecondRow from '../components/HomeSecodeRow'
 const Wrapper = styled.div`
+    //min-height: 1300px;
+    max-width: 1200px;
     width: 100%;
-    height: 95%;
-    padding: 0 2% 0 2%;
-    max-width: 1300px;
     display: flex;
     flex-direction: column;
     align-items: center;
 `
 const CardWHeaderrapper = styled.div`
     width: 100%;
-    height: 300px;
+    height: 100%;
 `
-
 const CardThirdRow = styled.div`
     margin: 10px;
     display: flex;
     justify-content: center;
 `
 const CardThirdRow1Col = styled.div`
+    border-radius: 4px;
     background-color: #ffffff;
     padding: 10px;
     width: 49%;
@@ -32,6 +29,7 @@ const CardThirdRow1Col = styled.div`
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 `
 const CardThirdRow2Col = styled.div`
+    border-radius: 4px;
     background-color: #ffffff;
     padding: 10px;
     width: 49%;

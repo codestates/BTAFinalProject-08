@@ -8,6 +8,8 @@ import axios from 'axios'
 //import axios from 'axios'
 
 const Wrapper = styled.div`
+    max-width: 1200px;
+    min-width: 600px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -16,7 +18,7 @@ const Wrapper = styled.div`
 `
 
 const ContentBody = styled.div`
-    width: 90%;
+    width: 100%;
     padding: 0 20px 20px 20px;
 `
 
@@ -35,7 +37,7 @@ const Validators = () => {
         )
         return data
     })
-    //console.log(data)
+    console.log(data)
     return (
         <Wrapper>
             <ValidatorContentHeader />

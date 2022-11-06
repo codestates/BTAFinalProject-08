@@ -1,5 +1,10 @@
 import styled from 'styled-components'
-import { blockText, defaultText } from '../../utils/color'
+import {
+    blockColor,
+    blockText,
+    defaultColor,
+    defaultText,
+} from '../../utils/color'
 import { Icon } from '@iconify/react'
 
 const ContentHeaderinfoBlock = styled.div`
@@ -17,7 +22,8 @@ const ContentHeaderinfoBlockHeader = styled.div`
     height: 30%;
     display: flex;
     align-items: center;
-    color: ${blockText};
+
+    color: ${blockColor};
 `
 
 const ContentHeaderinfoBlockBody = styled.div`
@@ -27,7 +33,7 @@ const ContentHeaderinfoBlockBody = styled.div`
     justify-content: flex-end;
     align-items: flex-end;
     font-size: 18px;
-    color: ${defaultText};
+    color: ${defaultColor};
     font-weight: 500;
 `
 

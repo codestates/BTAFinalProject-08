@@ -7,16 +7,9 @@ import Validators from './pages/Validators'
 import Blocks from './pages/Blocks'
 import { Content } from 'antd/lib/layout/layout'
 import ValidatorDetails from './pages/ValidatorDetails'
+import BlockDetails from './pages/BlockDetails'
 
 function App() {
-    //const { isLoading, isError, data, error } = useQuery(['notes'], fetchNotes)
-    /*
-  const { data } = useQuery(
-    [key],
-    // Use whatever timeout you need
-    () => axios.get(url, { timeout: 5000 }),
-  );
-  */
     return (
         <Layout style={{ width: '100%', height: '100%' }}>
             <Navbar />
@@ -36,6 +29,7 @@ function App() {
                         element={<ValidatorDetails />}
                     />
                     <Route path="blocks" element={<Blocks />} />
+                    <Route path="blocks/:blockid" element={<BlockDetails />} />
                 </Routes>
             </Content>
         </Layout>

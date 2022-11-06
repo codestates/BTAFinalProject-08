@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { buttonColor, defaultText } from '../../utils/color'
+import { buttonColor, defaultColor, defaultText } from '../../utils/color'
 import React, { useEffect, useState } from 'react'
 import { Area } from '@ant-design/plots'
 
@@ -28,7 +28,7 @@ const GraphButtonWrap = styled.div`
 `
 const GraphButton = styled.div`
     background-color: ${(props) => (props.off ? '#f5f5f5' : `${buttonColor}`)};
-    color: ${(props) => (props.off ? `${defaultText}` : '#f5f5f5')};
+    color: ${(props) => (props.off ? `${defaultColor}` : '#f5f5f5')};
     border-radius: 10px;
     width: 45%;
     height: 100%;
