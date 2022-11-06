@@ -5,8 +5,8 @@ import HomeCardFirstRow from '../components/HomeFirstRow'
 import HomeCardSecondRow from '../components/HomeSecodeRow'
 const Wrapper = styled.div`
     width: 100%;
-    height: 95%;
     padding: 0 2% 0 2%;
+    //min-height: 1300px;
     max-width: 1300px;
     display: flex;
     flex-direction: column;
@@ -14,9 +14,8 @@ const Wrapper = styled.div`
 `
 const CardWHeaderrapper = styled.div`
     width: 100%;
-    height: 300px;
+    height: 100%;
 `
-
 const CardThirdRow = styled.div`
     margin: 10px;
     display: flex;
