@@ -5,6 +5,8 @@ import React from 'react'
 import CardFirstRow2Col from './HomeCardFistRow2Col'
 import { osmosisLogo } from '../../../utils/logo'
 import HomeCardFirstRowGragh from './HomeCardFirstRowGragh'
+import { useQuery } from 'react-query'
+import { getMarketPrice } from '../../../api/blockchain'
 
 const CardFirstRowRoot = styled.div`
     display: flex;
@@ -87,48 +89,63 @@ const CardPriceFooterDivHeader = styled.div`
 `
 
 export default function HomeCardFirstRow() {
+    const { isLoading, data } = useQuery(['maketPrice'], getMarketPrice)
     return (
         <CardFirstRowRoot>
             <CardFirstRow1Col>
-                <GraphPriceCard>
-                    <div style={{ display: 'flex' }}>
-                        <CardPrice>
-                            <CardPriceHeader>
-                                <CardPriceHeaderIcon>
-                                    <img
-                                        src={osmosisLogo}
-                                        alt="logo"
-                                        width={32}
-                                    />
-                                </CardPriceHeaderIcon>
-                                <CardPriceHeaderText>OSMO</CardPriceHeaderText>
-                            </CardPriceHeader>
-                            <CardPriceBody>
-                                <CardPriceBodyContent>
-                                    $1.59
-                                </CardPriceBodyContent>
-                                <CardPriceBodyFooter>
-                                    <div>Coingeko</div>
-                                    <div>+ 4.59%(24h)</div>
-                                </CardPriceBodyFooter>
-                            </CardPriceBody>
-                            <CardPriceFooter>
-                                <CardPriceFooterDiv>
-                                    <CardPriceFooterDivHeader>
-                                        Market Cap
-                                    </CardPriceFooterDivHeader>
-                                    <div>20 $</div>
-                                </CardPriceFooterDiv>
-                                <CardPriceFooterDiv>
-                                    <CardPriceFooterDivHeader>
-                                        24h Vol
-                                    </CardPriceFooterDivHeader>
-                                    <div>20 $</div>
-                                </CardPriceFooterDiv>
-                            </CardPriceFooter>
-                        </CardPrice>
-                        <HomeCardFirstRowGragh />
-                    </div>
+                <GraphPriceCard loading={isLoading}>
+                    {data && (
+                        <div style={{ display: 'flex' }}>
+                            <CardPrice>
+                                <CardPriceHeader>
+                                    <CardPriceHeaderIcon>
+                                        <img
+                                            src={osmosisLogo}
+                                            alt="logo"
+                                            width={32}
+                                        />
+                                    </CardPriceHeaderIcon>
+                                    <CardPriceHeaderText>
+                                        OSMO
+                                    </CardPriceHeaderText>
+                                </CardPriceHeader>
+                                <CardPriceBody>
+                                    <CardPriceBodyContent>
+                                        {'$' +
+                                            data.market_data.current_price.usd}
+                                    </CardPriceBodyContent>
+                                    <CardPriceBodyFooter>
+                                        <div>Coingeko</div>
+                                        <div>
+                                            {data.market_data.price_change_24h_in_currency.usd.toFixed(
+                                                2
+                                            )}
+                                            % (24h)
+                                        </div>
+                                    </CardPriceBodyFooter>
+                                </CardPriceBody>
+                                <CardPriceFooter>
+                                    <CardPriceFooterDiv>
+                                        <CardPriceFooterDivHeader>
+                                            Market Cap
+                                        </CardPriceFooterDivHeader>
+                                        <div>
+                                            {data.market_data.market_cap.usd}$
+                                        </div>
+                                    </CardPriceFooterDiv>
+                                    <CardPriceFooterDiv>
+                                        <CardPriceFooterDivHeader>
+                                            Volume
+                                        </CardPriceFooterDivHeader>
+                                        <div>
+                                            {data.market_data.total_volume.usd}$
+                                        </div>
+                                    </CardPriceFooterDiv>
+                                </CardPriceFooter>
+                            </CardPrice>
+                            <HomeCardFirstRowGragh />
+                        </div>
+                    )}
                 </GraphPriceCard>
             </CardFirstRow1Col>
             <CardFirstRow2Col />
