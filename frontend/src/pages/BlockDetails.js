@@ -1,6 +1,8 @@
 import { Card, Divider, Table } from 'antd'
+import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { getBlockInfo } from '../api/blockchain'
 import ContentHeaderDiv from '../components/BlockDetailsCompo/ContentHeaderDiv'
 import { cardShadow } from '../utils/color'
 import { cardBorderRadius } from '../utils/size'
@@ -61,7 +63,8 @@ const column = [
 ]
 export default function BlockDetails() {
     const { blockid } = useParams()
-    console.log(blockid)
+    const { isLoading, data } = useQuery(['blockDetail'], getBlockInfo)
+    console.log(data)
     return (
         <Wrapper>
             <Header>Details for Block #{blockid}</Header>
