@@ -38,7 +38,7 @@ const columnsTransaction = [
         dataIndex: 'tx',
         render: (txt) => (
             <>
-                {!txt.value.fee?.amount[0]?.amount
+                {!txt.value?.fee?.amount[0]?.amount
                     ? '-'
                     : txt.value.fee.amount[0].amount +
                       txt.value.fee.amount[0].denom}
@@ -61,13 +61,14 @@ export default function TransTable() {
     const { isLoading, data } = useQuery(['transaction'], getTrans, {
         refetchInterval: refetchTime,
     })
-    console.log(Array(data.txs).reverse())
+    //console.log(Array(data.txs).reverse())
 
     return (
         <Table
             columns={columnsTransaction}
             dataSource={!data ? null : data.txs.slice(-20).reverse()}
             pagination={false}
+            loading={isLoading}
         />
     )
 }

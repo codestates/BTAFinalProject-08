@@ -1,14 +1,8 @@
-import { Table } from 'antd'
 import React, { useState } from 'react'
-import { useQuery } from 'react-query'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { getBlocks } from '../api/blockchain'
 import BlocksTable from '../components/BlockCompo/BlockTable'
 import TransTable from '../components/BlockCompo/TransactionTable'
 import { buttonColor, cardShadow } from '../utils/color'
-import { refetchTime } from '../utils/size'
-import { subtractNowAndTime } from '../utils/time'
 
 const Wrapper = styled.div`
     max-width: 1200px;
