@@ -11,6 +11,14 @@ const {test} = require("./modules/parseBlockInfo");
 const app = express();
 const PORT = process.env.PORT;
 
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+    })
+);
+
 
 // api 통신을 위한 모듈 설정
 app.use(bodyParser.json({ extended: true }));
@@ -23,13 +31,7 @@ app.use("/block", blockRoutes);
 app.use("/transaction", transactionRoutes);
 
 // cors 에러를 잡아주기 위한 설정 -> 여기서는 로컬의 4567 포트에대한 접근을 허용함
-app.use(
-    cors({
-        origin: true,
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-    })
-);
+
 
 
 models.sequelize
