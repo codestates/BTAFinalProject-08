@@ -2,7 +2,7 @@ import { Card, Divider, Table } from 'antd'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { getBlockInfo } from '../api/blockchain'
+import { getBlockIdTransaction, getBlockInfo } from '../api/blockchain'
 import ContentHeaderDiv from '../components/BlockDetailsCompo/ContentHeaderDiv'
 import { validatorMap } from '../utils/blockchain'
 import { cardShadow } from '../utils/color'
@@ -49,9 +49,11 @@ const ContentHeaderWrapDiv = styled.div`
 const column = [
     {
         title: 'Tx Hash',
+        dataIndex: 'type',
     },
     {
         title: 'Type',
+        dataIndex: 'type',
     },
     {
         title: 'Result',
@@ -61,6 +63,9 @@ const column = [
     },
     {
         title: 'Fee',
+    },
+    {
+        title: 'Time',
     },
 ]
 export default function BlockDetails() {
@@ -72,6 +77,24 @@ export default function BlockDetails() {
             refetchInterval: refetchTime,
         }
     )
+
+    //console.log(blockTransaction.data)
+    // tx > value > msg[] > value
+    /*!SECTION
+        {
+            "type": "cosmos-sdk/MsgSend",
+            "value": {
+            "from_address": "osmo1mhfgfenrp88d2p5dttyw59x8frfk7u9lx9qkjr",
+            "to_address": "osmo16hjflhqx57h8967sn0kyvg2yparyn7e3j6n08h",
+            "amount": [
+                {
+                "denom": "uosmo",
+                "amount": "1000000000"
+                }
+            ]
+            }
+        }
+    */
     return (
         <Wrapper>
             <Header>Details for Block #{blockid}</Header>
