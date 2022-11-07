@@ -9,7 +9,7 @@ const {
 router.get('/', getBlockInfoFromHeight);
 router.get('/blockHeight', getBlockHeight);
 router.get('/recent', getRecentBlock);
-router.get('/height/', getBlock); /// 임시로 이렇게 씁시다...
+router.get('/height', getBlock); /// 임시로 이렇게 씁시다...
 
 
 

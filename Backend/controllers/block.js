@@ -40,11 +40,11 @@ module.exports = {
 
     getRecentBlock: async (req, res) => { //  최근 5개의 블록 정보 리턴
         try {
-            console.log("asd")
+            const limit = Number(req.query.limit);
             const recentBlocks=await Block.findAll({
                 order: [["height","DESC"]],
                 offset: 0,
-                limit: 5
+                limit: limit
             })
             res.status(200).json(recentBlocks);
         } catch (err) {
@@ -54,7 +54,6 @@ module.exports = {
 
     getBlock: async (req, res) => { //  해당 height 의 블록 정보 리턴
         try {
-            console.log("asd")
             const height = req.query.height;
             const block=await Block.findOne({
                 where: { height: height },
