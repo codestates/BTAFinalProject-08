@@ -4,8 +4,10 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getBlockInfo } from '../api/blockchain'
 import ContentHeaderDiv from '../components/BlockDetailsCompo/ContentHeaderDiv'
+import { validatorMap } from '../utils/blockchain'
 import { cardShadow } from '../utils/color'
-import { cardBorderRadius } from '../utils/size'
+import { cardBorderRadius, refetchTime } from '../utils/size'
+import { subtractNowAndTime } from '../utils/time'
 
 const Wrapper = styled.div`
     max-width: 1000px;
@@ -63,14 +65,19 @@ const column = [
 ]
 export default function BlockDetails() {
     const { blockid } = useParams()
-    const { isLoading, data } = useQuery(['blockDetail'], getBlockInfo)
-    console.log(data)
+    const { isLoading, data } = useQuery(
+        ['blockDetails', blockid],
+        () => getBlockInfo(blockid),
+        {
+            refetchInterval: refetchTime,
+        }
+    )
     return (
         <Wrapper>
             <Header>Details for Block #{blockid}</Header>
             <ContentHeader>
                 <Card
-                    loading={false}
+                    loading={isLoading}
                     style={{
                         height: '400px',
                         borderRadius: `${cardBorderRadius}`,
@@ -78,39 +85,49 @@ export default function BlockDetails() {
                 >
                     <h2>Header</h2>
                     <Divider></Divider>
-                    <ContentHeaderWrapDiv>
-                        <ContentHeaderDiv
-                            header={'Chain Id'}
-                            content={'mintchoco'}
-                        />
-                        <ContentHeaderDiv header={'Height'} content={blockid} />
-                        <ContentHeaderDiv
-                            header={'Block Time'}
-                            content={'17m ago ( 2022-11-06 16:31:37 )'}
-                        />
-                        <ContentHeaderDiv
-                            header={'Block Hash'}
-                            content={
-                                'B4923806813BE3E684D1C7E2C3A4BA4FD88B3A4464CDF5C17C44CEA11833A26C'
-                            }
-                        />
-                        <ContentHeaderDiv
-                            header={'Number of Tx'}
-                            content={'6'}
-                        />
-                        <ContentHeaderDiv
-                            header={'Gas (used / wanted)'}
-                            content={' 1716987 / 2549326'}
-                        />
-                        <ContentHeaderDiv
-                            header={'Block Round'}
-                            content={'-'}
-                        />
-                        <ContentHeaderDiv
-                            header={'Proposer'}
-                            content={<a>cothi</a>}
-                        />
-                    </ContentHeaderWrapDiv>
+
+                    {data && (
+                        <ContentHeaderWrapDiv>
+                            <ContentHeaderDiv
+                                header={'Chain Id'}
+                                content={data.chainId}
+                            />
+                            <ContentHeaderDiv
+                                header={'Height'}
+                                content={data.height}
+                            />
+                            <ContentHeaderDiv
+                                header={'Block Time'}
+                                content={subtractNowAndTime(data.time)}
+                            />
+                            <ContentHeaderDiv
+                                header={'Block Hash'}
+                                content={data.hash}
+                            />
+                            <ContentHeaderDiv
+                                header={'Number of Tx'}
+                                content={data.numOfTx}
+                            />
+                            <ContentHeaderDiv
+                                header={'Gas (used / wanted)'}
+                                content={`${
+                                    data.gas.gasUsed +
+                                    ' / ' +
+                                    data.gas.gasWanted
+                                }`}
+                            />
+                            <ContentHeaderDiv
+                                header={'Block Round'}
+                                content={data.round}
+                            />
+                            <ContentHeaderDiv
+                                header={'Proposer'}
+                                content={
+                                    <a>{validatorMap[data.proposerAddress]} </a>
+                                }
+                            />
+                        </ContentHeaderWrapDiv>
+                    )}
                 </Card>
             </ContentHeader>
             <ContentTransaction>

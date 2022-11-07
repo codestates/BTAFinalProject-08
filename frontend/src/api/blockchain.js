@@ -13,7 +13,7 @@ export const getBlocks = () =>
 export const getTrans = () =>
     axios.get(`${BASE_URL_API}/txs?message.action`).then((res) => res.data)
 
-export const getBlockInfo = ({ id }) =>
+export const getBlockInfo = (id) =>
     axios
         .get(`http://localhost:4567/block?height=${id}`)
         .then((res) => res.data)
