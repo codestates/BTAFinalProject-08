@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             height: {
                 type: DataTypes.INTEGER(30),
                 allowNull: false,
+                primaryKey: true
             },
 
             chainId: {

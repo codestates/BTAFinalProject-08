@@ -38,18 +38,34 @@ module.exports = {
         }
     },
 
-    getRecentBlock: async (req, res) => { //  해당 height 의 블록 정보 리턴
+    getRecentBlock: async (req, res) => { //  최근 5개의 블록 정보 리턴
         try {
+            console.log("asd")
             const recentBlocks=await Block.findAll({
                 order: [["height","DESC"]],
                 offset: 0,
-                limit: 10
+                limit: 5
             })
             res.status(200).json(recentBlocks);
         } catch (err) {
             res.status(400).json({message: err.message});
         }
     },
+
+    getBlock: async (req, res) => { //  해당 height 의 블록 정보 리턴
+        try {
+            console.log("asd")
+            const height = req.query.height;
+            const block=await Block.findOne({
+                where: { height: height },
+            })
+            res.status(200).json(block);
+        } catch (err) {
+            res.status(400).json({message: err.message});
+        }
+    },
+
+
 
 
 

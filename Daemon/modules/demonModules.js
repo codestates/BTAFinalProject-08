@@ -45,42 +45,36 @@ async function pushBlock() {
         if (height >= (db + 20)) {
             let blocks = await extractBlocksInfoFromMinHeightToMaxHeight(db + 1, db + 20)
             for (let i of blocks.reverse()) {
-                const [block, created] = await Block.findOrCreate({
-                    where: {height: i.height},
-                    defaults: {
-                        chainId: i.chainId,
-                        height: i.height,
-                        time: i.time,
-                        hash: i.hash,
-                        numOfTx: i.numOfTxs,
-                        proposerAddress: i.proposerAddress
-                    }
+                await Block.create({
+                    chainId: i.chainId,
+                    height: i.height,
+                    time: i.time,
+                    hash: i.hash,
+                    numOfTx: i.numOfTxs,
+                    proposerAddress: i.proposerAddress
                 });
-
+                console.log(i.height+"번째 생성완료");
             }
-            console.log("created "+(db+1)+" to "+(db + 20))
-        }else if(Number(db)===height){
+            console.log("created " + (db + 1) + " to " + (db + 20))
+        } else if (Number(db) === height) {
             console.log("Everything is up to date.")
 
         } else {
             let blocks = await extractBlocksInfoFromMinHeightToMaxHeight(db + 1, height)
             for (let i of blocks.reverse()) {
-                const [block, created] = await Block.findOrCreate({
-                    where: {height: i.height},
-                    defaults: {
-                        chainId: i.chainId,
-                        height: i.height,
-                        time: i.time,
-                        hash: i.hash,
-                        numOfTx: i.numOfTxs,
-                        proposerAddress: i.proposerAddress
-                    }
+                await Block.create({
+                    chainId: i.chainId,
+                    height: i.height,
+                    time: i.time,
+                    hash: i.hash,
+                    numOfTx: i.numOfTxs,
+                    proposerAddress: i.proposerAddress
                 });
-
+                console.log(i.height+"번째 생성완료");
             }
-            console.log("created "+(db+1)+" to "+height)
+            console.log("created " + (db + 1) + " to " + height)
         }
-    }, 15000);
+    }, 5000);
 
 
 }
