@@ -20,8 +20,7 @@ const CreateWallet = () => {
     if (!mnemonic) return;
     const auth = await wallet.utils.aes256Encrypt(mnemonic, pw);
     const encryptedPw = await wallet.utils.md5Encrypt(pw);
-    console.log(auth, encryptedPw);
-    chrome.storage.sync.set({ mnemonic, encryptedPw, auth });
+    chrome.storage.session.set({ mnemonic, encryptedPw, auth });
     navigate('/my-page');
   };
 
@@ -44,6 +43,7 @@ const CreateWallet = () => {
       <Input.Password
         placeholder="비밀번호"
         style={{ marginTop: 14, marginBottom: 14 }}
+        onChange={onChangePw}
       />
       <Button type="primary" size="large" onClick={onSubmit}>
         생성
