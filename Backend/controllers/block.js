@@ -40,7 +40,11 @@ module.exports = {
 
     getRecentBlock: async (req, res) => { //  최근 5개의 블록 정보 리턴
         try {
-            const limit = Number(req.query.limit);
+            let limit = Number(req.query.limit);
+            if(isNaN(limit)){
+                limit=1;
+            }
+            console.log(limit)
             const recentBlocks=await Block.findAll({
                 order: [["height","DESC"]],
                 offset: 0,
