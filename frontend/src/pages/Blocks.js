@@ -1,8 +1,14 @@
 import { Table } from 'antd'
 import React, { useState } from 'react'
+import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { getBlocks } from '../api/blockchain'
+import BlocksTable from '../components/BlockCompo/BlockTable'
+import TransTable from '../components/BlockCompo/TransactionTable'
 import { buttonColor, cardShadow } from '../utils/color'
+import { refetchTime } from '../utils/size'
+import { subtractNowAndTime } from '../utils/time'
 
 const Wrapper = styled.div`
     max-width: 1200px;
@@ -56,68 +62,10 @@ const HeaderBtn = styled.div`
     align-items: center;
     justify-content: center;
 `
-const columnsBlock = [
-    {
-        title: 'Height',
-        dataIndex: 'height',
-        render: (txt) => <Link to={`/blocks/${txt}`}>{txt}</Link>,
-    },
-    {
-        title: 'Block Hash',
-    },
-    {
-        title: 'Proposer',
-    },
-    {
-        title: 'Txs',
-    },
-    {
-        title: 'Time',
-    },
-]
-const columnsTransaction = [
-    {
-        title: 'Tx Hash',
-        dataIndex: 'txHash',
-        render: (txt) => (
-            <Link to={`/txs/${txt}`}>
-                {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
-            </Link>
-        ),
-    },
-    {
-        title: 'Type',
-    },
-    {
-        title: 'Result',
-    },
-    {
-        title: 'Amount',
-    },
-    {
-        title: 'Fee',
-    },
-    {
-        title: 'Height',
-    },
-    {
-        title: 'Time',
-    },
-]
-const data = [
-    {
-        height: 1,
-    },
-]
-const data2 = [
-    {
-        txHash:
-            '514B7D7C064C04403DDC45612519DC19D17BB5F2074406FD499DBD9B240F12D7',
-    },
-]
 
 const Blocks = () => {
     const [toggle, setToggle] = useState(false)
+
     return (
         <Wrapper>
             <Header>BLOCKS</Header>
@@ -138,11 +86,7 @@ const Blocks = () => {
                         </HeaderBtn>
                     </HeaderWrapButton>
                 </BlockHeader>
-                {!toggle ? (
-                    <Table columns={columnsBlock} dataSource={data} />
-                ) : (
-                    <Table columns={columnsTransaction} dataSource={data2} />
-                )}
+                {!toggle ? <BlocksTable /> : <TransTable />}
             </BlockContent>
         </Wrapper>
     )

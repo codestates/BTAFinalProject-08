@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { buttonColor, defaultColor, defaultText } from '../../utils/color'
+import { buttonColor, defaultColor, defaultText } from '../../../utils/color'
 import React, { useEffect, useState } from 'react'
 import { Area } from '@ant-design/plots'
 
