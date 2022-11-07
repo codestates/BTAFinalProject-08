@@ -3,7 +3,7 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Block extends Model {
-        static associate(models) {}
+        static associate(models) { }
     }
     Block.init(
         {
