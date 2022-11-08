@@ -24,7 +24,7 @@ async function extractTxInfo(data) {
             const txHash = String(txHashes[i]).toUpperCase();
             if (txHash === hash) {
                 const txFromHash = await signingClient.getTx(txHash);
-                console.log(txFromHash);
+                // console.log(txFromHash);
                 if (!txFromHash) return null;
                 const txRaw = txFromHash.tx;
                 const txInfoAfterSigned = decodeTxRaw(txRaw);
@@ -39,7 +39,7 @@ async function extractTxInfo(data) {
                     }
                     return decodedMessage;
                 });
-                console.log(decodedMessages);
+                // console.log(decodedMessages);
                 const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
@@ -82,7 +82,7 @@ async function extractTxInfo(data) {
                     }
                     return decodedMessage;
                 });
-                console.log(decodedMessages);
+                // console.log(decodedMessages);
                 const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
@@ -142,21 +142,18 @@ async function getTxInfoListFromBlocksWithTxs(heightList) {
         if (!block || !block.data) throw "block data is not valid"
         const blockData = block.data;
         const { result: { block: { header: { chain_id: chainId, time, height }, data: { txs } } } } = blockData;
-        for (let i = 0; i < txs.length; ++i) {
-            const txRaw = Buffer.from(txs[i], 'base64');
+        for (let j = 0; j < txs.length; ++j) {
+            const txRaw = Buffer.from(txs[j], 'base64');
             const decodedTx = decodeTxRaw(txRaw);
             const { body: { messages } } = decodedTx;
             const type = messages[0].typeUrl.split(".")[3].slice(3);
-            // console.log(type);
-            // console.log(decodedTx);
-            // memo, fee
             const memo = getMemoFromDecodedTx(decodedTx);
             const fee = getFeeFromDecodedTx(decodedTx);
             const hash = String(toHex(sha256(txRaw))).toUpperCase();
             if (!hash) throw "tx hash is not valid";
             const tx = await axios.get(env.END_POINT + "tx?hash=0x" + hash);
             const { result: { tx_result: { gas_wanted: gasWanted, gas_used: gasUsed, log } } } = tx.data;
-            const status = log.slice(0, 1) === "[" ? "Success" : "Fail";
+            const status = log[0] === "[" ? "Success" : "Fail";
             const extractedTxInfo = {
                 chainId,
                 hash,
