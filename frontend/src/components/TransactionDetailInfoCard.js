@@ -39,46 +39,50 @@ export default function InfoContent({
     fee,
     gas,
     memo,
+    loading,
+    data,
 }) {
     return (
         <InfoContentRoot>
-            <Card style={{ height: '400px' }}>
+            <Card style={{ height: '400px' }} loading={loading}>
                 <h2>Information</h2>
                 <Divider />
-                <InfoWrapDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Chain Id</InfoDivHeader>
-                        <InfoDivBody>{chainid}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>TxHash</InfoDivHeader>
-                        <InfoDivBody>{txhash}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Status</InfoDivHeader>
-                        <InfoDivBody>{status}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Height</InfoDivHeader>
-                        <InfoDivBody>{height}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Time</InfoDivHeader>
-                        <InfoDivBody>{time}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Fee</InfoDivHeader>
-                        <InfoDivBody>{fee}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Gas (used / wanted)</InfoDivHeader>
-                        <InfoDivBody>{gas}</InfoDivBody>
-                    </InfoDiv>
-                    <InfoDiv>
-                        <InfoDivHeader>Memo</InfoDivHeader>
-                        <InfoDivBody>{memo}</InfoDivBody>
-                    </InfoDiv>
-                </InfoWrapDiv>
+                {chainid && (
+                    <InfoWrapDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Chain Id</InfoDivHeader>
+                            <InfoDivBody>{chainid}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>TxHash</InfoDivHeader>
+                            <InfoDivBody>{txhash}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Status</InfoDivHeader>
+                            <InfoDivBody>{status}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Height</InfoDivHeader>
+                            <InfoDivBody>{height}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Time</InfoDivHeader>
+                            <InfoDivBody>{time}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Fee</InfoDivHeader>
+                            <InfoDivBody>{fee}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Gas (used / wanted)</InfoDivHeader>
+                            <InfoDivBody>{gas}</InfoDivBody>
+                        </InfoDiv>
+                        <InfoDiv>
+                            <InfoDivHeader>Memo</InfoDivHeader>
+                            <InfoDivBody>{memo}</InfoDivBody>
+                        </InfoDiv>
+                    </InfoWrapDiv>
+                )}
             </Card>
         </InfoContentRoot>
     )
