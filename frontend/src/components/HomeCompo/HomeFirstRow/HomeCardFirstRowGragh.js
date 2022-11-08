@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { buttonColor, defaultColor, defaultText } from '../../../utils/color'
 import React, { useEffect, useState } from 'react'
 import { Area } from '@ant-design/plots'
+import { useQuery } from 'react-query'
+import { getChartPrice } from '../../../api/blockchain'
 
 const CardGraph = styled.div`
     width: 60%;
@@ -15,11 +17,13 @@ const WrapGraph = styled.div`
 const GraphHeader = styled.div`
     width: 100%;
     height: 15%;
+    margin-bottom: 20px;
     display: flex;
     justify-content: flex-end;
 `
 const GraphButtonWrap = styled.div`
     width: 40%;
+    height: 100%;
     border-radius: 10px;
     background-color: #f5f5f5;
     padding: 4px;
@@ -44,26 +48,35 @@ const GraphContent = styled.div`
 `
 
 const HomeCardFirstRowGraph = () => {
-    const [data, setData] = useState([])
     const [toggle, setToggle] = useState(false)
+    const { data, isLoading } = useQuery(['price'], getChartPrice, {
+        refetchInterval: 1000000,
+    })
+    let price = []
+    let volume = []
 
-    useEffect(() => {
-        asyncFetch()
-    }, [])
-
-    const asyncFetch = () => {
-        fetch(
-            'https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json'
-        )
-            .then((response) => response.json())
-            .then((json) => setData(json))
-            .catch((error) => {
-                console.log('fetch data failed', error)
+    if (data?.prices) {
+        data.prices.map((v, i) => {
+            var date = new Date(v[0]).toLocaleDateString()
+            var scales = v[1]
+            price.push({
+                Date: date,
+                scales: scales,
             })
+        })
     }
-    const config = {
-        data,
+    if (data?.total_volumes) {
+        data.total_volumes.map((v, i) => {
+            var date = new Date(v[0]).toLocaleDateString()
+            var scales = v[1]
+            volume.push({
+                Date: date,
+                scales: scales,
+            })
+        })
+    }
 
+    const config = {
         xField: 'Date',
         yField: 'scales',
         line: { color: '#9c6cff' },
@@ -78,6 +91,8 @@ const HomeCardFirstRowGraph = () => {
             }
         },
     }
+
+    //<Area style={{ height: '100%' }} {...config} />
     return (
         <CardGraph>
             <WrapGraph>
@@ -98,7 +113,21 @@ const HomeCardFirstRowGraph = () => {
                     </GraphButtonWrap>
                 </GraphHeader>
                 <GraphContent>
-                    <Area style={{ height: '100%' }} {...config} />
+                    {!toggle ? (
+                        <Area
+                            loading={isLoading}
+                            data={price}
+                            style={{ height: '90%' }}
+                            {...config}
+                        />
+                    ) : (
+                        <Area
+                            loading={isLoading}
+                            data={volume}
+                            style={{ height: '90%' }}
+                            {...config}
+                        />
+                    )}
                 </GraphContent>
             </WrapGraph>
         </CardGraph>
