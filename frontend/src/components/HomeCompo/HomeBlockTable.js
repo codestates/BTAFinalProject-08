@@ -36,7 +36,6 @@ export default function HomeBlockTable() {
         }
     )
 
-    console.log('block', data)
     return (
         <Table
             columns={columnsBlock}

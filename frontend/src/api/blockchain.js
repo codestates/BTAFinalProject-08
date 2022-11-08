@@ -16,13 +16,11 @@ export const getTrans = () =>
     axios.get(`${BASE_URL_API}/txs?message.action`).then((res) => res.data)
 
 export const getBlockInfo = (id) =>
-    axios
-        .get(`http://localhost:4567/block?height=${id}`)
-        .then((res) => res.data)
+    axios.get(`${LOCAL_BASE_URL}/block?height=${id}`).then((res) => res.data)
 
 export const getTransInfo = (hash) =>
     axios
-        .get(`http://localhost:4567/transaction?hash=${hash}`)
+        .get(`${LOCAL_BASE_URL}/transaction?hash=${hash}`)
         .then((res) => res.data)
 
 export const getBlockIdTransaction = (id) =>
@@ -48,3 +46,8 @@ export const getDelegations = (valiAddress) =>
     axios
         .get(`${BASE_URL_API}/staking/validators/${valiAddress}/delegations`)
         .then((res) => res)
+
+export const getTransactionMsg = (txHash) =>
+    axios
+        .get(`${BASE_URL_API}/cosmos/tx/v1beta1/txs/${txHash}`)
+        .then((res) => res.data)

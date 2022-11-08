@@ -30,7 +30,6 @@ const Header = styled.div`
 
 export default function ValidatorDetails() {
     const { valaddress } = useParams()
-    console.log(valaddress, 'params')
     return (
         <Wrapper>
             <WrapContent>

@@ -76,7 +76,7 @@ export default function SecondRow({ valiAddress }) {
                     {delegations?.data?.data && (
                         <Table
                             columns={column1}
-                            dataSource={delegations.data.data.result}
+                            dataSource={delegations.data.result}
                         ></Table>
                     )}
                 </SecondRowColBody>
