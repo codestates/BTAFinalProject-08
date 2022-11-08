@@ -105,7 +105,7 @@ function getFeeFromDecodedTx(decodedTx) {
     const { authInfo: { fee: { amount } } } = decodedTx;
     const fee = {
         amount: 0,
-        unit: "uosmo"
+        denom: "uosmo"
     }
     amount.forEach((it) => {
         fee.amount += Number(it.amount);
@@ -113,12 +113,20 @@ function getFeeFromDecodedTx(decodedTx) {
     return fee;
 }
 
-async function getBlockHeightListWithTxsFromDB() {
+function getMemoFromDecodedTx(decodedTx) {
+    return decodedTx.body.memo;
+}
+
+async function getBlockHeightListWithTxsFromDB(minHeight) {
+    if (typeof minHeight !== "number") throw "min height must be number type"
     let result = [];
     const blocks = await Block.findAll({
         where: {
             numOfTx: {
                 [Op.ne]: 0
+            },
+            height: {
+                [Op.gte]: minHeight
             }
         }
     })
@@ -165,8 +173,4 @@ async function getTxInfoListFromBlocksWithTxs(heightList) {
     return result;
 }
 
-function getMemoFromDecodedTx(decodedTx) {
-    return decodedTx.body.memo;
-}
-
-module.exports = { extractTxInfo, getFeeFromDecodedTx, getBlockHeightListWithTxsFromDB, getTxInfoListFromBlocksWithTxs };
+module.exports = { getSuccessfulTxInfoListFromMinHeightToMaxHeight, extractTxInfo, getFeeFromDecodedTx, getBlockHeightListWithTxsFromDB, getTxInfoListFromBlocksWithTxs };
