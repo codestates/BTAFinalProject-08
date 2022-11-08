@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const models = require("./models/index.js");
-const {extractBlocksInfoFromMinHeightToMaxHeight,getCurrentHeight,pushBlock} = require("./modules/demonModules");
+const {extractBlocksInfoFromMinHeightToMaxHeight,getCurrentHeight,pushBlock,pushTransaction} = require("./modules/daemonModules");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -15,6 +15,7 @@ models.sequelize
     .then(async () => {
         console.log(" DB 연결 성공");
         console.log(await pushBlock())
+        console.log(await pushTransaction())
     })
     .catch((err) => {
         console.log("연결 실패");
