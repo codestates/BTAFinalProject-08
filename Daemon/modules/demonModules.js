@@ -76,4 +76,76 @@ async function pushBlock() {
     }, 5000);
 }
 
-module.exports = { extractBlocksInfoFromMinHeightToMaxHeight, getCurrentHeight, pushBlock };
+
+function getFeeFromDecodedTx(decodedTx) {
+    const { authInfo: { fee: { amount } } } = decodedTx;
+    const fee = {
+        amount: 0,
+        unit: "uosmo"
+    }
+    amount.forEach((it) => {
+        fee.amount += Number(it.amount);
+    });
+    return fee;
+}
+
+function getMemoFromDecodedTx(decodedTx) {
+    return decodedTx.body.memo;
+}
+
+async function getBlockHeightListWithTxsFromDB() {
+    const signingClient = await SigningStargateClient.connect(env.END_POINT);
+    let lastHeight = await signingClient.getHeight();
+    if (lastHeight < 20) throw "The block height is lower than 20. Please wait";
+    let result = [];
+    const blocks = await Block.findAll({
+        where: {
+            numOfTx: {
+                [Op.ne]: 0
+            }
+        }
+    })
+    blocks.forEach(block => {
+        result.push(block.dataValues.height);
+    })
+    return result;
+}
+
+async function getTxInfoListFromBlocksWithTxs(heightList) {
+    if (heightList.length === 0) throw "The length of list is zero";
+    let result = [];
+    for (let i = 0; i < heightList.length; ++i) {
+        const block = await axios.get(env.END_POINT + "block?height=" + String(heightList[i]));
+        if (!block || !block.data) throw "block data is not valid"
+        const blockData = block.data;
+        const { result: { block: { header: { chain_id: chainId, time, height }, data: { txs } } } } = blockData;
+        for (let j = 0; j < txs.length; ++j) {
+            const txRaw = Buffer.from(txs[j], 'base64');
+            const decodedTx = decodeTxRaw(txRaw);
+            const { body: { messages } } = decodedTx;
+            const type = messages[0].typeUrl.split(".")[3].slice(3);
+            const memo = getMemoFromDecodedTx(decodedTx);
+            const fee = getFeeFromDecodedTx(decodedTx);
+            const hash = String(toHex(sha256(txRaw))).toUpperCase();
+            if (!hash) throw "tx hash is not valid";
+            const tx = await axios.get(env.END_POINT + "tx?hash=0x" + hash);
+            const { result: { tx_result: { gas_wanted: gasWanted, gas_used: gasUsed, log } } } = tx.data;
+            const status = log[0] === "[" ? "Success" : "Fail";
+            const extractedTxInfo = {
+                chainId,
+                hash,
+                type,
+                status,
+                height,
+                time,
+                fee,
+                gas: { gasUsed, gasWanted },
+                memo,
+            }
+            result.push(extractedTxInfo);
+        }
+    }
+    return result;
+}
+
+module.exports = { extractBlocksInfoFromMinHeightToMaxHeight, getCurrentHeight, pushBlock, getTxInfoListFromBlocksWithTxs };
