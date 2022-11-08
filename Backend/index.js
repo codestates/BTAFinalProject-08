@@ -4,7 +4,7 @@ const cors = require("cors");
 const models = require("./models/index.js");
 const blockRoutes = require("./routes/block");
 const transactionRoutes = require("./routes/transaction");
-const {test} = require("./modules/parseBlockInfo");
+const { test } = require("./modules/parseBlockInfo");
 
 
 
@@ -22,7 +22,7 @@ app.use(
 
 // api 통신을 위한 모듈 설정
 app.use(bodyParser.json({ extended: true }));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 

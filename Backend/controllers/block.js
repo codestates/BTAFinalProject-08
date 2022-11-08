@@ -1,8 +1,8 @@
-const {osmosis, getSigningOsmosisClient, cosmos} = require("osmojs");
-const {SigningStargateClient, StargateClient} = require('@cosmjs/stargate');
+const { osmosis, getSigningOsmosisClient, cosmos } = require("osmojs");
+const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
 const env = process.env;
-const {Block} = require("../models");
-const {extractBlockInfo}= require('../modules/parseBlockInfo');
+const { Block } = require("../models");
+const { extractBlockInfo } = require('../modules/parseBlockInfo');
 const axios = require("axios");
 
 
@@ -19,7 +19,7 @@ module.exports = {
             const height_signing = await signingClient.getHeight();
             res.status(200).json(height_signing);
         } catch (err) {
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     },
 
@@ -34,37 +34,37 @@ module.exports = {
             // const block_signing = await signingClient.getBlock(height);
             res.status(200).json(extractedBlock);
         } catch (err) {
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     },
 
     getRecentBlock: async (req, res) => { //  최근 5개의 블록 정보 리턴
         try {
             let limit = Number(req.query.limit);
-            if(isNaN(limit)){
-                limit=1;
+            if (isNaN(limit)) {
+                limit = 1;
             }
             console.log(limit)
-            const recentBlocks=await Block.findAll({
-                order: [["height","DESC"]],
+            const recentBlocks = await Block.findAll({
+                order: [["height", "DESC"]],
                 offset: 0,
                 limit: limit
             })
             res.status(200).json(recentBlocks);
         } catch (err) {
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     },
 
     getBlock: async (req, res) => { //  해당 height 의 블록 정보 리턴
         try {
             const height = req.query.height;
-            const block=await Block.findOne({
+            const block = await Block.findOne({
                 where: { height: height },
             })
             res.status(200).json(block);
         } catch (err) {
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     },
 

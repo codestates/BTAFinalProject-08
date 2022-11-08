@@ -13,7 +13,7 @@ async function extractBlockInfo(data) {
     if (!blockData.result) return null;
     const { result: { block_id: { hash }, block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress }, data: { txs }, last_commit: { round } } } } = blockData;
     const gas = await getTotalGasFromBlock(height);
-    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx,'base64'))).toUpperCase());
+    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx, 'base64'))).toUpperCase());
     const res = {
         chainId,
         height: Number(height),
@@ -32,7 +32,7 @@ async function extractBlockInfoFromSub(data) { // for subscription (websocket)
     const blockData = typeof data === "string" ? JSON.parse(data) : data;
     if (!blockData.result.data) return null;
     const { result: { block_id: { hash }, block: { header: { chain_id: chainId, height, time, proposer_address: proposerAddress }, data: { txs }, last_commit: { round } } } } = blockData;
-    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx,'base64'))).toUpperCase());
+    const txHashes = txs.map(tx => toHex(sha256(Buffer.from(tx, 'base64'))).toUpperCase());
     const res = {
         chainId,
         height: Number(height),
@@ -54,7 +54,7 @@ async function extractBlocksInfoFromMinHeightToMaxHeight(minHeight, maxHeight) {
     const { result: { last_height: lastHeight, block_metas: blocksInfo } } = blocks.data;
     let result = [];
     blocksInfo.forEach(blockInfo => {
-        const {block_id: {hash}, header: {chain_id: chainId, height, time, proposer_address: proposerAddress}, num_txs: numOfTxs} = blockInfo;
+        const { block_id: { hash }, header: { chain_id: chainId, height, time, proposer_address: proposerAddress }, num_txs: numOfTxs } = blockInfo;
         const extractedBlockInfo = {
             chainId,
             height: Number(height),
@@ -118,4 +118,4 @@ async function getExtractedBlockInfoOrNullFromBlock(blockHeight) {
     return extractedTxs;
 }
 
-module.exports = { extractBlockInfo, extractBlockInfoFromSub, getTotalGasFromBlock, getExtractedBlockInfoOrNullFromBlock, extractBlocksInfoFromMinHeightToMaxHeight};
+module.exports = { extractBlockInfo, extractBlockInfoFromSub, getTotalGasFromBlock, getExtractedBlockInfoOrNullFromBlock, extractBlocksInfoFromMinHeightToMaxHeight };
