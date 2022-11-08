@@ -17,3 +17,22 @@ export const getBlockInfo = (id) =>
     axios
         .get(`http://localhost:4567/block?height=${id}`)
         .then((res) => res.data)
+
+export const getBlockIdTransaction = (id) =>
+    axios
+        .get(
+            `http://34.155.184.217:1317/txs?message.action&tx.minheight=${id}8&limit=1`
+        )
+        .then((res) => res.data)
+
+export const getChartPrice = () =>
+    axios
+        .get(
+            'https://api.coingecko.com/api/v3/coins/osmosis/market_chart?vs_currency=usd&days=30&interval=daily'
+        )
+        .then((res) => res.data)
+
+export const getMarketPrice = () =>
+    axios
+        .get('https://api.coingecko.com/api/v3/coins/osmosis')
+        .then((res) => res.data)
