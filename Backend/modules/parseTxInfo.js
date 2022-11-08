@@ -24,7 +24,6 @@ async function extractTxInfo(data) {
             const txHash = String(txHashes[i]).toUpperCase();
             if (txHash === hash) {
                 const txFromHash = await signingClient.getTx(txHash);
-                // console.log(txFromHash);
                 if (!txFromHash) return null;
                 const txRaw = txFromHash.tx;
                 const txInfoAfterSigned = decodeTxRaw(txRaw);
@@ -39,7 +38,6 @@ async function extractTxInfo(data) {
                     }
                     return decodedMessage;
                 });
-                // console.log(decodedMessages);
                 const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
@@ -82,7 +80,6 @@ async function extractTxInfo(data) {
                     }
                     return decodedMessage;
                 });
-                // console.log(decodedMessages);
                 const res = { // type : send / get reward / delegate / etc
                     chainId,
                     hash,
