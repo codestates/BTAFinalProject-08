@@ -8,7 +8,7 @@ import { cardShadow, defaultColor, headerColor } from '../utils/color'
 import { headerBold, headerSize } from '../utils/size'
 
 const Wrapper = styled.div`
-    min-width: 1000px;
+    min-width: 1100px;
     max-width: 1200px;
     display: flex;
     justify-content: center;
@@ -36,7 +36,7 @@ export default function ValidatorDetails() {
             <WrapContent>
                 <Header>VALIDATOR DETAILS</Header>
                 <FirstRow
-                    operatorAddr="osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4"
+                    operatorAddr={valaddress}
                     addr="osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj"
                     website="https://www.naver.com"
                     commission="7%"
@@ -47,7 +47,7 @@ export default function ValidatorDetails() {
                     loading={true}
                 />
                 <SecondRow
-                    delegateData={''}
+                    valiAddress={valaddress}
                     proposedData={''}
                     loading={false}
                 />

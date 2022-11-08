@@ -1,9 +1,12 @@
 import { Card, Divider } from 'antd'
+import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { getTransInfo } from '../api/blockchain'
 import InfoContent from '../components/TransactionDetailInfoCard'
 import { cardShadow } from '../utils/color'
 import { cardBorderRadius } from '../utils/size'
+import { subtractNowAndTime } from '../utils/time'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -20,19 +23,24 @@ const Header = styled.div`
 
 export default function TransactionDetail() {
     const { transactionid } = useParams()
-    console.log(transactionid)
+    const { data, isLoading } = useQuery(['transDetail', transactionid], () =>
+        getTransInfo(transactionid)
+    )
+
     return (
         <Wrapper>
             <Header>TRANSACTION DETAILS</Header>
             <InfoContent
-                chainid={'mintchoco'}
+                chainid={data?.chainId}
                 txhash={transactionid}
-                status={'success'}
-                height={'1'}
-                time={'2022-11-06'}
-                fee={100}
-                gas={' 407,264 / 444,240'}
-                Memo={'null'}
+                status={data?.status}
+                height={data?.height}
+                time={subtractNowAndTime(data?.time)}
+                fee={data?.fee?.amount + data?.fee?.unit}
+                gas={` ${data?.gas?.gasUsed} / ${data?.gas?.gasWanted}`}
+                Memo={data?.memo}
+                loading={isLoading}
+                data={data}
             />
         </Wrapper>
     )
