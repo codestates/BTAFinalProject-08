@@ -89,7 +89,6 @@ async function pushTransaction() {
             recentHeight++;
         }
         const transactions = (await axios.get(env.LCD_END_POINT + "txs?tx.minheight=" + recentHeight)).data;
-
         if(!transactions.txs){
             console.log("[Transaction] Everything is up to date.")
         }else{
@@ -117,7 +116,7 @@ async function pushTransaction() {
                 console.log("[Transaction] "+i.txhash+" 생성완료")
             }
         }
-    }, 5000);
+    }, 8000);
 }
 
 module.exports = { extractBlocksInfoFromMinHeightToMaxHeight, getCurrentHeight, pushBlock,pushTransaction };
