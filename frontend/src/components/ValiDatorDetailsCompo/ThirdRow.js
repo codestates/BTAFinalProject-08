@@ -6,7 +6,7 @@ import { cardBorderRadius } from '../../utils/size'
 const ThirdRowRoot = styled.div`
     margin-top: 10px;
     min-width: 780px;
-    max-width: 1000px;
+    max-width: 1100px;
 
     background-color: #ffffff;
     border-radius: ${cardBorderRadius};
