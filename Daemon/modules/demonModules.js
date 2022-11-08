@@ -1,8 +1,12 @@
 const axios = require("axios");
 const env = process.env;
-const { SigningStargateClient } = require('@cosmjs/stargate');
+const { decodeTxRaw } = require('@cosmjs/proto-signing');
+const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
+const { toHex } = require("@cosmjs/encoding");
+const { sha256 } = require("@cosmjs/crypto");
+const { Block } = require('../models');
+const { Op } = require("sequelize");
 const endPoint = env.END_POINT // 노드 주소
-const { Block } = require("../models")
 
 async function getCurrentHeight() {
     const signingClient = await SigningStargateClient.connect(endPoint);
@@ -93,10 +97,7 @@ function getMemoFromDecodedTx(decodedTx) {
     return decodedTx.body.memo;
 }
 
-async function getBlockHeightListWithTxsFromDB() {
-    const signingClient = await SigningStargateClient.connect(env.END_POINT);
-    let lastHeight = await signingClient.getHeight();
-    if (lastHeight < 20) throw "The block height is lower than 20. Please wait";
+async function getBlockHeightListWithTxsFromDB() { // DB로부터 Tx 포함한 블록 height 리스트를 가지고 옴
     let result = [];
     const blocks = await Block.findAll({
         where: {
@@ -111,24 +112,24 @@ async function getBlockHeightListWithTxsFromDB() {
     return result;
 }
 
-async function getTxInfoListFromBlocksWithTxs(heightList) {
+async function getTxInfoListFromBlocksWithTxs(heightList) { // height list로부터 Tx Info 추출해서 리스트로 반환
     if (heightList.length === 0) throw "The length of list is zero";
     let result = [];
     for (let i = 0; i < heightList.length; ++i) {
-        const block = await axios.get(env.END_POINT + "block?height=" + String(heightList[i]));
+        const block = await axios.get(env.END_POINT + "block?height=" + String(heightList[i])); // node api (block 정보 필요한 것들)
         if (!block || !block.data) throw "block data is not valid"
         const blockData = block.data;
-        const { result: { block: { header: { chain_id: chainId, time, height }, data: { txs } } } } = blockData;
+        const { result: { block: { header: { chain_id: chainId, time, height }, data: { txs } } } } = blockData; // chainId, time, height, txs
         for (let j = 0; j < txs.length; ++j) {
             const txRaw = Buffer.from(txs[j], 'base64');
             const decodedTx = decodeTxRaw(txRaw);
             const { body: { messages } } = decodedTx;
-            const type = messages[0].typeUrl.split(".")[3].slice(3);
-            const memo = getMemoFromDecodedTx(decodedTx);
-            const fee = getFeeFromDecodedTx(decodedTx);
-            const hash = String(toHex(sha256(txRaw))).toUpperCase();
+            const type = messages[0].typeUrl.split(".")[3].slice(3); // type
+            const memo = getMemoFromDecodedTx(decodedTx); // memo
+            const fee = getFeeFromDecodedTx(decodedTx); // fee
+            const hash = String(toHex(sha256(txRaw))).toUpperCase(); // hash
             if (!hash) throw "tx hash is not valid";
-            const tx = await axios.get(env.END_POINT + "tx?hash=0x" + hash);
+            const tx = await axios.get(env.END_POINT + "tx?hash=0x" + hash); // node api (tx 정보 필요한 것들)
             const { result: { tx_result: { gas_wanted: gasWanted, gas_used: gasUsed, log } } } = tx.data;
             const status = log[0] === "[" ? "Success" : "Fail";
             const extractedTxInfo = {
