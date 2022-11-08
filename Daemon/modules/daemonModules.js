@@ -1,11 +1,7 @@
 const axios = require("axios");
 const env = process.env;
-const { decodeTxRaw } = require('@cosmjs/proto-signing');
-const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
-const { toHex } = require("@cosmjs/encoding");
-const { sha256 } = require("@cosmjs/crypto");
+const { SigningStargateClient } = require('@cosmjs/stargate');
 const { Block,Transaction } = require('../models');
-const { Op } = require("sequelize");
 const endPoint = env.END_POINT // 노드 주소
 
 async function getCurrentHeight() {
