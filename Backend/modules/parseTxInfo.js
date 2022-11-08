@@ -114,9 +114,6 @@ function getFeeFromDecodedTx(decodedTx) {
 }
 
 async function getBlockHeightListWithTxsFromDB() {
-    const signingClient = await SigningStargateClient.connect(env.END_POINT);
-    let lastHeight = await signingClient.getHeight();
-    if (lastHeight < 20) throw "The block height is lower than 20. Please wait";
     let result = [];
     const blocks = await Block.findAll({
         where: {
