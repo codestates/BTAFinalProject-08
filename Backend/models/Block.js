@@ -3,11 +3,10 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Block extends Model {
-        static associate(models) { }
+        static associate(models) {}
     }
     Block.init(
         {
-
             height: {
                 type: DataTypes.INTEGER(30),
                 allowNull: false,
@@ -53,7 +52,6 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
     Block.associate = function (models) {
-
     };
     return Block;
 };
