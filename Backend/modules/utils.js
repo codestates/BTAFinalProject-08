@@ -25,7 +25,7 @@ const AddressToMoniker = {
 }
 */
 
-function getAddressFromPubKey(pubKeyEd25519) {
+const getAddressFromPubKey = (pubKeyEd25519) => {
     if (pubKeyEd25519 && pubKeyEd25519.type === "tendermint/PubKeyEd25519" && pubKeyEd25519.value) {
         const addressData = sha256(fromBase64(pubKeyEd25519.value)).slice(0, 20);
         const address = toHex(addressData).toUpperCase();
@@ -34,4 +34,11 @@ function getAddressFromPubKey(pubKeyEd25519) {
     return "";
 }
 
-module.exports = { getAddressFromPubKey };
+const TxTypes = Object.freeze({
+    SEND: "Send",
+    CREATE_VALIDATOR: "CreateValidator",
+    DELEGATE: "Delegate",
+    WITHDRAW_DELEGATOR_REWARD: "WithdrawDelegationReward",
+});
+
+module.exports = { getAddressFromPubKey, TxTypes };

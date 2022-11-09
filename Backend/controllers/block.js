@@ -1,7 +1,7 @@
 const { osmosis, getSigningOsmosisClient, cosmos } = require("osmojs");
 const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
 const env = process.env;
-const { Block } = require("../models");
+const { Block, Transaction } = require("../models");
 const { extractBlockInfo } = require('../modules/parseBlockInfo');
 const axios = require("axios");
 
@@ -68,10 +68,24 @@ module.exports = {
         }
     },
 
-
-
-
-
+    getBlockDetailsFromHeight: async (req, res) => {
+        try {
+            const height = req.query.height;
+            const block = await Block.findOne({
+                where: { height: height },
+            })
+            const txs = await Transaction.findAll({
+                where: { height: height },
+            })
+            const blockDetails = {
+                blockInfo: block,
+                txs
+            }
+            res.status(200).json(blockDetails);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    }
 
 }
 
