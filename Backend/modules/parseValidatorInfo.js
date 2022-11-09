@@ -1,7 +1,6 @@
 const env = process.env;
 const axios = require('axios');
 const { Block } = require('../models');
-const { Op } = require("sequelize");
 const { MonikerToAddressInfo } = require('./utils');
 require("dotenv").config();
 
