@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Statistic, Button, List, Avatar } from 'antd';
-import { getAddress } from '../hooks/getAddress';
+import { Link, useNavigate } from 'react-router-dom';
+import { Card, Statistic, Button, List, Avatar, Typography } from 'antd';
+import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
 import * as wallet from '../utils/wallet';
 import { API_URL } from '../constants';
 
@@ -15,25 +16,26 @@ const tabList = [
   },
 ];
 
+const { Paragraph } = Typography;
+
 const MyPage = () => {
-  const [address, setAddress] = useState(null);
+  const navigate = useNavigate();
   const [assets, setAssets] = useState([]);
+  const {
+    signerInfo: { address },
+  } = useGetSignerInfo();
 
   useEffect(() => {
     const fetchAddress = async () => {
-      const address = await getAddress();
-      setAddress(address);
       const { balances } = await wallet.utils.getBalance(address, API_URL);
       setAssets(balances);
     };
     fetchAddress();
-  }, []);
+  }, [address]);
 
   const onClickLogout = () => {
-    // chrome.storage.sync.remove('auth');
-    // chrome.storage.sync.get(null, (item) => {
-    //   console.log(item);
-    // });
+    chrome.storage.session.remove('mnemonic');
+    navigate('/sign-in');
   };
 
   return (
@@ -41,10 +43,13 @@ const MyPage = () => {
       <Card
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>{address}</span>
+            <Paragraph copyable={{ text: address }}>
+              {address && address.substring(0, 15) + '....'}
+            </Paragraph>
             <Button onClick={onClickLogout}>잠금</Button>
           </div>
         }
+        actions={[<Link to="/send-token">보내기</Link>]}
       >
         <Statistic
           title="Account Balance"
