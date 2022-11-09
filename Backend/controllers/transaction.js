@@ -1,13 +1,5 @@
-const { decodeTxRaw } = require('@cosmjs/proto-signing');
-const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
-const { toHex } = require("@cosmjs/encoding");
-const { sha256 } = require("@cosmjs/crypto");
-const { extractTxInfo } = require("../modules/parseTxInfo");
 const {Transaction} = require("../models");
 const env = process.env;
-
-const endPoint = env.END_POINT // 노드 주소
-
 
 module.exports = {
     // getTxHashFromTxRaw: async (req, res) => { // txRaw로부터 해당 트랜잭션 해쉬 리턴 Tx Raw to Tx Hash
@@ -70,7 +62,7 @@ module.exports = {
             res.status(400).json({ message: err.message });
         }
     },
-    getTransactionFromHeight: async (req, res) => { //  해당 txHash 의 트랜잭션 정보 리턴
+    getTransactionFromHeight: async (req, res) => { //  해당 height에 속한 트랜잭션 정보 리턴
         try {
             const height = req.query.height;
             const tx = await Transaction.findAll({

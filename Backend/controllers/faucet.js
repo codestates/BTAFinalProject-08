@@ -8,7 +8,7 @@ const faucetMnemonic = env.FAUCET_MNEMONIC // faucet의 니모닉 키
 const faucetTokenAmount = "1000000" // 1osmo
 
 module.exports = {
-    getOsmo: async (req, res) => { //  해당 주소에게 1osmo(1,000,000 uosmo) send
+    get1Osmo: async (req, res) => { //  해당 주소에게 1osmo(1,000,000 uosmo) send
         try {
             const {toAddress} = req.body
             const chain = chains.find(({ chain_name }) => chain_name === "osmosis")

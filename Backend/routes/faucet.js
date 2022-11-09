@@ -1,4 +1,4 @@
 const router = require("express").Router();
-const { getOsmo} = require("../controllers/faucet");
-router.post('/', getOsmo); // faucet 기능
+const { get1Osmo} = require("../controllers/faucet");
+router.post('/', get1Osmo); // faucet 기능
 module.exports = router;
