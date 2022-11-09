@@ -4,6 +4,7 @@ export const subtractNowAndTime = (isoTime) => {
     let min = subSecond / 60
     let hour = min / 60
     let day = hour / 24
+    //console.log(min, hour, day)
 
     if (subSecond < 60) {
         return Math.floor(subSecond) + 's ago'

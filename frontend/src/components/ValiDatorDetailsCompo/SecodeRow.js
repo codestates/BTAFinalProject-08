@@ -1,12 +1,14 @@
 import { Table } from 'antd'
+import { useQuery } from 'react-query'
 import styled from 'styled-components'
+import { getDelegations } from '../../api/blockchain'
 import { cardShadow, defaultColor } from '../../utils/color'
 import { cardBorderRadius } from '../../utils/size'
 const SecondRowRoot = styled.div`
     margin-top: 10px;
     height: 400px;
     min-width: 780px;
-    max-width: 1000px;
+    max-width: 1100px;
     display: flex;
     justify-content: space-between;
 `
@@ -34,9 +36,13 @@ const SecondRowColBody = styled.div`
 const column1 = [
     {
         title: 'Delegator Address',
+        dataIndex: 'delegation',
+        render: (txt) => <a>{txt.delegator_address}</a>,
     },
     {
-        title: 'Amount',
+        title: 'balance',
+        dataIndex: 'balance',
+        render: (txt) => <a>{txt.amount + txt.denom}</a>,
     },
 ]
 
@@ -55,13 +61,24 @@ const column2 = [
     },
 ]
 
-export default function SecondRow() {
+export default function SecondRow({ valiAddress }) {
+    const delegations = useQuery(['delegations', valiAddress], () =>
+        getDelegations(valiAddress)
+    )
+    //console.log(valiAddress)
+    //console.log(delegations.data.data.result)
+
     return (
         <SecondRowRoot>
             <SecondRowCol>
                 <SecondRowColHeader>Delegators</SecondRowColHeader>
                 <SecondRowColBody>
-                    <Table columns={column1}></Table>
+                    {delegations?.data?.data && (
+                        <Table
+                            columns={column1}
+                            dataSource={delegations.data.result}
+                        ></Table>
+                    )}
                 </SecondRowColBody>
             </SecondRowCol>
             <SecondRowCol>

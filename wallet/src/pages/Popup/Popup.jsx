@@ -1,38 +1,30 @@
 import React from 'react';
 import './Popup.less';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Home from './routes/Home';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import RequireAuth from './routes/RequireAuth';
 import CreateWallet from './routes/CreateWallet';
-import { Layout, Typography, Avatar } from 'antd';
+import { Layout } from 'antd';
 import MyPage from './routes/MyPage';
 import logo from '../../assets/img/logo_transparent.png';
 import SignIn from './routes/SignIn';
-import { useEffect } from 'react';
-import { useState } from 'react';
 import ImportWallet from './routes/ImportWallet';
 import { useCallback } from 'react';
+import SendToken from './routes/SendToken';
+import useAuth from './hooks/useAuth';
 
 const Popup = () => {
   const { Header } = Layout;
   const navigate = useNavigate();
-  const [auth, setAuth] = useState(null);
+  const userState = useAuth();
+  const { mnemonic, auth } = userState;
 
   const handleRouteMain = useCallback(() => {
-    if (auth) {
-      navigate('/my-page');
-    } else {
+    if (mnemonic) {
+      navigate('/popup.html');
+    } else if (auth) {
       navigate('/sign-in');
     }
-  }, [auth, navigate]);
-
-  useEffect(() => {
-    chrome.storage.sync.get('auth', (item) => {
-      if (item) {
-        // handleRouteMain();
-        setAuth(item.auth);
-      }
-    });
-  }, [handleRouteMain]);
+  }, [navigate, mnemonic, auth]);
 
   return (
     <div className="App">
@@ -52,14 +44,15 @@ const Popup = () => {
               onClick={handleRouteMain}
             />
           </div>
-          {auth && <Avatar> </Avatar>}
         </div>
       </Header>
       <Routes>
-        <Route path="/popup.html" element={<Home />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/popup.html" element={<MyPage />} />
+        </Route>
+        <Route path="/send-token" element={<SendToken />} />
         <Route path="/create" element={<CreateWallet />} />
         <Route path="/import" element={<ImportWallet />} />
-        <Route path="/my-page" element={<MyPage />} />
         <Route path="/sign-in" element={<SignIn />} />
       </Routes>
     </div>

@@ -105,7 +105,7 @@ function getFeeFromDecodedTx(decodedTx) {
     const { authInfo: { fee: { amount } } } = decodedTx;
     const fee = {
         amount: 0,
-        unit: "uosmo"
+        denom: "uosmo"
     }
     amount.forEach((it) => {
         fee.amount += Number(it.amount);
@@ -113,12 +113,20 @@ function getFeeFromDecodedTx(decodedTx) {
     return fee;
 }
 
-async function getBlockHeightListWithTxsFromDB() {
+function getMemoFromDecodedTx(decodedTx) {
+    return decodedTx.body.memo;
+}
+
+async function getBlockHeightListWithTxsFromDB(minHeight) {
+    if (typeof minHeight !== "number") throw "min height must be number type"
     let result = [];
     const blocks = await Block.findAll({
         where: {
             numOfTx: {
                 [Op.ne]: 0
+            },
+            height: {
+                [Op.gte]: minHeight
             }
         }
     })
@@ -165,8 +173,45 @@ async function getTxInfoListFromBlocksWithTxs(heightList) {
     return result;
 }
 
-function getMemoFromDecodedTx(decodedTx) {
-    return decodedTx.body.memo;
+async function getSuccessfulTxInfoListFromMinHeightToMaxHeight(minHeight, maxHeight) {
+    if (typeof minHeight !== "number") throw "Min height is not number type";
+    const _minHeight = minHeight === undefined ? 1 : minHeight;
+    const _maxHeight = maxHeight === undefined ? 1 : maxHeight;
+    if (!_maxHeight) throw "Max height is invalid"
+    const firstSearch = await axios.get(env.LCD_END_POINT + "txs?message.action&tx.minheight=" + _minHeight + "&tx.maxheight=" + _maxHeight + "&limit=1");
+    if (!firstSearch) throw "Axios error: get first search"
+    const { total_count } = firstSearch.data;
+    const limit = total_count;
+    const successfulTxs = await axios.get(env.LCD_END_POINT + "txs?message.action&tx.minheight=" + _minHeight + "&tx.maxheight=" + _maxHeight + "&limit=" + limit);
+    if (!successfulTxs) throw "Axios error: get successful tx data";
+    const { count, txs } = successfulTxs.data;
+    if (count !== limit) throw "Count error";
+    let result = [];
+    txs.forEach(txInfo => {
+        const { height, txhash, gas_wanted: gasWanted, gas_used: gasUsed, tx: { value: { msg, fee: { amount }, memo } }, timestamp } = txInfo;
+        const type = msg[0].type.split("/")[1].slice(3);
+        const fee = {
+            amount: 0,
+            denom: "uosmo"
+        }
+        amount.forEach(it => {
+            fee.amount += Number(it.amount);
+        });
+        const successfulTxInfo = {
+            chainId: "mintchoco",
+            height: Number(height),
+            hash: txhash,
+            type,
+            status: "Success",
+            height,
+            time: timestamp,
+            fee,
+            gas: { gasUsed, gasWanted },
+            memo,
+        }
+        result.push(successfulTxInfo);
+    });
+    return result;
 }
 
-module.exports = { extractTxInfo, getFeeFromDecodedTx, getBlockHeightListWithTxsFromDB, getTxInfoListFromBlocksWithTxs };
+module.exports = { getSuccessfulTxInfoListFromMinHeightToMaxHeight, extractTxInfo, getFeeFromDecodedTx, getBlockHeightListWithTxsFromDB, getTxInfoListFromBlocksWithTxs };

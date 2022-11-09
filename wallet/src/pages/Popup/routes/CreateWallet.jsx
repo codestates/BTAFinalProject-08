@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Alert, Card, Input, Button } from 'antd';
 import * as wallet from '../utils/wallet';
 
@@ -19,14 +19,16 @@ const CreateWallet = () => {
   const onSubmit = async () => {
     if (!mnemonic) return;
     const auth = await wallet.utils.aes256Encrypt(mnemonic, pw);
-    const encryptedPw = await wallet.utils.md5Encrypt(pw);
-    chrome.storage.session.set({ mnemonic, encryptedPw, auth });
-    navigate('/my-page');
+    chrome.storage.session.set({ mnemonic });
+    chrome.storage.sync.set({ auth });
+    navigate('/popup.html');
   };
 
   const onChangePw = (e) => {
     setPw(e.target.value);
   };
+
+  const onClickCancel = () => navigate(-1);
 
   return (
     <Card title="지갑 만들기" bordered={false}>
@@ -48,9 +50,12 @@ const CreateWallet = () => {
       <Button type="primary" size="large" onClick={onSubmit}>
         생성
       </Button>
-      <Button size="large" className="cancel-btn">
+      <Button size="large" className="cancel-btn" onClick={onClickCancel}>
         취소
       </Button>
+      <div style={{ marginTop: 14 }}>
+        <Link to="/import">기존 지갑 가져오기</Link>
+      </div>
     </Card>
   );
 };

@@ -5,9 +5,8 @@ import { cardShadow, defaultColor } from '../../utils/color'
 import { cardBorderRadius } from '../../utils/size'
 
 const FirstRowRoot = styled.div`
-    min-width: 780px;
-    max-width: 1000px;
     height: 500px;
+    width: 100%;
     background-color: #ffffff;
     border-radius: ${cardBorderRadius};
     box-shadow: ${cardShadow};
