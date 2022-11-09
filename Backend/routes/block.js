@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const {
-    getRecentBlock, getBlock, getBlockDetailsFromHeight
+    getRecentBlock, getBlock
 } = require("../controllers/block");
 
-router.get('/details', getBlockDetailsFromHeight);
 router.get('/recent', getRecentBlock);
 router.get('/', getBlock);
 
