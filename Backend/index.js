@@ -4,6 +4,7 @@ const cors = require("cors");
 const models = require("./models/index.js");
 const blockRoutes = require("./routes/block");
 const transactionRoutes = require("./routes/transaction");
+const faucetRoutes = require("./routes/faucet");
 const { test } = require("./modules/parseBlockInfo");
 
 
