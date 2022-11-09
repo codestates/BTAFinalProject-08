@@ -3,6 +3,9 @@ const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
 const { toHex } = require("@cosmjs/encoding");
 const { sha256 } = require("@cosmjs/crypto");
 const { extractTxInfo } = require("../modules/parseTxInfo");
+const { extractMessagesFromTxHash } = require('../modules/parseMessage');
+const { Transaction } = require("../models");
+
 const env = process.env;
 
 const endPoint = env.END_POINT // 노드 주소
@@ -37,6 +40,21 @@ module.exports = {
             const txInfoAfterSigned = await signingClient.getTx(txHash);
             const extractedTx = await extractTxInfo(txInfoAfterSigned);
             res.status(200).json(extractedTx);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
+    getTxDetailsFromTxHash: async (req, res) => {
+        try {
+            let txHash = req.query.hash;
+            const txDetails = {
+                txInfo: await Transaction.findOne({
+                    where: { txHash }
+                }),
+                messages: (await extractMessagesFromTxHash(txHash))
+            }
+            res.status(200).json(txDetails);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
