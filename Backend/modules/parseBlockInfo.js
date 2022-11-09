@@ -3,7 +3,6 @@ const { SigningStargateClient } = require('@cosmjs/stargate');
 const { toHex } = require("@cosmjs/encoding");
 const { sha256 } = require("@cosmjs/crypto");
 const { Block } = require("../models");
-const { DATE } = require("sequelize");
 const { getFeeFromTxRaw, extractTxInfo } = require("./parseTxInfo");
 const axios = require("axios");
 const env = process.env;
