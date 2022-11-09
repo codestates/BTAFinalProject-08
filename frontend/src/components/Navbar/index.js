@@ -25,23 +25,19 @@ const Navbar = () => {
         <>
             <Header
                 style={{
-                    backgroundColor: '#390368',
                     position: 'fixed',
                     zIndex: 1,
                     width: '100%',
                     display: 'flex',
-
                     justifyContent: 'center',
-
                     alignItems: 'center',
                 }}
             >
                 <ItemWrapper>
-                    {/* <div>Logo</div> */}
                     <Menu
-                        theme="light"
+                        theme="dark"
                         mode="horizontal"
-                        style={{ width: 400 }}
+                        style={{ width: 415 }}
                         items={[
                             {
                                 key: 'DASHBOARD',
