@@ -58,5 +58,18 @@ module.exports = {
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
-    }
+    },
+
+    getRecentTxs: async (req, res) => {
+        try {
+            let limit = req.query.limit;
+            const recentTxs = await Transaction.findAll({
+                order: [["height", "DESC"]],
+                limit: Number(limit)
+            })
+            res.status(200).json(recentTxs);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
 }
