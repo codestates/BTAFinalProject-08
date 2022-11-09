@@ -3,6 +3,7 @@ const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
 const { toHex } = require("@cosmjs/encoding");
 const { sha256 } = require("@cosmjs/crypto");
 const { extractTxInfo } = require("../modules/parseTxInfo");
+const {Transaction} = require("../models");
 const env = process.env;
 
 const endPoint = env.END_POINT // 노드 주소
@@ -40,5 +41,33 @@ module.exports = {
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
-    }
+    },
+    getRecentTransaction: async (req, res) => { //  최근 limit 개의 트랜잭션 정보 리턴
+        try {
+            let limit = Number(req.query.limit);
+            if (isNaN(limit)) {
+                limit = 1;
+            }
+            const recentTransactions = await Transaction.findAll({
+                order: [["time", "DESC"]],
+                offset: 0,
+                limit: limit
+            })
+            res.status(200).json(recentTransactions);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+    getTransaction: async (req, res) => { //  해당 txHash 의 트랜잭션 정보 리턴
+        try {
+            const txHash = req.query.hash;
+            const tx = await Transaction.findOne({
+                where: { txHash: txHash },
+            })
+            res.status(200).json(tx);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
 }

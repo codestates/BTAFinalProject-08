@@ -44,15 +44,19 @@ async function pushBlock() {
         if (height >= (db + 20)) {
             let blocks = await extractBlocksInfoFromMinHeightToMaxHeight(db + 1, db + 20)
             for (let i of blocks.reverse()) {
-                await Block.create({
-                    chainId: i.chainId,
-                    height: i.height,
-                    time: i.time,
-                    hash: i.hash,
-                    numOfTx: i.numOfTxs,
-                    proposerAddress: i.proposerAddress
-                });
-                console.log("[Block] "+i.height + "번째 생성완료");
+                try{
+                    await Block.create({
+                        chainId: i.chainId,
+                        height: i.height,
+                        time: i.time,
+                        hash: i.hash,
+                        numOfTx: i.numOfTxs,
+                        proposerAddress: i.proposerAddress
+                    });
+                    console.log("[Block] "+i.height + "번째 생성완료");
+                }catch (e){
+                    console.log(e)
+                }
             }
             console.log("[Block] created " + (db + 1) + " to " + (db + 20))
         } else if (Number(db) === height) {
@@ -61,15 +65,19 @@ async function pushBlock() {
         } else {
             let blocks = await extractBlocksInfoFromMinHeightToMaxHeight(db + 1, height)
             for (let i of blocks.reverse()) {
-                await Block.create({
-                    chainId: i.chainId,
-                    height: i.height,
-                    time: i.time,
-                    hash: i.hash,
-                    numOfTx: i.numOfTxs,
-                    proposerAddress: i.proposerAddress
-                });
-                console.log("[Block] "+i.height + "번째 생성완료");
+                try{
+                    await Block.create({
+                        chainId: i.chainId,
+                        height: i.height,
+                        time: i.time,
+                        hash: i.hash,
+                        numOfTx: i.numOfTxs,
+                        proposerAddress: i.proposerAddress
+                    });
+                    console.log("[Block] "+i.height + "번째 생성완료");
+                }catch (e){
+                    console.log(e)
+                }
             }
         }
     }, 5000);

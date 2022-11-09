@@ -38,7 +38,7 @@ module.exports = {
         }
     },
 
-    getRecentBlock: async (req, res) => { //  최근 5개의 블록 정보 리턴
+    getRecentBlock: async (req, res) => { //  최근 limit 개의 블록 정보 리턴
         try {
             let limit = Number(req.query.limit);
             if (isNaN(limit)) {
@@ -67,6 +67,8 @@ module.exports = {
             res.status(400).json({ message: err.message });
         }
     },
+
+
 
 
 
