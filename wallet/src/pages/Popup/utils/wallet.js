@@ -28,7 +28,7 @@ export const utils = {
     const { createRPCQueryClient } = osmosis.ClientFactory;
     const client = await createRPCQueryClient({ rpcEndpoint: endPoint });
     return await client.cosmos.bank.v1beta1.allBalances({
-      address: address,
+      address,
     });
   },
   getFee: (amount) => {
@@ -46,15 +46,8 @@ export const utils = {
     // 사용자의 signer와 endpoint를 사용하여 클라이언트 객체 리턴
     return await SigningStargateClient.connectWithSigner(endPoint, signer);
   },
-  sendOsmosis: async (
-    fromAddress,
-    toAddress,
-    amount,
-    feeAmount,
-    signingClient
-  ) => {
+  sendOsmosis: async (fromAddress, toAddress, amount, gas, signingClient) => {
     // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
-    console.log(feeAmount);
     const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
     const msg = send({
       amount: [
@@ -71,10 +64,10 @@ export const utils = {
       amount: [
         {
           denom: 'uosmo',
-          amount: feeAmount.amount[0].amount,
+          amount: amount,
         },
       ],
-      gas: feeAmount.gas,
+      gas,
     };
     console.log(msg, fee, 'check fee msg');
     return await signingClient.signAndBroadcast(fromAddress, [msg], fee);
