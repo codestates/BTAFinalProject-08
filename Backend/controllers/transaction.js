@@ -70,5 +70,16 @@ module.exports = {
             res.status(400).json({ message: err.message });
         }
     },
+    getTransactionFromHeight: async (req, res) => { //  해당 txHash 의 트랜잭션 정보 리턴
+        try {
+            const height = req.query.height;
+            const tx = await Transaction.findAll({
+                where: { height: height },
+            })
+            res.status(200).json(tx);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
 
 }
