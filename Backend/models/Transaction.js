@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     Transaction.init(
         {
             txHash: {
-                type: DataTypes.STRING(50),
+                type: DataTypes.STRING(200),
                 allowNull: false,
                 primaryKey: true
             },
@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(20),
                 allowNull: false,
             },
+
             type: {
                 type: DataTypes.STRING(30),
                 allowNull: false,
