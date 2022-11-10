@@ -10,6 +10,7 @@ import ValidatorDetails from './pages/ValidatorDetails'
 import BlockDetails from './pages/BlockDetails'
 import TransactionDetail from './pages/TransactionDetails'
 import AddressDetails from './pages/AddressDetails'
+import Faucet from './pages/Faucet'
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                         path="/account/:addressid"
                         element={<AddressDetails />}
                     />
+                    <Route path="faucet" element={<Faucet />} />
                 </Routes>
             </Content>
         </Layout>

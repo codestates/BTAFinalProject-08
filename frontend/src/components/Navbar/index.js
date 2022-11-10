@@ -37,7 +37,7 @@ const Navbar = () => {
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        style={{ width: 415 }}
+                        style={{ width: '100%' }}
                         items={[
                             {
                                 key: 'DASHBOARD',
@@ -72,6 +72,18 @@ const Navbar = () => {
                                             style={{ marginRight: '5px' }}
                                         />
                                         BLOCKS
+                                    </StyledLink>
+                                ),
+                            },
+                            {
+                                key: 'Faucet',
+                                label: (
+                                    <StyledLink to="/faucet">
+                                        <Icon
+                                            icon="fa6-solid:faucet"
+                                            style={{ marginRight: '5px' }}
+                                        />
+                                        Faucet
                                     </StyledLink>
                                 ),
                             },

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const BASE_URL_API = 'http://34.155.184.217:1317'
+export const BASE_URL_API = 'http://34.155.184.217:1317'
 const BASE_URL_RPC = 'http://34.155.184.217:26657'
 const LOCAL_BASE_URL = 'http://localhost:4567'
 
@@ -51,3 +51,8 @@ export const getTransactionMsg = (txHash) =>
     axios
         .get(`${BASE_URL_API}/cosmos/tx/v1beta1/txs/${txHash}`)
         .then((res) => res.data)
+
+export const postFaucet = (address) =>
+    axios.post(`${BASE_URL_API}/faucet`, {
+        toAddress: address,
+    })
