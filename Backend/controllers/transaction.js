@@ -1,5 +1,5 @@
 const {Transaction} = require("../models");
-const env = process.env;
+const {StargateClient} = require("@cosmjs/stargate");
 
 module.exports = {
     // getTxHashFromTxRaw: async (req, res) => { // txRaw로부터 해당 트랜잭션 해쉬 리턴 Tx Raw to Tx Hash
@@ -73,5 +73,26 @@ module.exports = {
             res.status(400).json({ message: err.message });
         }
     },
+    getTransactionsFromAddress: async (req, res) => {
+        try {
+            const address = req.params.address;
+            const client = await StargateClient.connect(process.env.END_POINT)
+            let transactions = await client.searchTx({sentFromOrTo:address}) // 해당 주소와 관련된 모든 트랜잭션 리턴
+            let resultObject=[]
+            for(let i of transactions){
+                const tx=await Transaction.findOne({
+                    attributes:['txHash','type','status','fee','height','time'],
+                    where: { txHash: i.hash }
+                })
+                resultObject.push(tx)
+            }
+            resultObject.sort(function(a, b) { //시간순 정렬
+                return a.time>b.time ? -1 : a<b ? 1 : 0;
+            })
+            res.status(200).json(resultObject);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    }
 
 }

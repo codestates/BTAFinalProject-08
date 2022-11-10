@@ -1,6 +1,7 @@
 const { Block, Transaction } = require("../models");
 const {loadValidatorsInfo} = require("../modules/parseValidatorInfo");
 
+
 module.exports = {
     // getBlockHeight: async (req, res) => { // 블록 높이 리턴
     //     try {
@@ -85,24 +86,7 @@ module.exports = {
         }
     },
 
-    // getBlockDetailsFromHeight: async (req, res) => {
-    //     try {
-    //         const height = req.query.height;
-    //         const block = await Block.findOne({
-    //             where: { height: height },
-    //         })
-    //         const txs = await Transaction.findAll({
-    //             where: { height: height },
-    //         })
-    //         const blockDetails = {
-    //             blockInfo: block,
-    //             txs
-    //         }
-    //         res.status(200).json(blockDetails);
-    //     } catch (err) {
-    //         res.status(400).json({ message: err.message });
-    //     }
-    // }
+
 
 
 

@@ -1,5 +1,5 @@
 const models = require("./models/index.js");
-const {pushBlock, pushTransaction} = require("./modules/daemonModules");
+const {pushBlock, pushTransaction,subscribeTransaction} = require("./modules/daemonModules");
 models.sequelize
     .sync()
     .then(async () => {

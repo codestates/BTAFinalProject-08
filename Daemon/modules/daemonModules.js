@@ -1,13 +1,13 @@
 const axios = require("axios");
 const env = process.env;
-const { SigningStargateClient } = require('@cosmjs/stargate');
+const { SigningStargateClient,StargateClient } = require('@cosmjs/stargate');
 const { Block,Transaction } = require('../models');
 const endPoint = env.END_POINT // 노드 주소
+const WsEndPoint = env.WS_END_POINT // 웹소켓 노드 주소
 
 async function getCurrentHeight() {
     const signingClient = await SigningStargateClient.connect(endPoint);
-    const height = await signingClient.getHeight();
-    return height;
+    return await signingClient.getHeight();
 }
 
 async function extractBlocksInfoFromMinHeightToMaxHeight(minHeight, maxHeight) {
@@ -34,6 +34,11 @@ async function extractBlocksInfoFromMinHeightToMaxHeight(minHeight, maxHeight) {
         result.push(extractedBlockInfo);
     });
     return result;
+}
+
+async function subscribeTransaction(){
+
+
 }
 
 async function pushBlock() {
@@ -123,4 +128,4 @@ async function pushTransaction() {
     }, 8000);
 }
 
-module.exports = { extractBlocksInfoFromMinHeightToMaxHeight, getCurrentHeight, pushBlock,pushTransaction };
+module.exports = {  pushBlock,pushTransaction,subscribeTransaction };
