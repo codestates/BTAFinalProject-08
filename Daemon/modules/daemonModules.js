@@ -1,13 +1,13 @@
 const axios = require("axios");
 const env = process.env;
-const { SigningStargateClient } = require('@cosmjs/stargate');
+const { SigningStargateClient,StargateClient } = require('@cosmjs/stargate');
 const { Block,Transaction } = require('../models');
 const endPoint = env.END_POINT // 노드 주소
+const WsEndPoint = env.WS_END_POINT // 웹소켓 노드 주소
 
 async function getCurrentHeight() {
     const signingClient = await SigningStargateClient.connect(endPoint);
-    const height = await signingClient.getHeight();
-    return height;
+    return await signingClient.getHeight();
 }
 
 async function extractBlocksInfoFromMinHeightToMaxHeight(minHeight, maxHeight) {
@@ -36,6 +36,11 @@ async function extractBlocksInfoFromMinHeightToMaxHeight(minHeight, maxHeight) {
     return result;
 }
 
+async function subscribeTransaction(){
+
+
+}
+
 async function pushBlock() {
     setInterval(async function () {
         console.log("start!!")
@@ -44,15 +49,19 @@ async function pushBlock() {
         if (height >= (db + 20)) {
             let blocks = await extractBlocksInfoFromMinHeightToMaxHeight(db + 1, db + 20)
             for (let i of blocks.reverse()) {
-                await Block.create({
-                    chainId: i.chainId,
-                    height: i.height,
-                    time: i.time,
-                    hash: i.hash,
-                    numOfTx: i.numOfTxs,
-                    proposerAddress: i.proposerAddress
-                });
-                console.log("[Block] "+i.height + "번째 생성완료");
+                try{
+                    await Block.create({
+                        chainId: i.chainId,
+                        height: i.height,
+                        time: i.time,
+                        hash: i.hash,
+                        numOfTx: i.numOfTxs,
+                        proposerAddress: i.proposerAddress
+                    });
+                    console.log("[Block] "+i.height + "번째 생성완료");
+                }catch (e){
+                    console.log(e)
+                }
             }
             console.log("[Block] created " + (db + 1) + " to " + (db + 20))
         } else if (Number(db) === height) {
@@ -61,15 +70,19 @@ async function pushBlock() {
         } else {
             let blocks = await extractBlocksInfoFromMinHeightToMaxHeight(db + 1, height)
             for (let i of blocks.reverse()) {
-                await Block.create({
-                    chainId: i.chainId,
-                    height: i.height,
-                    time: i.time,
-                    hash: i.hash,
-                    numOfTx: i.numOfTxs,
-                    proposerAddress: i.proposerAddress
-                });
-                console.log("[Block] "+i.height + "번째 생성완료");
+                try{
+                    await Block.create({
+                        chainId: i.chainId,
+                        height: i.height,
+                        time: i.time,
+                        hash: i.hash,
+                        numOfTx: i.numOfTxs,
+                        proposerAddress: i.proposerAddress
+                    });
+                    console.log("[Block] "+i.height + "번째 생성완료");
+                }catch (e){
+                    console.log(e)
+                }
             }
         }
     }, 5000);
@@ -115,4 +128,4 @@ async function pushTransaction() {
     }, 8000);
 }
 
-module.exports = { extractBlocksInfoFromMinHeightToMaxHeight, getCurrentHeight, pushBlock,pushTransaction };
+module.exports = {  pushBlock,pushTransaction,subscribeTransaction };

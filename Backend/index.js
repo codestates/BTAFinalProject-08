@@ -5,6 +5,8 @@ const models = require("./models/index.js");
 const blockRoutes = require("./routes/block");
 const transactionRoutes = require("./routes/transaction");
 const validatorRoutes = require("./routes/validator");
+const faucetRoutes = require("./routes/faucet");
+const { test } = require("./modules/parseBlockInfo");
 
 
 
@@ -30,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/block", blockRoutes);
 app.use("/transaction", transactionRoutes);
 app.use("/validator", validatorRoutes);
+app.use("/faucet", faucetRoutes);
 
 // cors 에러를 잡아주기 위한 설정 -> 여기서는 로컬의 4567 포트에대한 접근을 허용함
 

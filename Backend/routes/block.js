@@ -1,19 +1,7 @@
 const router = require("express").Router();
 const {
-    getBlockHeight,
-    getBlockInfoFromHeight,
-    getRecentBlock, getBlock, getBlockDetailsFromHeight
+    getRecentBlock,getBlockDetailsFromHeight
 } = require("../controllers/block");
-
-
-router.get('/', getBlockInfoFromHeight);
-router.get('/details', getBlockDetailsFromHeight);
-router.get('/blockHeight', getBlockHeight);
 router.get('/recent', getRecentBlock);
-router.get('/height', getBlock); /// 임시로 이렇게 씁시다...
-
-
-
-
-
+router.get('/details', getBlockDetailsFromHeight);
 module.exports = router;
