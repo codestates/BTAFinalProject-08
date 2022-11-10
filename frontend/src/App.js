@@ -11,6 +11,7 @@ import BlockDetails from './pages/BlockDetails'
 import TransactionDetail from './pages/TransactionDetails'
 import AddressDetails from './pages/AddressDetails'
 import Faucet from './pages/Faucet'
+import Wallet from './pages/Wallet'
 
 function App() {
     return (
@@ -42,6 +43,8 @@ function App() {
                         element={<AddressDetails />}
                     />
                     <Route path="faucet" element={<Faucet />} />
+                    <Route path="/wallet" element={<Wallet />} />
+                    <Route path="/wallet/:type" element={<Wallet />} />
                 </Routes>
             </Content>
         </Layout>

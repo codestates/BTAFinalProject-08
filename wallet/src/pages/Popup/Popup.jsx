@@ -5,7 +5,7 @@ import RequireAuth from './routes/RequireAuth';
 import CreateWallet from './routes/CreateWallet';
 import { Layout } from 'antd';
 import MyPage from './routes/MyPage';
-import logo from '../../assets/img/logo_transparent.png';
+import logo from '../../assets/img/icon-transparent.png';
 import SignIn from './routes/SignIn';
 import ImportWallet from './routes/ImportWallet';
 import { useCallback } from 'react';
@@ -28,7 +28,7 @@ const Popup = () => {
 
   return (
     <div className="App">
-      <Header style={{ padding: '0 20px' }}>
+      <Header style={{ padding: '0 20px', backgroundColor: '#73e0d1' }}>
         <div
           style={{
             display: 'flex',
@@ -40,7 +40,13 @@ const Popup = () => {
             <img
               src={logo}
               alt="logo"
-              style={{ width: 75, height: 75, borderRadius: 4 }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 4,
+                position: 'fixed',
+                top: -17,
+              }}
               onClick={handleRouteMain}
             />
           </div>

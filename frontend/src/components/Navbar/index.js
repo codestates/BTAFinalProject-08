@@ -86,6 +86,34 @@ const Navbar = () => {
                                         Faucet
                                     </StyledLink>
                                 ),
+                                key: 'Wallet',
+                                label: (
+                                    <StyledLink to="/wallet">
+                                        <Icon
+                                            icon="fluent:wallet-32-regular"
+                                            style={{ marginRight: '5px' }}
+                                        />
+                                        Wallet
+                                    </StyledLink>
+                                ),
+                                children: [
+                                    {
+                                        label: (
+                                            <StyledLink to="/wallet/staking">
+                                                Staking
+                                            </StyledLink>
+                                        ),
+                                        key: 'setting:3',
+                                    },
+                                    {
+                                        label: (
+                                            <StyledLink to="/wallet/governance">
+                                                Governance
+                                            </StyledLink>
+                                        ),
+                                        key: 'setting:4',
+                                    },
+                                ],
                             },
                         ]}
                     />

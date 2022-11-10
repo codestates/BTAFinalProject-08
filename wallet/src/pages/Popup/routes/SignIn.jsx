@@ -1,7 +1,7 @@
 import { Button, Card, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../../assets/img/icon-128.png';
+import logo from '../../../assets/img/icon-home.png';
 import * as storage from '../utils/storage';
 import * as wallet from '../utils/wallet';
 
