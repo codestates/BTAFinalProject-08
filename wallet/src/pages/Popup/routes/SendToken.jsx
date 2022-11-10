@@ -1,8 +1,7 @@
-import { Input, Select, Button, Space, Form, message } from 'antd';
+import { Input, Select, Button, Form, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as wallet from '../utils/wallet';
-import * as storage from '../utils/storage';
 import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
 import { API_URL } from '../constants';
 
@@ -10,10 +9,11 @@ const SendToken = () => {
   const navigate = useNavigate();
   const onClickCancel = () => navigate(-1);
   const {
-    signerInfo: { address, chain, signer },
+    signerInfo: { address, signer },
   } = useGetSignerInfo();
 
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
   const [gas, setGas] = useState(25000);
 
   const getFee = (type) => {
@@ -23,17 +23,14 @@ const SendToken = () => {
   };
 
   const handleChange = (value) => {
-    console.log(value, 'va');
     getFee(value);
   };
 
   const onFinish = async (values) => {
+    setIsLoading(true);
     try {
-      const { mnemonic } = await storage.utils.getSessionStorageData(
-        'mnemonic'
-      );
       const signerClient = await wallet.utils.getSigningClient(API_URL, signer);
-      const res = await wallet.utils.sendOsmosis(
+      await wallet.utils.sendOsmosis(
         address,
         values.recipient,
         values.amount,
@@ -41,8 +38,11 @@ const SendToken = () => {
         signerClient
       );
       message.success('전송 성공');
+      setIsLoading(false);
+      navigate(-1);
     } catch (err) {
-      message.error({ content: err.message, style: { width: '70%' } });
+      message.error({ content: err.message });
+      setIsLoading(false);
     }
   };
 
@@ -52,7 +52,6 @@ const SendToken = () => {
 
   return (
     <Form onFinish={onFinish} form={form}>
-      {/* <Space direction="vertical" size="middle"> */}
       <Form.Item name="recipient">
         <Input size="large" placeholder="recipient" style={{ marginTop: 30 }} />
       </Form.Item>
@@ -74,10 +73,14 @@ const SendToken = () => {
           style={{ marginBottom: 14 }}
         />
       </Form.Item>
-      {/* </Space> */}
       <div>
         <Form.Item>
-          <Button type="primary" size="large" htmlType="submit">
+          <Button
+            type="primary"
+            size="large"
+            htmlType="submit"
+            loading={isLoading}
+          >
             전송
           </Button>
           <Button size="large" className="cancel-btn" onClick={onClickCancel}>
