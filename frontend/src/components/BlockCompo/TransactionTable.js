@@ -45,7 +45,7 @@ const columnsTransaction = [
 
 export default function TransTable() {
     let limit = 20
-    const [toggle, setToggle] = useState(false)
+    //const [toggle, setToggle] = useState(false)
     const { isLoading, data } = useQuery(
         ['transaction', limit],
         () => getTrans(limit),

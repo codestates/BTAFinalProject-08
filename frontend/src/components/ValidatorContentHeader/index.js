@@ -26,14 +26,19 @@ const ContnetHeaderBlockWrapper = styled.div`
     align-items: center;
 `
 
-export default function ValidatorContentHeader() {
+export default function ValidatorContentHeader({
+    height,
+    blockTime,
+    totalVal,
+    bondedTokens,
+}) {
     return (
         <ContentHeader>
             <ContentHeaderText>VALIDATORS</ContentHeaderText>
             <ContnetHeaderBlockWrapper>
                 <ValidatorContentHeaderBlock
                     headername={'Height'}
-                    data={1}
+                    data={height}
                     icon={
                         <Icon
                             icon="clarity:blocks-group-solid"
@@ -44,17 +49,17 @@ export default function ValidatorContentHeader() {
                 />
                 <ValidatorContentHeaderBlock
                     headername={'Validators'}
-                    data={1}
+                    data={totalVal}
                     icon={<IoPeople size={22} style={{ marginRight: 5 }} />}
                 />
                 <ValidatorContentHeaderBlock
                     headername={'Bonded Tokens'}
-                    data={1}
+                    data={bondedTokens}
                     icon={<GiToken size={22} style={{ marginRight: 5 }} />}
                 />
                 <ValidatorContentHeaderBlock
                     headername={'Block Time'}
-                    data={1}
+                    data={blockTime + 's'}
                     icon={
                         <AiOutlineFieldTime
                             size={22}

@@ -44,6 +44,7 @@ export default function HomeTranTable() {
     return (
         <Table
             columns={columnsTransaction}
+            loading={isLoading}
             dataSource={!data ? null : data}
             pagination={false}
         />
