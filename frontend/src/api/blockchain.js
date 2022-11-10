@@ -12,8 +12,10 @@ export const getBlocks = (limit) =>
         .then((res) => res.data)
 // http://34.155.184.217:1317/txs?message.action
 
-export const getTrans = () =>
-    axios.get(`${BASE_URL_API}/txs?message.action`).then((res) => res.data)
+export const getTrans = (limit) =>
+    axios
+        .get(`${LOCAL_BASE_URL}/transaction/recent?limit=${limit}`)
+        .then((res) => res.data)
 
 export const getBlockInfo = (id) =>
     axios.get(`${LOCAL_BASE_URL}/block?height=${id}`).then((res) => res.data)
