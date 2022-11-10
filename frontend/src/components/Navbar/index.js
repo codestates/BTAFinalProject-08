@@ -37,7 +37,7 @@ const Navbar = () => {
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        style={{ width: 415 }}
+                        style={{ width: 600 }}
                         items={[
                             {
                                 key: 'DASHBOARD',
@@ -74,6 +74,36 @@ const Navbar = () => {
                                         BLOCKS
                                     </StyledLink>
                                 ),
+                            },
+                            {
+                                key: 'Wallet',
+                                label: (
+                                    <StyledLink to="/wallet">
+                                        <Icon
+                                            icon="fluent:wallet-32-regular"
+                                            style={{ marginRight: '5px' }}
+                                        />
+                                        Wallet
+                                    </StyledLink>
+                                ),
+                                children: [
+                                    {
+                                        label: (
+                                            <StyledLink to="/wallet/staking">
+                                                Staking
+                                            </StyledLink>
+                                        ),
+                                        key: 'setting:3',
+                                    },
+                                    {
+                                        label: (
+                                            <StyledLink to="/wallet/governance">
+                                                Governance
+                                            </StyledLink>
+                                        ),
+                                        key: 'setting:4',
+                                    },
+                                ],
                             },
                         ]}
                     />

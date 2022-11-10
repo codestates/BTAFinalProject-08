@@ -10,6 +10,7 @@ import ValidatorDetails from './pages/ValidatorDetails'
 import BlockDetails from './pages/BlockDetails'
 import TransactionDetail from './pages/TransactionDetails'
 import AddressDetails from './pages/AddressDetails'
+import Wallet from './pages/Wallet'
 
 function App() {
     return (
@@ -40,6 +41,8 @@ function App() {
                         path="/account/:addressid"
                         element={<AddressDetails />}
                     />
+                    <Route path="/wallet" element={<Wallet />} />
+                    <Route path="/wallet/:type" element={<Wallet />} />
                 </Routes>
             </Content>
         </Layout>
