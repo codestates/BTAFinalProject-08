@@ -1,12 +1,6 @@
 const router = require("express").Router();
-const { getRecentTransaction,getTransaction,getTransactionFromHeight,getTransactionsFromAddress} = require("../controllers/transaction");
-
-
-
-router.get('/', getTransaction);
+const { getRecentTransaction,getTransactionFromHash,getTransactionsFromAddress} = require("../controllers/transaction");
+router.get('/details', getTransactionFromHash);
 router.get('/recent', getRecentTransaction);
-router.get('/transactions', getTransactionFromHeight);
 router.get('/address/:address', getTransactionsFromAddress);
-
-
 module.exports = router;
