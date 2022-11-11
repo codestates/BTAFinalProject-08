@@ -12,12 +12,13 @@ const loadValidatorsInfo = async () => {
         activePubKeyToVotingPower.set(v.pub_key.key, v.voting_power);
     })
     const validatorInfoList = validators.map(v => {
-        const { operator_address: operatorAddress, description: { moniker }, commission: { commission_rates: { rate } } } = v;
+        const { description: { moniker }, commission: { commission_rates: { rate } } } = v;
         const pubKey = MonikerToAddressInfo[moniker].pubKey;
         const votingPower = activePubKeyToVotingPower.get(pubKey) ? activePubKeyToVotingPower.get(pubKey) : "Inactive Validator";
+        const addressInfo = MonikerToAddressInfo[moniker];
         return {//  participation(voting 기능 구현 후), totalProposals(voting 기능 구현 후)
             moniker,
-            operatorAddress,
+            addressInfo,
             votingPower,
             participation: "TBD",
             totalProposals: "TBD",
@@ -91,12 +92,5 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
         votes: [] // voting 기능 추가 후 구현
     }
 }
-const test = async () => {
-    // const result = await loadValidatorsInfo();
-    const result = await loadValidatorDetails("osmovaloper1w6k4anx2juthw8ka0zyxej26wvdlccwq09x0c6", 10);
-    console.log(result);
-}
-
-test();
 
 module.exports = { loadValidatorsInfo, loadValidatorDetails };
