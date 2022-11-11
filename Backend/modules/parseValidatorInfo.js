@@ -33,7 +33,7 @@ const loadValidatorsInfo = async () => {
         attributes: ['height', 'time'],
         order: [["height", "DESC"]],
         offset: 0,
-        limit: 2
+        limit: 3
     })
     const height = blocks[0].height;
     return {
@@ -41,7 +41,7 @@ const loadValidatorsInfo = async () => {
         activeValidatorNum,
         totalValidatorNum: validatorInfoList.length,
         bondedToken,
-        blockTimeInMs: new Date(blocks[0].time) - new Date(blocks[1].time),
+        blockTimeInMs: new Date(blocks[0].time) - new Date(blocks[2].time),
         validators: validatorInfoList
     }
 }
