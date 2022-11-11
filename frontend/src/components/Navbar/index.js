@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, Menu, Input } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useNavigation } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 import styled from 'styled-components'
+import { integerCheck } from '../../utils/blockchain'
 
 const { Header } = Layout
 const { Search } = Input
@@ -21,6 +22,23 @@ const ItemWrapper = styled.div`
 `
 
 const Navbar = () => {
+    const [error, setError] = useState(false)
+    const navi = useNavigate()
+    const onSearch = (v) => {
+        if (v.startsWith('osmovaloper', 0)) {
+            navi(`/validators/${v}`)
+        } else if (v.startsWith('osmo', 0)) {
+            navi(`/account/${v}`)
+        } else if (v.length === 64) {
+            navi(`/txs/${v}`)
+        } else if (integerCheck(v)) {
+            navi(`/blocks/${v}`)
+        } else {
+            setError(true)
+            return
+        }
+        setError(false)
+    }
     return (
         <>
             <Header
@@ -117,7 +135,12 @@ const Navbar = () => {
                             },
                         ]}
                     />
-                    <Search style={{ width: 300 }} />
+                    <Search
+                        style={{ width: 300 }}
+                        placeholder="input address, validator address, tx, block height "
+                        onSearch={onSearch}
+                        status={error ? 'error' : ''}
+                    />
                 </ItemWrapper>
             </Header>
         </>

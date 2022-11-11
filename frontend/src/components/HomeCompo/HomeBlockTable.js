@@ -2,7 +2,7 @@ import { Table } from 'antd'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { getBlocks } from '../../api/blockchain'
-import { validatorMap } from '../../utils/blockchain'
+import { operatorMap, validatorMap } from '../../utils/blockchain'
 import { refetchTime } from '../../utils/size'
 import { subtractNowAndTime } from '../../utils/time'
 const columnsBlock = [
@@ -14,7 +14,11 @@ const columnsBlock = [
     {
         title: 'Proposer',
         dataIndex: 'proposerAddress',
-        render: (txt) => <Link>{validatorMap[txt]}</Link>,
+        render: (txt) => (
+            <Link to={`/validators/${operatorMap[txt]} `}>
+                {validatorMap[txt]}
+            </Link>
+        ),
     },
     {
         title: 'Txs',

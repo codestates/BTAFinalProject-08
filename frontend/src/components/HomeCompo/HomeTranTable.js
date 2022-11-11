@@ -9,7 +9,7 @@ import { subtractNowAndTime } from '../../utils/time'
 const columnsTransaction = [
     {
         title: 'Tx Hash',
-        dataIndex: 'txhash',
+        dataIndex: 'txHash',
         render: (txt) => (
             <Link to={`/txs/${txt}`}>
                 {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
@@ -18,14 +18,8 @@ const columnsTransaction = [
     },
     {
         title: 'Type',
-        dataIndex: 'tx',
-        render: (txt) => (
-            <>
-                {!txt?.value?.msg[0]?.type
-                    ? null
-                    : txt.value.msg[0].type.split('/')[1].slice(3)}
-            </>
-        ),
+        dataIndex: 'type',
+        render: (txt) => <>{txt}</>,
     },
     {
         title: 'Height',
@@ -33,19 +27,25 @@ const columnsTransaction = [
     },
     {
         title: 'Time',
-        dataIndex: 'timestamp',
+        dataIndex: 'time',
         render: (txt) => <>{subtractNowAndTime(txt)}</>,
     },
 ]
 export default function HomeTranTable() {
+    let limit = 5
     const [toggle, setToggle] = useState(false)
-    const { isLoading, data } = useQuery(['transaction'], getTrans, {
-        refetchInterval: refetchTime,
-    })
+    const { isLoading, data } = useQuery(
+        ['transaction', limit],
+        () => getTrans(limit),
+        {
+            refetchInterval: refetchTime,
+        }
+    )
     return (
         <Table
             columns={columnsTransaction}
-            dataSource={!data ? null : data.txs.slice(-5).reverse()}
+            loading={isLoading}
+            dataSource={!data ? null : data}
             pagination={false}
         />
     )

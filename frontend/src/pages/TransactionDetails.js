@@ -42,23 +42,19 @@ export default function TransactionDetail() {
     const { data, isLoading } = useQuery(['transDetail', transactionid], () =>
         getTransInfo(transactionid)
     )
-    const transactionMsg = useQuery(['transactionMsg', transactionid], () =>
-        getTransactionMsg(transactionid)
-    )
-    console.log(transactionMsg.data, 'msg')
 
     return (
         <Wrapper>
             <Header>TRANSACTION DETAILS</Header>
             <InfoContent
-                chainid={data?.chainId}
+                chainid={data?.txInfo.chainId}
                 txhash={transactionid}
-                status={data?.status}
-                height={data?.height}
-                time={subtractNowAndTime(data?.time)}
-                fee={data?.fee?.amount + data?.fee?.unit}
-                gas={` ${data?.gas?.gasUsed} / ${data?.gas?.gasWanted}`}
-                Memo={data?.memo}
+                status={data?.txInfo.status}
+                height={data?.txInfo.height}
+                time={subtractNowAndTime(data?.txInfo.time)}
+                fee={data?.txInfo.fee + 'uosmo'}
+                gas={` ${data?.txInfo.gasUsed} / ${data?.txInfo?.gasWanted}`}
+                Memo={data?.txInfo?.memo}
                 loading={isLoading}
                 data={data}
             />
@@ -72,7 +68,16 @@ export default function TransactionDetail() {
                         Message
                     </MessageHeader>
                     <Divider></Divider>
-                    <TranMsgBox data={transactionMsg.data} />
+                    {!data
+                        ? null
+                        : data.messages.map((v, i) => {
+                              return (
+                                  <TranMsgBox
+                                      type={data?.txInfo.type}
+                                      data={v}
+                                  />
+                              )
+                          })}
                 </Card>
             </MsgWrapper>
         </Wrapper>
