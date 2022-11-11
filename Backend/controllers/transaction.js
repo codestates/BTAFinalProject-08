@@ -1,6 +1,6 @@
-const {Transaction} = require("../models");
-const {StargateClient} = require("@cosmjs/stargate");
-const {osmosis} = require("osmojs");
+const { Transaction } = require("../models");
+const { StargateClient } = require("@cosmjs/stargate");
+const { osmosis } = require("osmojs");
 
 module.exports = {
 
@@ -11,7 +11,7 @@ module.exports = {
                 limit = 1;
             }
             const recentTransactions = await Transaction.findAll({
-                attributes:['txHash','type','height','time'],
+                attributes: ['txHash', 'type', 'height', 'time'],
                 order: [["time", "DESC"]],
                 offset: 0,
                 limit: limit
@@ -47,17 +47,17 @@ module.exports = {
         try {
             const address = req.params.address;
             const client = await StargateClient.connect(process.env.END_POINT)
-            let transactions = await client.searchTx({sentFromOrTo:address}) // 해당 주소와 관련된 모든 트랜잭션 리턴
-            let resultObject=[]
-            for(let i of transactions){
-                const tx=await Transaction.findOne({
-                    attributes:['txHash','type','status','fee','height','time'],
+            let transactions = await client.searchTx({ sentFromOrTo: address }) // 해당 주소와 관련된 모든 트랜잭션 리턴
+            let resultObject = []
+            for (let i of transactions) {
+                const tx = await Transaction.findOne({
+                    attributes: ['txHash', 'type', 'status', 'fee', 'height', 'time'],
                     where: { txHash: i.hash }
                 })
                 resultObject.push(tx)
             }
-            resultObject.sort(function(a, b) { //시간순 정렬
-                return a.time>b.time ? -1 : a<b ? 1 : 0;
+            resultObject.sort(function (a, b) { //시간순 정렬
+                return a.time > b.time ? -1 : a < b ? 1 : 0;
             })
             res.status(200).json(resultObject);
         } catch (err) {
