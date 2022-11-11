@@ -1,5 +1,6 @@
 const {Transaction} = require("../models");
 const {StargateClient} = require("@cosmjs/stargate");
+const {osmosis} = require("osmojs");
 
 module.exports = {
 

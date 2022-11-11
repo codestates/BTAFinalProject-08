@@ -4,7 +4,6 @@ module.exports = {
     getValidators: async (req, res) => {
         try {
             const validators = await loadValidatorsInfo();
-            console.log(validators);
             res.status(200).json(validators);
         } catch (err) {
             res.status(400).json({ message: err.message });

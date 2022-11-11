@@ -19,8 +19,6 @@ module.exports = {
             for (let i of recentBlocks) {
                 for (let j of validators.validators)
                     if (i.proposerAddress === j.addressInfo.hex) {
-                        console.log(i.proposerAddress)
-                        console.log(j.addressInfo.hex)
                         i.setDataValue("moniker", j.moniker)
                         i.setDataValue("operatorAddress", j.addressInfo.operatorAddress)
                     }
@@ -64,6 +62,8 @@ module.exports = {
     getBlockDetailsFromHeight: async (req, res) => {
         try {
             const height = req.query.height;
+            let gasUsed = 0;
+            let gasWanted = 0;
             const block = await Block.findOne({
                 where: {height: height},
             })
@@ -76,6 +76,12 @@ module.exports = {
             const txs = await Transaction.findAll({
                 where: {height: height},
             })
+            for(let j of txs){
+                gasUsed += j.gasUsed
+                gasWanted += j.gasWanted
+            }
+            block.setDataValue("gasUsed",gasUsed)
+            block.setDataValue("gasWanted",gasWanted)
             const blockDetails = {
                 blockInfo: block,
                 txs
