@@ -19,8 +19,6 @@ module.exports = {
             for (let i of recentBlocks) {
                 for (let j of validators.validators)
                     if (i.proposerAddress === j.addressInfo.hex) {
-                        console.log(i.proposerAddress)
-                        console.log(j.addressInfo.hex)
                         i.setDataValue("moniker", j.moniker)
                         i.setDataValue("operatorAddress", j.addressInfo.operatorAddress)
                     }
