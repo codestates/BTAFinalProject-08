@@ -106,7 +106,10 @@ const Navbar = () => {
                                 ),
                                 key: 'Wallet',
                                 label: (
-                                    <StyledLink to="/wallet">
+                                    <StyledLink
+                                        to="/wallet"
+                                        reloadDocument={true}
+                                    >
                                         <Icon
                                             icon="fluent:wallet-32-regular"
                                             style={{ marginRight: '5px' }}
@@ -117,7 +120,10 @@ const Navbar = () => {
                                 children: [
                                     {
                                         label: (
-                                            <StyledLink to="/wallet/staking">
+                                            <StyledLink
+                                                to="/wallet/staking"
+                                                reloadDocument={true}
+                                            >
                                                 Staking
                                             </StyledLink>
                                         ),
@@ -125,7 +131,10 @@ const Navbar = () => {
                                     },
                                     {
                                         label: (
-                                            <StyledLink to="/wallet/governance">
+                                            <StyledLink
+                                                to="/wallet/governance"
+                                                reloadDocument={true}
+                                            >
                                                 Governance
                                             </StyledLink>
                                         ),

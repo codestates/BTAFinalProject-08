@@ -1,3 +1,4 @@
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 import { printLine } from './modules/print';
 
 console.log('Content script works!, 11');
@@ -16,14 +17,19 @@ if (document.readyState !== 'complete') {
 } else {
   afterWindowLoaded();
 }
+afterWindowLoaded();
 
 function afterWindowLoaded() {
   //Everything that needs to happen after the window is fully loaded.
-  document.getElementById('gege').addEventListener('click', function () {
-    chrome.runtime.sendMessage({ greeting: 'hello' }, function (response) {
-      console.log(response);
+  try {
+    document.getElementById('gege').addEventListener('click', function () {
+      chrome.runtime.sendMessage({ greeting: 'hello' }, function (response) {
+        console.log(response);
+      });
     });
-  });
+  } catch {
+    console.log('none');
+  }
 }
 
 printLine("Using the 'printLine' function from the Print Module");
