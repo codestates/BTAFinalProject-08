@@ -11,6 +11,9 @@ import ImportWallet from './routes/ImportWallet';
 import { useCallback } from 'react';
 import SendToken from './routes/SendToken';
 import useAuth from './hooks/useAuth';
+import Staking from './routes/Staking';
+import Delegate from './routes/Delegate';
+import UnDelegate from './routes/UnDelegate';
 
 const Popup = () => {
   const { Header } = Layout;
@@ -60,6 +63,15 @@ const Popup = () => {
         <Route path="/create" element={<CreateWallet />} />
         <Route path="/import" element={<ImportWallet />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/staking" element={<Staking />} />
+        <Route
+          path="/staking/delegate/:operatorAddress"
+          element={<Delegate />}
+        />
+        <Route
+          path="/staking/undelegate/:operatorAddress"
+          element={<UnDelegate />}
+        />
       </Routes>
     </div>
   );
