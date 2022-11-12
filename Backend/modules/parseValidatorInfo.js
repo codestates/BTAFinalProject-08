@@ -28,7 +28,7 @@ const loadValidatorsInfo = async () => {
     });
     const activationData = (await axios.get(env.LCD_END_POINT + "cosmos/base/tendermint/v1beta1/validatorsets/latest")).data;
     const activeValidatorNum = activationData.validators.length;
-    const bondedToken = (await axios.get(env.LCD_END_POINT + "staking/pool")).data.bonded_tokens;
+    const bondedTokens = (await axios.get(env.LCD_END_POINT + "staking/pool")).data.result.bonded_tokens;
     const blocks = await Block.findAll({
         attributes: ['height', 'time'],
         order: [["height", "DESC"]],
@@ -40,7 +40,7 @@ const loadValidatorsInfo = async () => {
         height,
         activeValidatorNum,
         totalValidatorNum: validatorInfoList.length,
-        bondedToken,
+        bondedTokens,
         blockTimeInMs: new Date(blocks[0].time) - new Date(blocks[2].time),
         validators: validatorInfoList
     }
@@ -93,10 +93,4 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
     }
 }
 
-const test = async () => {
-    const res = await loadValidatorsInfo();
-    console.log(res.blockTimeInMs);
-}
-
-test();
 module.exports = { loadValidatorsInfo, loadValidatorDetails };
