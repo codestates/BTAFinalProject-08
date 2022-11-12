@@ -100,9 +100,10 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
         }
         const limit = 10000000;
         const minHeight = 30000;
-        const txs = (await axios.get(env.LCD_END_POINT + "txs?message.action=/cosmos.gov.v1beta1.MsgVote&message.sender=" + addressInfo.address + "&limit=" + limit + "&tx.minheight=" + minHeight)).data.txs;
+        const txsData = (await axios.get(env.LCD_END_POINT + "txs?message.action=/cosmos.gov.v1beta1.MsgVote&message.sender=" + addressInfo.address + "&limit=" + limit + "&tx.minheight=" + minHeight)).data;
         let txHash = "";
         let timeSubmitted = "";
+        const txs = txsData.txs;
         const lenOfTxs = txs.length;
         for (let i = 0; i < txs.length; ++i) {
             const proposalId = txs[lenOfTxs - i - 1].tx.value.msg[0].value.proposal_id;
