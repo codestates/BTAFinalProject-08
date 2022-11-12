@@ -1,44 +1,57 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React from 'react';
-
-import { Button, Form, Input, Table } from 'antd';
+import { Button, Form, Input } from 'antd';
+import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
+import BalanceInput from '../components/BalanceInput';
+import { FIXED_FEE } from '../constants';
 
 const Delegate = () => {
-  // NOTE blockchian, balance, amount, validator
+  const {
+    signerInfo: { address, signingClient },
+  } = useGetSignerInfo();
+
+  const navigate = useNavigate();
   const { operatorAddress } = useParams();
-  const onFinish = (values) => {
-    console.log(values);
+
+  const onFinish = async (values) => {
+    const { amount } = values;
+    const tx = await signingClient.delegateTokens(
+      address,
+      operatorAddress,
+      {
+        denom: 'uosmo',
+        amount,
+      },
+      FIXED_FEE
+    );
+    console.log(tx);
   };
-  const getBalance = () => {};
 
   return (
     <Form onFinish={onFinish} style={{ padding: '10px' }}>
-      <Form.Item name={['form', 'chain']}>
-        <div style={{ display: 'flex' }}>Blockchain</div>
-        <Input value={'osmosis'} disabled={true}></Input>
+      <Form.Item name="chain" label="Blockchain">
+        <Input placeholder={'osmosis'} disabled={true} size="large"></Input>
       </Form.Item>
-      <Form.Item name={['form', 'balance']}>
-        <div style={{ display: 'flex' }}> Balance</div>
-        <div style={{ display: 'flex' }}>
-          <Input disabled={true} value={'10'} suffix="uosmo" />
-          <Button loading>reload</Button>
-        </div>
+      <Form.Item name="balance" label="Balance">
+        <BalanceInput address={address} />
       </Form.Item>
-      <Form.Item name={['form', 'amount']}>
-        <div style={{ display: 'flex' }}> Amount</div>
-        <Input suffix="uosmo"></Input>
+      <Form.Item name="amount" label="Amount">
+        <Input suffix="uosmo" size="large" />
       </Form.Item>
-
-      <Form.Item name={['form', 'operator']}>
-        <div style={{ display: 'flex' }}>Operator address</div>
+      <Form.Item name="operator" label="Operator address">
         <Input
           disabled={true}
-          value={operatorAddress}
+          placeholder={operatorAddress}
           style={{ fontSize: '12px' }}
-        ></Input>
+          size="large"
+        />
       </Form.Item>
-
-      <Button id="gege">Confirm</Button>
+      <Button id="gege" type="primary" size="large" htmlType="submit">
+        위임
+      </Button>
+      <Button className="cancel-btn" size="large" onClick={() => navigate(-1)}>
+        취소
+      </Button>
     </Form>
   );
 };
