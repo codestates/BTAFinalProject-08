@@ -4,6 +4,8 @@ import { getOfflineSignerProto } from 'cosmjs-utils';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import CryptoJS from 'crypto-js';
+import { longify } from './num';
+import { VoteOption } from 'osmojs/types/codegen/cosmos/gov/v1/gov';
 
 export const utils = {
   getMnemonic: async () => {
@@ -101,5 +103,120 @@ export const utils = {
     return CryptoJS.AES.decrypt(encrypted, password).toString(
       CryptoJS.enc.Utf8
     );
+  },
+
+  md5Encrypt: async (password) => {
+    // 입력 패스워드가 올바른 패스워드인지 판단하기 위해 해시화 후 비교하기위한 md5 암호화
+    return CryptoJS.MD5(password);
+  },
+  /*NOTE - 
+  투표를 생성하는 함수
+  depositAmount: uosmo 단위
+  */
+  govSubmitProposal: async ({
+    signer,
+    title,
+    description,
+    memo,
+    depositAmount,
+  }) => {
+    const END_POINT = 'http://13.56.212.121:26657/';
+    const { submitProposal } = cosmos.gov.v1beta1.MessageComposer.withTypeUrl;
+    const feeAmount = FEES.osmosis.swapExactAmountIn('low');
+    const [{ address: authorAddress }] = await signer.getAccounts();
+    const textProposal = TextProposal.fromPartial({
+      title: title,
+      description: description,
+    });
+    const proposalMsg = submitProposal({
+      content: {
+        typeUrl: '/cosmos.gov.v1beta1.TextProposal',
+        value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
+      },
+      initialDeposit: [{ denom: 'uosmo', amount: depositAmount }],
+      proposer: authorAddress,
+    });
+    const signingClient = await SigningStargateClient.connectWithSigner(
+      END_POINT,
+      signer
+    );
+    const tx = await signingClient.signAndBroadcast(
+      authorAddress,
+      [proposalMsg],
+      feeAmount,
+      memo
+    );
+    return tx;
+  },
+  /*NOTE -
+    처음에 프로포절이 만들어지려면 10osmo가 필요하다, 그래서 투자금이 부족한 
+    프로포절에 투자금을 더하는 행위이다.
+   */
+  govDeposit: async ({ signer, proposalId, amount, memo }) => {
+    const END_POINT = 'http://13.56.212.121:26657/';
+    const { deposit } = cosmos.gov.v1beta1.MessageComposer.withTypeUrl;
+    const [{ address: depositAddress }] = await signer.getAccounts();
+    const feeAmount = FEES.osmosis.swapExactAmountIn('low');
+
+    const depositMsg = deposit({
+      amount: [{ denom: 'uosmo', amount: amount }],
+      depositor: fromAddress,
+      proposalId: longify(proposalId),
+    });
+    const signingClient = await SigningStargateClient.connectWithSigner(
+      END_POINT,
+      signer
+    );
+    const tx = await signingClient.signAndBroadcast(
+      depositAddress,
+      [depositMsg],
+      feeAmount,
+      memo
+    );
+    return tx;
+  },
+  /*NOTE - 
+  proposerId 는 1 ~ 거버넌스 생성 숫자 1~ 숫자를 의미함 
+  voteOption은 (
+    abstrain 기권
+    no 반대
+    noWithVeto 절대 반대 (절대 반대는 프로포절 생성자에게 패널티를 준다.)
+    yes 찬성
+    )
+  */
+  govVote: async ({ signer, proposerId, voteOption, memo }) => {
+    const END_POINT = 'http://13.56.212.121:26657/';
+    const { vote } = cosmos.gov.v1beta1.MessageComposer.withTypeUrl;
+    const [{ address: voterAddress }] = await signer.getAccounts();
+    const fee = FEES.osmosis.swapExactAmountIn('low');
+    const signingClient = await SigningStargateClient.connectWithSigner(
+      END_POINT,
+      signer
+    );
+
+    let option;
+    switch (voteOption) {
+      case 'abstrain':
+        option = VoteOption.VOTE_OPTION_ABSTAIN;
+      case 'no':
+        option = VoteOption.VOTE_OPTION_NO;
+      case 'noWithVeto':
+        option = VoteOption.VOTE_OPTION_NO_WITH_VETO;
+      case 'yes':
+        option = VoteOption.VOTE_OPTION_YES;
+    }
+    const msg = vote({
+      proposalId: longify(proposerId),
+      voter: voterAddress,
+      option: option,
+    });
+
+    const tx = await signingClient.signAndBroadcast(
+      voterAddress,
+      [msg],
+      fee,
+      memo
+    );
+    return tx;
   },
 };
