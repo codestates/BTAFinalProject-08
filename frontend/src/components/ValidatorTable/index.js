@@ -19,27 +19,29 @@ const columns = [
     },
     {
         title: 'Voting Power',
-        dataIndex: 'tokens',
+        dataIndex: 'votingPower',
         sorter: {
             compare: (a, b) => a.votingPower - b.votingPower,
         },
-        render: (txt) => <> {txt / 1000000}</>,
+        render: (txt) => <> {txt}</>,
         mutiple: 4,
     },
     {
         title: 'Uptime',
-        dataIndex: 'tokens',
+        dataIndex: 'isActive',
         sorter: {
             compare: (a, b) => a.votingPower - b.votingPower,
         },
+        render: (v) => <div>{v === 'true' ? 'active' : 'inactive'}</div>,
         mutiple: 4,
     },
     {
         title: 'participate',
+        dataIndex: 'totalProposals',
     },
     {
         title: 'Commissions',
-        dataIndex: 'commistionRate',
+        dataIndex: 'commistion',
         render: (txt) => <> {(txt * 100).toFixed(1) + '%'}</>,
     },
 ]

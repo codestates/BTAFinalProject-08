@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { getDelegations } from '../../api/blockchain'
 import { cardShadow, defaultColor } from '../../utils/color'
 import { cardBorderRadius } from '../../utils/size'
+import { subtractNowAndTime } from '../../utils/time'
 const SecondRowRoot = styled.div`
     margin-top: 10px;
     height: 400px;
@@ -49,19 +50,25 @@ const column1 = [
 const column2 = [
     {
         title: 'Height',
+        dataIndex: 'height',
     },
     {
         title: 'Block Hash',
+        dataIndex: 'hash',
+        render: (v) => <a>{v.slice(0, 5) + '...' + v.slice(-5)}</a>,
     },
     {
         title: 'Txs',
+        dataIndex: 'numOfTx',
     },
     {
         title: 'Time',
+        dataIndex: 'time',
+        render: (v) => subtractNowAndTime(v),
     },
 ]
 
-export default function SecondRow({ valiAddress }) {
+export default function SecondRow({ valiAddress, proposedData }) {
     const delegations = useQuery(['delegations', valiAddress], () =>
         getDelegations(valiAddress)
     )
@@ -77,6 +84,7 @@ export default function SecondRow({ valiAddress }) {
                         <Table
                             columns={column1}
                             dataSource={delegations.data.result}
+                            size="small"
                         ></Table>
                     )}
                 </SecondRowColBody>
@@ -84,7 +92,11 @@ export default function SecondRow({ valiAddress }) {
             <SecondRowCol>
                 <SecondRowColHeader>Proposed Blocks</SecondRowColHeader>
                 <SecondRowColBody>
-                    <Table columns={column2}></Table>
+                    <Table
+                        pagination={{ pageSize: 4 }}
+                        columns={column2}
+                        dataSource={!proposedData ? null : proposedData}
+                    ></Table>
                 </SecondRowColBody>
             </SecondRowCol>
         </SecondRowRoot>
