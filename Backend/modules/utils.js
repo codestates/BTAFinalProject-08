@@ -56,6 +56,16 @@ const TxTypes = Object.freeze({
     CREATE_VALIDATOR: "CreateValidator",
     DELEGATE: "Delegate",
     WITHDRAW_DELEGATOR_REWARD: "WithdrawDelegationReward",
+    SUBMIT_PROPOSAL: "SubmitProposal",
+    DEPOSIT: "Deposit",
+    VOTE: "Vote",
 });
 
-module.exports = { getAddressFromPubKey, MonikerToAddressInfo, TxTypes, HexAddressToMoniker, AddressToOperatorAddress };
+const VoteOptions = Object.freeze({
+    1: "Yes",
+    2: "Abstain",
+    3: "No",
+    4: "No With Veto",
+});
+
+module.exports = { getAddressFromPubKey, MonikerToAddressInfo, TxTypes, HexAddressToMoniker, AddressToOperatorAddress, VoteOptions };
