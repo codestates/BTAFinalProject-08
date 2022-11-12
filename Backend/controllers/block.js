@@ -10,7 +10,7 @@ module.exports = {
                 limit = 1;
             }
             let recentBlocks = await Block.findAll({
-                attributes: ['height', 'proposerAddress', 'time', 'numOfTx'],
+                attributes: ['height', 'proposerAddress', 'time', 'numOfTx','hash'],
                 order: [["height", "DESC"]],
                 offset: 0,
                 limit: limit
