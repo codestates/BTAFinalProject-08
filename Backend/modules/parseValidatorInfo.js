@@ -93,4 +93,10 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
     }
 }
 
+const test = async () => {
+    const res = await loadValidatorsInfo();
+    console.log(res.blockTimeInMs);
+}
+
+test();
 module.exports = { loadValidatorsInfo, loadValidatorDetails };

@@ -1,4 +1,5 @@
 import { Card, Tabs } from 'antd'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import Governance from '../components/WalletCompo/Governance'
 import Staking from '../components/WalletCompo/Staking'

@@ -1,6 +1,7 @@
 const { Transaction } = require("../models");
 const { StargateClient } = require("@cosmjs/stargate");
 const { osmosis } = require("osmojs");
+const {extractMessagesFromTxHash} = require("../modules/parseMessage");
 
 module.exports = {
 
@@ -27,7 +28,13 @@ module.exports = {
             const tx = await Transaction.findOne({
                 where: { txHash: txHash },
             })
-            res.status(200).json(tx);
+            const messages = await extractMessagesFromTxHash(txHash)
+            const resultObject ={
+                txInfo: tx,
+                messages:messages
+            }
+
+            res.status(200).json(resultObject);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
