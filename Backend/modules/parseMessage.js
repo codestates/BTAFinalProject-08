@@ -10,7 +10,6 @@ const extractMessagesFromTxHash = async (txHash) => {
     const { tx: { value: { msg } }, logs } = txInfo;
     const txType = msg[0].type.split('/')[1].slice(3);
     let messages = [];
-    console.log(txType);
     switch (txType) {
         case TxTypes.SEND:
             messages = msg.map(m => {
