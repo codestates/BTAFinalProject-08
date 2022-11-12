@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import * as wallet from '../utils/wallet';
 import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
 import { API_URL } from '../constants';
+import BalanceInput from '../components/BalanceInput';
 
 const SendToken = () => {
   const navigate = useNavigate();
   const onClickCancel = () => navigate(-1);
   const {
-    signerInfo: { address, signer },
+    signerInfo: { address, signingClient },
   } = useGetSignerInfo();
 
   const [form] = Form.useForm();
@@ -29,13 +30,12 @@ const SendToken = () => {
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
-      const signerClient = await wallet.utils.getSigningClient(API_URL, signer);
       await wallet.utils.sendOsmosis(
         address,
         values.recipient,
         values.amount,
         gas,
-        signerClient
+        signingClient
       );
       message.success('전송 성공');
       setIsLoading(false);
@@ -52,8 +52,11 @@ const SendToken = () => {
 
   return (
     <Form onFinish={onFinish} form={form}>
+      <Form.Item style={{ marginTop: 30 }}>
+        <BalanceInput address={address} />
+      </Form.Item>
       <Form.Item name="recipient">
-        <Input size="large" placeholder="recipient" style={{ marginTop: 30 }} />
+        <Input size="large" placeholder="recipient" />
       </Form.Item>
       <Form.Item name="amount">
         <Input size="large" placeholder="amount" suffix="uosmo" />
