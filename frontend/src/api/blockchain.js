@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const BASE_URL_API = 'http://34.155.184.217:1317'
+export const BASE_URL_API = 'http://127.0.0.1:4567'
 const BASE_URL_RPC = 'http://34.155.184.217:26657'
 const LOCAL_BASE_URL = 'http://localhost:4567'
 

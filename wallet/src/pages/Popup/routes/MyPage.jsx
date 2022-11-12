@@ -5,6 +5,7 @@ import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
 import * as wallet from '../utils/wallet';
 import { API_URL } from '../constants';
 import osmoLogo from '../../../assets/img/osmo-42.png';
+import StakingList from '../components/StakingList';
 
 const tabList = [
   {
@@ -12,8 +13,12 @@ const tabList = [
     tab: 'Token',
   },
   {
-    key: 'History',
-    tab: 'History',
+    key: 'Transaction',
+    tab: 'Transaction',
+  },
+  {
+    key: 'Staking',
+    tab: 'Staking',
   },
 ];
 
@@ -25,26 +30,24 @@ const MyPage = () => {
   const [assets, setAssets] = useState([]);
   const [txs, setTxs] = useState([]);
   const {
-    signerInfo: { address, signer },
+    signerInfo: { address, signingClient },
   } = useGetSignerInfo();
 
   useEffect(() => {
-    const fetchBalances = async () => {
-      const { balances } = await wallet.utils.getBalance(address, API_URL);
-      setAssets(balances);
-    };
-    const fetchTxs = async () => {
-      const signingClient = await wallet.utils.getSigningClient(
-        API_URL,
-        signer
-      );
-      const txs = await wallet.utils.getTx(address, signingClient);
-      setTxs(txs);
-    };
+    if (address) {
+      const fetchBalances = async () => {
+        const { balances } = await wallet.utils.getBalance(address, API_URL);
+        setAssets(balances);
+      };
+      const fetchTxs = async () => {
+        const txs = await wallet.utils.getTx(address, signingClient);
+        setTxs(txs);
+      };
 
-    fetchBalances();
-    fetchTxs();
-  }, [address, signer]);
+      fetchBalances();
+      fetchTxs();
+    }
+  }, [address, signingClient]);
 
   const onClickLogout = () => {
     chrome.storage.session.remove('mnemonic');
@@ -77,7 +80,7 @@ const MyPage = () => {
         onTabChange={(key) => setActiveTabKey(key)}
         activeTabKey={activeTabKey}
       >
-        {activeTabKey === 'Token' ? (
+        {activeTabKey === 'Token' && (
           <List
             dataSource={assets}
             itemLayout={'horizontal'}
@@ -92,7 +95,8 @@ const MyPage = () => {
               </List.Item>
             )}
           />
-        ) : (
+        )}
+        {activeTabKey === 'Transaction' && (
           <List
             dataSource={txs}
             pagination={{ total: txs.length, pageSize: 5 }}
@@ -109,10 +113,9 @@ const MyPage = () => {
                 </List.Item>
               );
             }}
-          >
-            {console.log(txs, 'txs')}
-          </List>
+          ></List>
         )}
+        {activeTabKey === 'Staking' && <StakingList />}
       </Card>
     </div>
   );
