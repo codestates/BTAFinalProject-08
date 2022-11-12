@@ -63,8 +63,12 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
     });
     const delegationDataList = (await axios.get(env.LCD_END_POINT + "cosmos/staking/v1beta1/validators/" + operatorAddress + "/delegations")).data.delegation_responses;
     let selfBonded = "0";
-    delegationDataList.forEach(d => {
+    const delegators = delegationDataList.map(d => {
         if (d.delegation.delegator_address === addressInfo.address) selfBonded = d.balance.amount;
+        return {
+            delegatorAddress: d.delegation.delegator_address,
+            amount: d.balance.amount,
+        }
     });
     const Blocks = await Block.findAll({
         attributes: ['height', 'hash', 'numOfTx', 'time'],
@@ -89,6 +93,7 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
         selfBonded,
         details,
         proposedBlocks,
+        delegators,
         votes: [] // voting 기능 추가 후 구현
     }
 }

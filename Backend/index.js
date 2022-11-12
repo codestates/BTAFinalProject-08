@@ -7,8 +7,7 @@ const transactionRoutes = require("./routes/transaction");
 const validatorRoutes = require("./routes/validator");
 const faucetRoutes = require("./routes/faucet");
 const dashboardRoutes = require("./routes/dashboard");
-const { test } = require("./modules/parseBlockInfo");
-
+const accountRoutes = require("./routes/account");
 
 
 const app = express();
@@ -35,6 +34,7 @@ app.use("/transaction", transactionRoutes);
 app.use("/validator", validatorRoutes);
 app.use("/faucet", faucetRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/account", accountRoutes);
 
 // cors 에러를 잡아주기 위한 설정 -> 여기서는 로컬의 4567 포트에대한 접근을 허용함
 

@@ -36,6 +36,12 @@ const HexAddressToMoniker = Object.freeze({
     "433AFC12BFA4E7A537629EB9580F8EA7ADE23FDC": "calvin",
 });
 
+const AddressToOperatorAddress = Object.freeze({
+    "osmo1w6k4anx2juthw8ka0zyxej26wvdlccwq4jwv0a": "osmovaloper1w6k4anx2juthw8ka0zyxej26wvdlccwq09x0c6",
+    "osmo1erhzfvsfhue4tz6cz9czrgucecxp3uddnx9w8j": "osmovaloper1erhzfvsfhue4tz6cz9czrgucecxp3uddf3dds4",
+    "osmo1mhfgfenrp88d2p5dttyw59x8frfk7u9lx9qkjr": "osmovaloper1mhfgfenrp88d2p5dttyw59x8frfk7u9lujg49y",
+});
+
 const getAddressFromPubKey = (pubKeyEd25519) => {
     if (pubKeyEd25519 && pubKeyEd25519.type === "tendermint/PubKeyEd25519" && pubKeyEd25519.value) {
         const addressData = sha256(fromBase64(pubKeyEd25519.value)).slice(0, 20);
@@ -52,4 +58,4 @@ const TxTypes = Object.freeze({
     WITHDRAW_DELEGATOR_REWARD: "WithdrawDelegationReward",
 });
 
-module.exports = { getAddressFromPubKey, MonikerToAddressInfo, TxTypes, HexAddressToMoniker };
+module.exports = { getAddressFromPubKey, MonikerToAddressInfo, TxTypes, HexAddressToMoniker, AddressToOperatorAddress };
