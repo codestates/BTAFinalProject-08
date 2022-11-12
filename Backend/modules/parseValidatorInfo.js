@@ -55,13 +55,14 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
     let isActive = false;
     let votingPower = "Inactive Validator";
     let bondedHeight = "Inactive for the last block";
-    activeValidatorsData.validators.forEach(v => {
+    for (const v of activeValidatorsData.validators) {
         if (v.pub_key.key === addressInfo.pubKey) {
             isActive = true;
             votingPower = v.voting_power;
             bondedHeight = activeValidatorsData.block_height;
+            break;
         }
-    });
+    }
     const delegationDataList = (await axios.get(env.LCD_END_POINT + "cosmos/staking/v1beta1/validators/" + operatorAddress + "/delegations")).data.delegation_responses;
     let selfBonded = "0";
     const delegators = delegationDataList.map(d => {
@@ -87,30 +88,30 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
     const proposalList = (await axios.get(env.LCD_END_POINT + "gov/proposals")).data.result;
     const lenOfProposals = proposalList.length;
     for (let i = 0; i < lenOfProposals; ++i) {
-        const { id, content: { type, value: { title } } } = proposalList[lenOfProposals - i - 1];
+        const { id, content: { value: { title } } } = proposalList[lenOfProposals - i - 1];
         const votesResult = (await axios.get(env.LCD_END_POINT + "gov/proposals/" + id + "/votes")).data.result;
         let answer = "Did not vote";
-        votesResult.forEach(v => {
+        for (const v of votesResult) {
             if (v.voter === addressInfo.address) {
                 const option = v.option;
                 answer = VoteOptions[option];
+                break;
             }
-        });
+        }
         const limit = 10000000;
         const minHeight = 30000;
-        const txs = (await axios.get(env.LCD_END_POINT + "txs?message.sender=" + addressInfo.address + "&limit=" + limit + "&tx.minheight=" + minHeight)).data.txs;
+        const txs = (await axios.get(env.LCD_END_POINT + "txs?message.action=/cosmos.gov.v1beta1.MsgVote&message.sender=" + addressInfo.address + "&limit=" + limit + "&tx.minheight=" + minHeight)).data.txs;
         let txHash = "";
         let timeSubmitted = "";
-        txs.forEach(tx => {
-            if (tx.tx.value.msg[0].type.split('/')[1].slice(3) === "Vote") {
-                const proposalId = tx.tx.value.msg[0].value.proposal_id;
-                const voterAddress = tx.tx.value.msg[0].value.voter;
-                if (proposalId == id && voterAddress === addressInfo.address) {
-                    txHash = tx.txhash;
-                    timeSubmitted = tx.timestamp;
-                }
+        const lenOfTxs = txs.length;
+        for (let i = 0; i < txs.length; ++i) {
+            const proposalId = txs[lenOfTxs - i - 1].tx.value.msg[0].value.proposal_id;
+            if (proposalId == id) {
+                txHash = txs[lenOfTxs - i - 1].txhash;
+                timeSubmitted = txs[lenOfTxs - i - 1].timestamp;
+                break;
             }
-        });
+        }
         votes.push({
             id,
             title,
