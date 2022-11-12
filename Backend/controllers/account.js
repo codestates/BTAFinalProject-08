@@ -14,12 +14,12 @@ module.exports = {
             const balances = (await axios.get(env.LCD_END_POINT + "cosmos/bank/v1beta1/balances/" + address)).data.balances;
             let availableTokens = 0n;
             balances.forEach(b => {
-                if (b.denom === "uosmo") availableTokens += BigInt(b.amount);
+                if (b.denom === "uosmo" && b.amount) availableTokens += BigInt(b.amount);// amount
             })
             const delegationDataListAsDelegator = (await axios.get(env.LCD_END_POINT + "cosmos/staking/v1beta1/delegations/" + address)).data.delegation_responses;
             let bondedTokens = 0n;
             delegationDataListAsDelegator.forEach(d => {
-                if (d.balance.amount) bondedTokens += BigInt(d.balance.amount);
+                if (d.balance.amount) bondedTokens += BigInt(d.balance.amount);// amount
             });
             const delegationDataListToValidator = (await axios.get(env.LCD_END_POINT + "cosmos/staking/v1beta1/validators/" + operatorAddress + "/delegations")).data.delegation_responses;
             let delegations = [];
@@ -27,11 +27,11 @@ module.exports = {
                 const rewards = (await axios.get(env.LCD_END_POINT + "cosmos/distribution/v1beta1/delegators/" + d.delegation.delegator_address + "/rewards/" + operatorAddress)).data.rewards;
                 let reward = 0.0;
                 rewards.forEach(r => {
-                    if (r.denom === "uosmo") reward += Number(r.amount);
+                    if (r.denom === "uosmo" && r.amount) reward += Number(r.amount);// amount
                 })
                 delegations.push({
                     delegatorAddress: d.delegation.delegator_address,
-                    amount: d.balance.amount,
+                    amount: d.balance.amount,// amount
                     reward: reward.toFixed(),
                 });
             }
