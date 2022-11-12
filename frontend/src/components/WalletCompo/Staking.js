@@ -5,9 +5,7 @@ export default function Staking() {
     const onFinish = (values) => {
         console.log(values)
     }
-    const test = () => {
-        console.log(window.test)
-    }
+  
     return (
         <Form onFinish={onFinish}>
             <Form.Item name={['form', 'chain']}>
@@ -29,7 +27,7 @@ export default function Staking() {
                 <div>Validator</div>
                 <Table />
             </Form.Item>
-            <Button onClick={() => test()}>Confirm</Button>
+            <Button id="gege">Confirm</Button>
         </Form>
     )
 }
