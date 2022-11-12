@@ -102,9 +102,4 @@ export const utils = {
       CryptoJS.enc.Utf8
     );
   },
-
-  md5Encrypt: async (password) => {
-    // 입력 패스워드가 올바른 패스워드인지 판단하기 위해 해시화 후 비교하기위한 md5 암호화
-    return CryptoJS.MD5(password);
-  },
 };

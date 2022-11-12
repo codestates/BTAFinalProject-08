@@ -104,6 +104,8 @@ const Navbar = () => {
                                         Faucet
                                     </StyledLink>
                                 ),
+                            },
+                            {
                                 key: 'Wallet',
                                 label: (
                                     <StyledLink
