@@ -62,7 +62,10 @@ const MyPage = () => {
             <Button onClick={onClickLogout}>잠금</Button>
           </div>
         }
-        actions={[<Link to="/send-token">보내기</Link>]}
+        actions={[
+          <Link to="/send-token">보내기</Link>,
+          <Link to="/staking">스테이킹</Link>,
+        ]}
       >
         <Statistic
           title="Account Balance"
