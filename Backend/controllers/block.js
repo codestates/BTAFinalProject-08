@@ -1,5 +1,5 @@
-const {Block, Transaction} = require("../models");
-const {loadValidatorsInfo} = require("../modules/parseValidatorInfo");
+const { Block, Transaction } = require("../models");
+const { loadValidatorsInfo } = require("../modules/parseValidatorInfo");
 
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
             }
             res.status(200).json(recentBlocks);
         } catch (err) {
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     },
 
@@ -65,7 +65,7 @@ module.exports = {
             let gasUsed = 0;
             let gasWanted = 0;
             const block = await Block.findOne({
-                where: {height: height},
+                where: { height: height },
             })
             const validators = await loadValidatorsInfo();
             for (let i of validators.validators)
@@ -74,21 +74,21 @@ module.exports = {
                     block.setDataValue("operatorAddress", i.addressInfo.operatorAddress)
                 }
             const txs = await Transaction.findAll({
-                where: {height: height},
+                where: { height: height },
             })
-            for(let j of txs){
+            for (let j of txs) {
                 gasUsed += j.gasUsed
                 gasWanted += j.gasWanted
             }
-            block.setDataValue("gasUsed",gasUsed)
-            block.setDataValue("gasWanted",gasWanted)
+            block.setDataValue("gasUsed", gasUsed)
+            block.setDataValue("gasWanted", gasWanted)
             const blockDetails = {
                 blockInfo: block,
                 txs
             }
             res.status(200).json(blockDetails);
         } catch (err) {
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     }
 
