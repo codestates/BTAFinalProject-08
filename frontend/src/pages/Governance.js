@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getProposals, getProposalStatistics } from '../api/blockchain'
-import { parseAndLocaleString, subtractNowAndTime } from '../utils/converter'
+import { subtractNowAndTime } from '../utils/converter'
 import { refetchTime } from '../utils/size'
 
 const Wrapper = styled.div`
@@ -76,7 +76,7 @@ const column = [
         title: 'Submit Time',
         dataIndex: 'submitTime',
         key: 'submitTime',
-        render: (v) => parseAndLocaleString(v),
+        render: (v) => subtractNowAndTime(v),
     },
     {
         title: 'Total Deposit',
