@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { getProposalId } from '../api/blockchain'
 import DivContent from '../components/GovernanceDetailsCompo/DivContent'
+import { parseAndLocaleString } from '../utils/converter'
 import { refetchTime } from '../utils/size'
 
 const Wrapper = styled.div`
@@ -52,20 +53,21 @@ export default function GovernanceDetails() {
 
                         <DivContent
                             header={'votingStart'}
-                            content={data?.votingStart}
+                            content={parseAndLocaleString(data?.votingStart)}
                         />
                         <DivContent
                             header={'votingEnd'}
-                            content={data?.votingEnd}
+                            content={parseAndLocaleString(data?.votingEnd)}
                         />
                         <DivContent
                             header={'submitTime'}
-                            content={data?.submitTime}
+                            content={parseAndLocaleString(data?.submitTime)}
                         />
                         <DivContent
                             header={'depositEndTime'}
-                            content={data?.depositEndTime}
+                            content={parseAndLocaleString(data?.depositEndTime)}
                         />
+
                         <Divider></Divider>
                         <DivContent
                             header={'yes'}
