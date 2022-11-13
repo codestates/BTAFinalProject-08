@@ -1,6 +1,5 @@
 const { sha256 } = require("@cosmjs/crypto");
-const { Bech32, fromBase64, toHex } = require("@cosmjs/encoding");
-const { encodeBech32Pubkey, decodeBech32Pubkey } = require("@cosmjs/launchpad");
+const { fromBase64, toHex } = require("@cosmjs/encoding");
 
 
 const Cothi = Object.freeze({
