@@ -107,7 +107,7 @@ module.exports = {
     //     }
     // },
     //
-    getProposalDetails: async (req, res) => { //  -proposal 추가
+    getProposalDetails: async (req, res) => { //  --proposal 추가
         try {
             const proposalId = req.query.id
             const proposalInfo = (await axios.get(env.LCD_END_POINT + "cosmos/gov/v1beta1/proposals/" + proposalId)).data.proposal;
