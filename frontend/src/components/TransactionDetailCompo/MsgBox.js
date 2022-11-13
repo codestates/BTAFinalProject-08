@@ -67,7 +67,7 @@ export default function TranMsgBox({ data, type }) {
                         header={'Validator address'}
                         body={msg.validatorAddress}
                     />
-                    <DivMsg header={'Amount'} body={msg.amount + 'uosmos'} />
+                    <DivMsg header={'Amount'} body={msg.amount + 'uosmo'} />
                 </Wrapper>
             )
         case 'Delegate':
@@ -82,7 +82,7 @@ export default function TranMsgBox({ data, type }) {
                         header={'Validator address'}
                         body={msg.validatorAddress}
                     />
-                    <DivMsg header={'Amount'} body={msg.amounts + 'usosmo'} />
+                    <DivMsg header={'Amount'} body={msg.amounts + 'uosmo'} />
                 </Wrapper>
             )
         case 'Vote':
