@@ -19,7 +19,7 @@ import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
 const ProposalDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [proposal, setProposal] = useState();
+  const [proposal, setProposal] = useState(null);
   const [amount, setAmount] = useState('');
   const [voteOpt, setVoteOpt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +79,7 @@ const ProposalDetail = () => {
   };
 
   return proposal ? (
-    <Card title={proposal.content.title}>
+    <Card title={proposal.proposalTitle}>
       <Descriptions>
         <Descriptions.Item label="Status">
           {isDepositPeriod(proposal.status) ? (
@@ -89,29 +89,29 @@ const ProposalDetail = () => {
           )}
         </Descriptions.Item>
         <Descriptions.Item label="Total Deposit">
-          {proposal.total_deposit[0]?.amount} uosmo
+          {proposal.totalDeposit.amount} uosmo
         </Descriptions.Item>
         <Descriptions.Item label="Submit time">
-          {moment(proposal.submit_time).format('YYYY-MM-DD HH:m:s')}
+          {moment(proposal.submitTime).format('YYYY-MM-DD HH:m:s')}
         </Descriptions.Item>
         {!isDepositPeriod(proposal.status) && (
           <>
             <Descriptions.Item label="Voting Start">
-              {moment(proposal.voting_start_time).format('YYYY-MM-DD HH:m:s')}
+              {moment(proposal.voting_startTime).format('YYYY-MM-DD HH:m:s')}
             </Descriptions.Item>
             <Descriptions.Item label="Voting End">
-              {moment(proposal.voting_end_time).format('YYYY-MM-DD HH:m:s')}
+              {moment(proposal.votingEndTime).format('YYYY-MM-DD HH:m:s')}
             </Descriptions.Item>
           </>
         )}
         <Descriptions.Item label="Submit Time">
-          {moment(proposal.submit_time).format('YYYY-MM-DD HH:m:s')}
+          {moment(proposal.submitTime).format('YYYY-MM-DD HH:m:s')}
         </Descriptions.Item>
         <Descriptions.Item label="Deposit End">
-          {moment(proposal.deposit_end_time).format('YYYY-MM-DD HH:m:s')}
+          {moment(proposal.depositEndTime).format('YYYY-MM-DD HH:m:s')}
         </Descriptions.Item>
         <Descriptions.Item label="Detail">
-          {proposal.content.description}
+          {proposal.proposalDetails}
         </Descriptions.Item>
       </Descriptions>
       {isDepositPeriod(proposal.status) ? (

@@ -14,14 +14,14 @@ const Voting = () => {
   const [data, setData] = useState([]);
 
   const columns = [
-    { title: 'id', key: 'id', dataIndex: 'proposal_id' },
+    { title: 'id', key: 'id', dataIndex: 'proposalId' },
     {
       title: 'title',
       key: 'content',
-      dataIndex: 'content',
+      dataIndex: 'proposalTitle',
       render: (_, record) => (
-        <Link to={`/proposal/${record.proposal_id}`}>
-          {record.content.title}
+        <Link to={`/proposal/${record.proposalId}`}>
+          {record.proposalTitle}
         </Link>
       ),
     },
@@ -39,9 +39,9 @@ const Voting = () => {
     },
     {
       title: 'deposit',
-      key: 'total_deposit',
-      dataIndex: 'total_deposit',
-      render: (item) => <div>{item[0]?.amount}</div>,
+      key: 'totalDeposit',
+      dataIndex: 'totalDeposit',
+      render: (item) => <div>{item?.amount}</div>,
     },
   ];
 
@@ -65,7 +65,7 @@ const Voting = () => {
       size="small"
       dataSource={data}
       columns={columns}
-      rowKey="proposal_id"
+      rowKey="proposalId"
       isLoading={isLoading}
     />
   );
