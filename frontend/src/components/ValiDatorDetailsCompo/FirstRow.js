@@ -93,7 +93,9 @@ export default function FirstRow({
                         </FirstRowHeaderLeftHeader>
                         <FirstRowHeaderLeftBody>
                             <h3>Operator Address</h3>
-                            <p>{operatorAddr}</p>
+                            <Link to={`/validators/${operatorAddr}`}>
+                                {operatorAddr}
+                            </Link>
                         </FirstRowHeaderLeftBody>
                     </FirstRowHeaderLeft>
                     <FirstRowHeaderRight>

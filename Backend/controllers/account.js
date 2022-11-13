@@ -53,7 +53,6 @@ module.exports = {
                 availableTokens: availableTokens.toString(),
                 bondedTokens: bondedTokens.toString(),
                 totalTokens: (BigInt(Number(stakingReward).toFixed()) + availableTokens + bondedTokens).toString(),
-                votes: [], // voting기능 구현 후 추가
                 delegations,
                 transactions,
             });

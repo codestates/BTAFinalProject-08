@@ -1,10 +1,10 @@
-import { Table } from 'antd'
+import { Table, Tag } from 'antd'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { getTrans } from '../../api/blockchain'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime } from '../../utils/converter'
 
 const columnsTransaction = [
     {
@@ -19,7 +19,7 @@ const columnsTransaction = [
     {
         title: 'Type',
         dataIndex: 'type',
-        render: (txt) => <>{txt}</>,
+        render: (txt) => <Tag color="geekblue">{txt}</Tag>,
     },
     {
         title: 'Height',

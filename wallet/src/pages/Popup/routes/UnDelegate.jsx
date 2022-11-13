@@ -1,51 +1,86 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Table } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
-//import * as wallet from '../utils/wallet';
-//import { API_URL } from '../constants';
-//import assert from 'assert';
+import { FIXED_FEE } from '../constants';
 
 const UnDelegate = () => {
+  const navigate = useNavigate();
   const { operatorAddress } = useParams();
-  const [assets, setAssets] = useState([]);
-  const [assetLoading, setAssetLoading] = useState(false);
+  const [stakingAmount, setStakingAmount] = useState();
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
-    signerInfo: { address, signer },
+    signerInfo: { address, signingClient },
   } = useGetSignerInfo();
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    try {
+      setIsLoading(true);
+      const { amount } = values;
+      const res = await signingClient.undelegateTokens(
+        address,
+        operatorAddress,
+        { denom: 'uosmo', amount },
+        FIXED_FEE
+      );
+      console.log(res, 'res');
+      setIsLoading(false);
+      message.success('회수 완료');
+      navigate('/popup.html');
+    } catch (e) {
+      message.error('회수 실패');
+    }
   };
+
+  useEffect(() => {
+    if (signingClient && address) {
+      const getStakingAmount = async () => {
+        const res = await signingClient.getDelegation(address, operatorAddress);
+        if (!res) setIsDisabled(true);
+        else setStakingAmount(res.amount);
+      };
+      getStakingAmount();
+    }
+  }, [operatorAddress, signingClient, address]);
 
   return (
     <Form onFinish={onFinish} style={{ padding: '10px' }}>
-      <Form.Item name={['form', 'chain']}>
-        <div style={{ display: 'flex' }}>Blockchain</div>
-        <Input value={'osmosis'} disabled={true}></Input>
+      <Form.Item name="chain" label="Blockchain">
+        <Input placeholder={'osmosis'} disabled={true} size="large"></Input>
       </Form.Item>
-      <Form.Item name={['form', 'staking balance']}>
-        <div style={{ display: 'flex' }}> Balance</div>
-        <div style={{ display: 'flex' }}>
-          <Input disabled={true} value={assets[0]} suffix="uosmo" />
-          <Button loading={assetLoading}>reload</Button>
-        </div>
+      <Form.Item name="staking" label="Staking">
+        <Input
+          size="large"
+          disabled
+          placeholder={isDisabled ? 0 : stakingAmount}
+        />
       </Form.Item>
-      <Form.Item name={['form', 'amount']}>
-        <div style={{ display: 'flex' }}> Amount</div>
-        <Input suffix="uosmo"></Input>
+      <Form.Item name="amount" label="Amount">
+        <Input suffix="uosmo" size="large" disabled={isDisabled} />
       </Form.Item>
-
-      <Form.Item name={['form', 'operator']}>
-        <div style={{ display: 'flex' }}>Operator address</div>
+      <Form.Item name="operator" label="Operator address">
         <Input
           disabled={true}
-          value={operatorAddress}
+          placeholder={operatorAddress}
           style={{ fontSize: '12px' }}
-        ></Input>
+          size="large"
+        />
       </Form.Item>
-
-      <Button id="gege">Confirm</Button>
+      <Button
+        id="gege"
+        type="primary"
+        size="large"
+        htmlType="submit"
+        disabled={isDisabled}
+        loading={isLoading}
+      >
+        회수
+      </Button>
+      <Button className="cancel-btn" size="large" onClick={() => navigate(-1)}>
+        취소
+      </Button>
     </Form>
   );
 };

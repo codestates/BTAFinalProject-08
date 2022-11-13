@@ -12,7 +12,6 @@ module.exports = {
                 limit = 1;
             }
             const recentTransactions = await Transaction.findAll({
-                attributes: ['txHash', 'type', 'height', 'time'],
                 order: [["time", "DESC"]],
                 offset: 0,
                 limit: limit
