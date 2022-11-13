@@ -67,6 +67,7 @@ export default function GovernanceDetails() {
                             header={'depositEndTime'}
                             content={parseAndLocaleString(data?.depositEndTime)}
                         />
+
                         <Divider></Divider>
                         <DivContent
                             header={'yes'}

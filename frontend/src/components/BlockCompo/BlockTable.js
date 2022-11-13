@@ -27,9 +27,7 @@ const columnsBlock = [
         dataIndex: 'proposerAddress',
         render: (txt, v) => (
             <>
-                <Link to={`/validators/${v.proposerAddress}`}>
-                    {validatorMap[txt]}
-                </Link>
+                <Link to={`/validators/${v.proposerAddress}`}>{v.moniker}</Link>
             </>
         ),
     },
@@ -53,7 +51,6 @@ export default function BlocksTable() {
             refetchInterval: refetchTime,
         }
     )
-    console.log(data)
 
     return (
         <Table

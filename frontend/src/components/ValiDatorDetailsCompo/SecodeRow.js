@@ -75,10 +75,6 @@ const column2 = [
 ]
 
 export default function SecondRow({ proposedData, delegators, loading }) {
-    //console.log(valiAddress)
-    //console.log(delegations.data.data.result)
-
-    //console.log(proposedData)
     return (
         <SecondRowRoot>
             <SecondRowCol>

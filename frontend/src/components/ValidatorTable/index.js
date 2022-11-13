@@ -9,7 +9,7 @@ const columns = [
         dataIndex: 'moniker',
         filterMode: 'tree',
         filterSearch: true,
-        onFilter: (value, record) => console.log(value),
+        //onFilter: (value, record) => console.log(value),
         //onFilter: (value, record) => record.name.startsWith(value),
         render: (text, record) => (
             <Link to={`/validators/${record.addressInfo.operatorAddress}`}>
@@ -39,8 +39,11 @@ const columns = [
         mutiple: 4,
     },
     {
-        title: 'participate',
-        dataIndex: 'totalProposals',
+        title: 'participation',
+        dataIndex: ['participation', 'totalProposals'],
+        render: (temp, obj) => {
+            return <>{obj.participation + ' / ' + obj.totalProposals}</>
+        },
     },
     {
         title: 'Commissions',
@@ -69,10 +72,6 @@ export default function ValidatorTable({ loading, valArray }) {
     return (
         <>
             <ContentBodyHeader>
-                <Input
-                    style={{ width: 340, marginRight: 10 }}
-                    placeholder="search validator"
-                />
                 <ContentBodyHeaderWrapinput>
                     {/*<Switch
                         checked={checkStrictly}
