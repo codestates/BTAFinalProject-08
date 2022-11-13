@@ -9,11 +9,13 @@ const StakingList = () => {
     signerInfo: { address, signingClient },
   } = useGetSignerInfo();
   const [stakingList, setStakingList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchStaking = async () => {
+      setIsLoading(true);
       if (address) {
-        const { validators } = await getValidator;
+        const { validators } = await getValidator();
         const res = await Promise.all(
           validators.map(async (validator) => {
             const res = await signingClient.getDelegation(
@@ -41,6 +43,7 @@ const StakingList = () => {
           })
         ).then((response) => response.filter((item) => item !== undefined));
         setStakingList(res);
+        setIsLoading(false);
       }
     };
     fetchStaking();
@@ -71,6 +74,7 @@ const StakingList = () => {
   return (
     <>
       <List
+        loading={isLoading}
         dataSource={stakingList}
         renderItem={(item, idx) => (
           <List.Item
