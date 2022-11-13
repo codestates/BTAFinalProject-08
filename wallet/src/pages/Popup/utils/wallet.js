@@ -5,8 +5,8 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import CryptoJS from 'crypto-js';
 import { longify } from '@cosmjs/stargate/build/queryclient';
+import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
 import { FIXED_FEE } from '../constants';
-
 
 export const utils = {
   getMnemonic: async () => {
@@ -154,16 +154,13 @@ export const utils = {
   depositAmount: uosmo 단위
   */
   govSubmitProposal: async ({
-    signer,
+    address,
+    signingClient,
     title,
     description,
-    memo,
-    depositAmount,
+    amount,
   }) => {
-    const END_POINT = 'http://13.56.212.121:26657/';
     const { submitProposal } = cosmos.gov.v1beta1.MessageComposer.withTypeUrl;
-    const feeAmount = FEES.osmosis.swapExactAmountIn('low');
-    const [{ address: authorAddress }] = await signer.getAccounts();
     const textProposal = TextProposal.fromPartial({
       title: title,
       description: description,
@@ -173,20 +170,15 @@ export const utils = {
         typeUrl: '/cosmos.gov.v1beta1.TextProposal',
         value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
       },
-      initialDeposit: [{ denom: 'uosmo', amount: depositAmount }],
-      proposer: authorAddress,
+      initialDeposit: [{ denom: 'uosmo', amount }],
+      proposer: address,
     });
-    const signingClient = await SigningStargateClient.connectWithSigner(
-      END_POINT,
-      signer
-    );
-    const tx = await signingClient.signAndBroadcast(
-      authorAddress,
+
+    return await signingClient.signAndBroadcast(
+      address,
       [proposalMsg],
-      feeAmount,
-      memo
+      FIXED_FEE
     );
-    return tx;
   },
   /*NOTE -
     처음에 프로포절이 만들어지려면 10osmo가 필요하다, 그래서 투자금이 부족한 

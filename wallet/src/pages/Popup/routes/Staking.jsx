@@ -7,7 +7,7 @@ const Staking = () => {
   const [validators, setValidators] = useState();
   useEffect(() => {
     const getData = async () => {
-      const data = await getValidator;
+      const data = await getValidator();
       console.log(data);
       setValidators(data.validators);
     };
