@@ -2,10 +2,8 @@
 const { SigningStargateClient } = require('@cosmjs/stargate');
 const { toHex } = require("@cosmjs/encoding");
 const { sha256 } = require("@cosmjs/crypto");
-const { Block } = require("../models");
-const { getFeeFromTxRaw, extractTxInfo } = require("./parseTxInfo");
+const { getFeeFromTxRaw } = require("./parseTxInfo");
 const axios = require("axios");
-const env = process.env;
 
 async function extractBlockInfo(data) {
     const blockData = typeof data === "string" ? JSON.parse(data) : data;

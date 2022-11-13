@@ -1,9 +1,8 @@
 const axios = require("axios");
 const env = process.env;
-const { SigningStargateClient,StargateClient } = require('@cosmjs/stargate');
+const { SigningStargateClient } = require('@cosmjs/stargate');
 const { Block,Transaction } = require('../models');
 const endPoint = env.END_POINT // 노드 주소
-const WsEndPoint = env.WS_END_POINT // 웹소켓 노드 주소
 
 async function getCurrentHeight() {
     const signingClient = await SigningStargateClient.connect(endPoint);

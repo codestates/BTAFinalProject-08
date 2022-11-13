@@ -1,7 +1,6 @@
 const env = process.env;
 const axios = require('axios');
 const { Block } = require('../models');
-const Transaction = require('../models/Transaction');
 const { MonikerToAddressInfo, VoteOptions } = require('./utils');
 require("dotenv").config();
 

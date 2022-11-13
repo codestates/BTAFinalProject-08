@@ -1,6 +1,6 @@
 const env = process.env;
 const axios = require('axios');
-const { TxTypes, getAddressFromPubKey, VoteOptions } = require('./utils');
+const { TxTypes, getAddressFromPubKey } = require('./utils');
 require("dotenv").config();
 
 const extractMessagesFromTxHash = async (txHash) => {

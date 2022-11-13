@@ -29,36 +29,6 @@ module.exports = {
         }
     },
 
-    // getBlock: async (req, res) => { //  해당 height 의 블록 정보 리턴
-    //     try {
-    //         const height = req.query.height;
-    //         let gasUsed=0;
-    //         let gasWanted=0;
-    //         let block = await Block.findOne({
-    //             where: { height: height },
-    //         })
-    //         const transactions = await Transaction.findAll({
-    //             attributes:['gasUsed','gasWanted'],
-    //             where: { height: height },
-    //         })
-    //         for(let i of transactions){
-    //             gasUsed+=i.gasUsed
-    //             gasWanted+=i.gasWanted
-    //         }
-    //         const validators = await loadValidatorsInfo();
-    //         for(let j of validators.validators)
-    //             if(block.proposerAddress===j.addressInfo.hex){
-    //                 block.setDataValue("moniker",j.moniker)
-    //                 block.setDataValue("operatorAddress",j.addressInfo.operatorAddress)
-    //             }
-    //         block.setDataValue("gasWanted", gasWanted);
-    //         block.setDataValue("gasUsed", gasUsed);
-    //         res.status(200).json(block);
-    //     } catch (err) {
-    //         res.status(400).json({ message: err.message });
-    //     }
-    // },
-
     getBlockDetailsFromHeight: async (req, res) => {
         try {
             const height = req.query.height;
