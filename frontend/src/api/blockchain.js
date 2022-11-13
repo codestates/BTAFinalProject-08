@@ -77,6 +77,12 @@ export const getProposals = () =>
 export const getProposals = () =>
     axios.get(`${BASE_URL_API}/proposal/`).then((res) => res.data)
 
+//http://54.183.220.98:4567/proposal/details?id=3
+export const getProposalId = (id) =>
+    axios
+        .get(`${BASE_URL_API}/proposal/details?id=${id}`)
+        .then((res) => res.data)
+
 export const getAccountDetails = (address) =>
     axios
         .get(`${BASE_URL_API}/account/details/${address}`)
