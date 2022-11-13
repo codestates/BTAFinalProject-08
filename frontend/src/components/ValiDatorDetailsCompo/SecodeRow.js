@@ -1,5 +1,6 @@
 import { Table } from 'antd'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getDelegations } from '../../api/blockchain'
 import { cardShadow, defaultColor } from '../../utils/color'
@@ -37,13 +38,13 @@ const SecondRowColBody = styled.div`
 const column1 = [
     {
         title: 'Delegator Address',
-        dataIndex: 'delegation',
-        render: (txt) => <a>{txt.delegator_address}</a>,
+        dataIndex: 'delegatorAddress',
+        render: (txt) => <Link to={`/account/${txt}`}>{txt}</Link>,
     },
     {
         title: 'balance',
-        dataIndex: 'balance',
-        render: (txt) => <a>{txt.amount + txt.denom}</a>,
+        dataIndex: 'amount',
+        render: (txt) => txt,
     },
 ]
 
@@ -51,11 +52,16 @@ const column2 = [
     {
         title: 'Height',
         dataIndex: 'height',
+        render: (v) => <Link to={`/blocks/${v}`}>{v}</Link>,
     },
     {
         title: 'Block Hash',
         dataIndex: 'hash',
-        render: (v) => <a>{v.slice(0, 5) + '...' + v.slice(-5)}</a>,
+        render: (v, record) => (
+            <Link to={`/blocks/${record.height}`}>
+                {v.slice(0, 5) + '...' + v.slice(-5)}
+            </Link>
+        ),
     },
     {
         title: 'Txs',
@@ -68,31 +74,29 @@ const column2 = [
     },
 ]
 
-export default function SecondRow({ valiAddress, proposedData }) {
-    const delegations = useQuery(['delegations', valiAddress], () =>
-        getDelegations(valiAddress)
-    )
+export default function SecondRow({ proposedData, delegators, loading }) {
     //console.log(valiAddress)
     //console.log(delegations.data.data.result)
 
+    //console.log(proposedData)
     return (
         <SecondRowRoot>
             <SecondRowCol>
                 <SecondRowColHeader>Delegators</SecondRowColHeader>
                 <SecondRowColBody>
-                    {delegations?.data?.data && (
-                        <Table
-                            columns={column1}
-                            dataSource={delegations.data.result}
-                            size="small"
-                        ></Table>
-                    )}
+                    <Table
+                        columns={column1}
+                        dataSource={!delegators ? null : delegators}
+                        loading={loading}
+                        pagination={{ pageSize: 4 }}
+                    ></Table>
                 </SecondRowColBody>
             </SecondRowCol>
             <SecondRowCol>
                 <SecondRowColHeader>Proposed Blocks</SecondRowColHeader>
                 <SecondRowColBody>
                     <Table
+                        loading={loading}
                         pagination={{ pageSize: 4 }}
                         columns={column2}
                         dataSource={!proposedData ? null : proposedData}

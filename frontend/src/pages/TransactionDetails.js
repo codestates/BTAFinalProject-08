@@ -42,7 +42,6 @@ export default function TransactionDetail() {
     const { data, isLoading } = useQuery(['transDetail', transactionid], () =>
         getTransInfo(transactionid)
     )
-    console.log(data)
 
     return (
         <Wrapper>
@@ -69,7 +68,7 @@ export default function TransactionDetail() {
                         Message
                     </MessageHeader>
                     <Divider></Divider>
-                    {!data
+                    {!data?.messages
                         ? null
                         : data.messages.map((v, i) => {
                               return (

@@ -1,4 +1,4 @@
-import { Input, Switch, Table } from 'antd'
+import { Input, Switch, Table, Tag } from 'antd'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -32,7 +32,10 @@ const columns = [
         sorter: {
             compare: (a, b) => a.votingPower - b.votingPower,
         },
-        render: (v) => <div>{v === 'true' ? 'active' : 'inactive'}</div>,
+        render: (v) => {
+            const color = v ? 'geekblue' : '#f19494'
+            return <Tag color={color}>{v ? 'active' : 'inactive'}</Tag>
+        },
         mutiple: 4,
     },
     {
@@ -71,12 +74,12 @@ export default function ValidatorTable({ loading, valArray }) {
                     placeholder="search validator"
                 />
                 <ContentBodyHeaderWrapinput>
-                    <Switch
+                    {/*<Switch
                         checked={checkStrictly}
                         onChange={setCheckStrictly}
                         checkedChildren="inactive"
                         unCheckedChildren="unactive"
-                    />
+                    />*/}
                 </ContentBodyHeaderWrapinput>
             </ContentBodyHeader>
             <Table loading={loading} columns={columns} dataSource={valArray} />

@@ -2,7 +2,7 @@ import { Card, Table } from 'antd'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { getOperatorAddress } from '../api/blockchain'
+import { getDelegations, getOperatorAddress } from '../api/blockchain'
 import FirstRow from '../components/ValiDatorDetailsCompo/FirstRow'
 import SecondRow from '../components/ValiDatorDetailsCompo/SecodeRow'
 import ThirdRow from '../components/ValiDatorDetailsCompo/ThirdRow'
@@ -32,7 +32,7 @@ const Header = styled.div`
 
 export default function ValidatorDetails() {
     const { valaddress } = useParams()
-    let limit = 5
+    let limit = 20
     const { data, isLoading } = useQuery(
         ['operatorAddress', limit, valaddress],
         () => getOperatorAddress({ operatorAddress: valaddress, limit: limit }),
@@ -40,31 +40,32 @@ export default function ValidatorDetails() {
             refetchInterval: refetchTime,
         }
     )
-    console.log(data)
+
+    //console.log(data, 'ge')
+    //console.log(delegators?.data)
     return (
         <Wrapper>
-            {data && (
-                <WrapContent>
-                    <Header>VALIDATOR DETAILS</Header>
-                    <FirstRow
-                        operatorAddr={valaddress}
-                        addr={data.addressInfo.address}
-                        website="https://www.naver.com"
-                        commission={(data.commission * 100).toFixed(1) + '%'}
-                        bodedHeight={data.bondedHeight}
-                        uptime={data.isActive ? '100' : '0'}
-                        selfBonded={data.selfBonded}
-                        details={data.details}
-                        loading={true}
-                    />
-                    <SecondRow
-                        valiAddress={valaddress}
-                        proposedData={data.proposedBlocks}
-                        loading={isLoading}
-                    />
-                    <ThirdRow voteData={''} loading={false} />
-                </WrapContent>
-            )}
+            <WrapContent>
+                <Header>VALIDATOR DETAILS</Header>
+
+                <FirstRow
+                    operatorAddr={valaddress}
+                    addr={data?.addressInfo.address}
+                    website=""
+                    commission={(data?.commission * 100).toFixed(1) + '%'}
+                    bodedHeight={data?.bondedHeight}
+                    uptime={data?.isActive ? '100' : '0'}
+                    selfBonded={data?.selfBonded}
+                    details={data?.details}
+                    loading={isLoading}
+                />
+                <SecondRow
+                    proposedData={data?.proposedBlocks}
+                    delegators={data?.delegators}
+                    loading={isLoading}
+                />
+                <ThirdRow voteData={''} loading={false} />
+            </WrapContent>
         </Wrapper>
     )
 }

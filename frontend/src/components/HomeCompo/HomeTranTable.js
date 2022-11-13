@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Tag } from 'antd'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ const columnsTransaction = [
     {
         title: 'Type',
         dataIndex: 'type',
-        render: (txt) => <>{txt}</>,
+        render: (txt) => <Tag color="geekblue">{txt}</Tag>,
     },
     {
         title: 'Height',
