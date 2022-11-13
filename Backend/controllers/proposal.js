@@ -72,6 +72,7 @@ module.exports = {
             const proposals = (await axios.get(env.LCD_END_POINT + "cosmos/gov/v1beta1/proposals")).data.proposals;
             let resultObject = []
             for (let i of proposals) {
+                const tally = (await axios.get(env.LCD_END_POINT + `cosmos/gov/v1beta1/proposals/${i.proposal_id}/tally`)).data.tally;
                 if(i.status==="PROPOSAL_STATUS_VOTING_PERIOD"){
                     let proposal = {
                         proposalId: i.proposal_id,
@@ -80,6 +81,7 @@ module.exports = {
                         votingStart: i.voting_start_time,
                         submitTime: i.submit_time,
                         totalDeposit: i.total_deposit[0],
+                        tally:tally
                     }
                     resultObject.push(proposal)
                 }
