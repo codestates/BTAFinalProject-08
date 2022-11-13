@@ -70,6 +70,7 @@ const Home = () => {
                     bondedToken={data?.bondedTokens}
                     communnityPool={data?.communityPool}
                     totalValidators={data?.totalValidators}
+                    votingPeriod={data?.votingPeriod}
                     activeValidator={data?.activeValidators}
                     loading={true}
                 />

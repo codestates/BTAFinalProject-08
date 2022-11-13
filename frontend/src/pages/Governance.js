@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getProposals, getProposalStatistics } from '../api/blockchain'
 import { subtractNowAndTime } from '../utils/converter'
+import { refetchTime } from '../utils/size'
 
 const Wrapper = styled.div`
     min-width: 900px;
@@ -82,7 +83,9 @@ const column = [
     },
 ]
 export default function Governance() {
-    const { isLoading, data } = useQuery(['proposal'], getProposals)
+    const { isLoading, data } = useQuery(['proposal'], getProposals, {
+        refetchInterval: refetchTime,
+    })
     console.log('[proposal data]', data)
     if (data?.proposals.length >= 2) {
         for (let i = 1; i <= data?.proposals.length; i++) {
@@ -93,14 +96,11 @@ export default function Governance() {
         <Wrapper>
             <Header>PROPOSALS</Header>
             <Table
+                loading={isLoading}
                 columns={column}
                 expandable={{
                     expandedRowRender: async (record) => {
-                        const proposalData = await getProposalStatistics(
-                            record.proposal_id
-                        )
-                        console.log(proposalData)
-                        return <Card>{proposalData?.data?.yes}</Card>
+                        return <Card>helo</Card>
                     },
                     rowExpandable: (record) =>
                         record.status !== 'PROPOSAL_STATUS_DEPOSIT_PERIOD',
