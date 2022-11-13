@@ -11,22 +11,31 @@ const loadValidatorsInfo = async () => {
     const activePubKeyToVotingPower = new Map();
     activeValidators.forEach(v => {
         activePubKeyToVotingPower.set(v.pub_key.key, v.voting_power);
-    })
-    const validatorInfoList = validators.map(v => {
+    });
+    let validatorInfoList = [];
+    for (const v of validators) {
         const { description: { moniker }, commission: { commission_rates: { rate } } } = v;
         const pubKey = MonikerToAddressInfo[moniker].pubKey;
         const votingPower = activePubKeyToVotingPower.get(pubKey) ? activePubKeyToVotingPower.get(pubKey) : "Inactive Validator";
         const addressInfo = MonikerToAddressInfo[moniker];
-        return {//  participation(voting 기능 구현 후), totalProposals(voting 기능 구현 후)
+        const totalProposals = (await axios.get(env.LCD_END_POINT + "gov/proposals")).data.result?.length;
+        let participation = 0;
+        for (let i = 0; i < totalProposals; i++) {
+            const votes = (await axios.get(env.LCD_END_POINT + "cosmos/gov/v1beta1/proposals/" + String(3 + i) + "/votes")).data.votes;
+            for (const v of votes) {
+                if (v.voter === addressInfo.address) ++participation;
+            }
+        }
+        validatorInfoList.push({
             moniker,
             addressInfo,
             votingPower,
-            participation: "TBD",
-            totalProposals: "TBD",
+            participation,
+            totalProposals,
             isActive: activePubKeyToVotingPower.get(pubKey) ? true : false,
-            commistion: rate
-        }
-    });
+            commistion: rate,
+        });
+    }
     const activationData = (await axios.get(env.LCD_END_POINT + "cosmos/base/tendermint/v1beta1/validatorsets/latest")).data;
     const activeValidatorNum = activationData.validators.length;
     const bondedTokens = (await axios.get(env.LCD_END_POINT + "staking/pool")).data.result.bonded_tokens;
