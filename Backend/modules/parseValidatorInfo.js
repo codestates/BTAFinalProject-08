@@ -18,7 +18,7 @@ const loadValidatorsInfo = async () => {
         const pubKey = MonikerToAddressInfo[moniker].pubKey;
         const votingPower = activePubKeyToVotingPower.get(pubKey) ? activePubKeyToVotingPower.get(pubKey) : "Inactive Validator";
         const addressInfo = MonikerToAddressInfo[moniker];
-        const totalProposals = (await axios.get(env.LCD_END_POINT + "gov/proposals")).data.result?.length;
+        const totalProposals = (await axios.get(env.LCD_END_POINT + "gov/proposals")).data.result.length; // length
         let participation = 0;
         for (let i = 0; i < totalProposals; i++) {
             const votes = (await axios.get(env.LCD_END_POINT + "cosmos/gov/v1beta1/proposals/" + String(3 + i) + "/votes")).data.votes;
@@ -112,7 +112,7 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
         const txsData = (await axios.get(env.LCD_END_POINT + "txs?message.action=/cosmos.gov.v1beta1.MsgVote&message.sender=" + addressInfo.address + "&limit=" + limit + "&tx.minheight=" + minHeight)).data;
         let txHash = "";
         let timeSubmitted = "";
-        const txs = txsData.txs;
+        const txs = txsData.txs ? txsData.txs : [];
         const lenOfTxs = txs.length;
         for (let i = 0; i < txs.length; ++i) {
             const proposalId = txs[lenOfTxs - i - 1].tx.value.msg[0].value.proposal_id;
