@@ -60,11 +60,17 @@ export default function CardFirstRow2Col() {
                     Communication protocol.
                 </CardFirstRow2ColBody>
                 <CardFirstRow2ColFooter>
-                    <Icon
-                        icon="fa6-brands:square-github"
-                        width="24"
-                        color="#4B525D"
-                    />
+                    <a
+                        href="https://github.com/codestates/BTAFinalProject-08"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <Icon
+                            icon="fa6-brands:square-github"
+                            width="24"
+                            color="#4B525D"
+                        />
+                    </a>
                 </CardFirstRow2ColFooter>
             </IntroduceCard>
         </CardFirstRow2ColRoot>

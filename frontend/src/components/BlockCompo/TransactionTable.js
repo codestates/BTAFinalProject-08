@@ -53,7 +53,6 @@ export default function TransTable() {
             refetchInterval: refetchTime,
         }
     )
-    console.log('[transaction limit 20]', data)
     //console.log(Array(data.txs).reverse())
 
     return (

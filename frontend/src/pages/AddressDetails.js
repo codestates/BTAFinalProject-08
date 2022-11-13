@@ -6,7 +6,6 @@ import FirstRow from '../components/AccountDetailsCompo/FirstRow'
 import { Table } from 'antd'
 import { useQuery } from 'react-query'
 import { getAccountDetails } from '../api/blockchain'
-import SecondTable from '../components/AccountDetailsCompo/DelegationTable'
 import DelegationTable from '../components/AccountDetailsCompo/DelegationTable'
 import TransactionsTable from '../components/AccountDetailsCompo/TransactionsTable'
 const Wrapper = styled.div`
@@ -21,28 +20,12 @@ const Header = styled.div`
     font-weight: 500;
 `
 
-const ThirdRow = styled.div`
-    padding: 20px;
-    width: 100%;
-    height: 300px;
-    border-radius: ${cardBorderRadius};
-    box-shadow: ${cardShadow};
-    background-color: #ffffff;
-    margin-top: 10px;
-`
-const RowHeader = styled.div`
-    font-size: 18px;
-    font-weight: 500;
-    height: 50px;
-`
-
 export default function AddressDetails() {
     const { addressid } = useParams()
     const { isLoading, data } = useQuery(['addressDetail', addressid], () =>
         getAccountDetails(addressid)
     )
-    console.log('[address Details]', addressid)
-    console.log('[address Details]', data)
+
     return (
         <Wrapper>
             <Header>ACCOUNT DETAIL</Header>
