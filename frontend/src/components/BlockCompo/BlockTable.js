@@ -51,7 +51,6 @@ export default function BlocksTable() {
             refetchInterval: refetchTime,
         }
     )
-    console.log('[block table]', data)
 
     return (
         <Table

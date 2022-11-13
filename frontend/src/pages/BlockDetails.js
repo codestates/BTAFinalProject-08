@@ -95,7 +95,6 @@ export default function BlockDetails() {
         }
     )
 
-    console.log('[blockinfo]', data.blockInfo)
     //console.log(blockTransaction.data)
     // tx > value > msg[] > value
     /*!SECTION

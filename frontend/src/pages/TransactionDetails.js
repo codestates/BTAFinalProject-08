@@ -42,7 +42,6 @@ export default function TransactionDetail() {
     const { data, isLoading } = useQuery(['transDetail', transactionid], () =>
         getTransInfo(transactionid)
     )
-    console.log('[transaction details]', data)
 
     return (
         <Wrapper>

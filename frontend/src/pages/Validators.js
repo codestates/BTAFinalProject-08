@@ -34,7 +34,6 @@ const Validators = () => {
     const { isLoading, data } = useQuery(['validators'], getAllValidator, {
         refetchInterval: refetchTime,
     })
-    console.log('[validators pages]', data)
 
     return (
         <Wrapper>

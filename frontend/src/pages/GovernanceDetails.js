@@ -27,7 +27,6 @@ export default function GovernanceDetails() {
         }
     )
 
-    console.log('[governance details]', data)
     return (
         <Wrapper>
             <Card loading={isLoading}>
