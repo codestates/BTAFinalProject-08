@@ -30,3 +30,19 @@ export const parseAndLocaleString = (v) => {
     let date = new Date(v)
     return date.toLocaleString()
 }
+
+export const voteOption = (v) => {
+    //yes  // apstain //  no //  no with veto
+    switch (v) {
+        case 1:
+            return 'yes'
+        case 2:
+            return 'abstrain'
+        case 3:
+            return 'no'
+        case 4:
+            return 'no with veto'
+        default:
+            return 'none'
+    }
+}
