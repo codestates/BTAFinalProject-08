@@ -39,8 +39,11 @@ const columns = [
         mutiple: 4,
     },
     {
-        title: 'participate',
-        dataIndex: 'totalProposals',
+        title: 'participation',
+        dataIndex: ['participation', 'totalProposals'],
+        render: (temp, obj) => {
+            return <>{obj.participation + " / " + obj.totalProposals}</>
+        }
     },
     {
         title: 'Commissions',
