@@ -14,6 +14,8 @@ import useAuth from './hooks/useAuth';
 import Staking from './routes/Staking';
 import Delegate from './routes/Delegate';
 import UnDelegate from './routes/UnDelegate';
+import Voting from './routes/Voting';
+import ProposalDetail from './routes/ProposalDetail';
 
 const Popup = () => {
   const { Header } = Layout;
@@ -64,6 +66,8 @@ const Popup = () => {
         <Route path="/import" element={<ImportWallet />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/staking" element={<Staking />} />
+        <Route path="/voting" element={<Voting />} />
+        <Route path="/proposal/:id" element={<ProposalDetail />} />
         <Route
           path="/staking/delegate/:operatorAddress"
           element={<Delegate />}

@@ -40,7 +40,6 @@ const StakingList = () => {
             if (res) return { ...res, validator, reward };
           })
         ).then((response) => response.filter((item) => item !== undefined));
-
         setStakingList(res);
       }
     };
@@ -59,7 +58,6 @@ const StakingList = () => {
     } catch (e) {
       message.error('리워드 얻기 실패');
     }
-    //To do: 리워드 이후 액션
   };
 
   const confirmReward = (key) => {

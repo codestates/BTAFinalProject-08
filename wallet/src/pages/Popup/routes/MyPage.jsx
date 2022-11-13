@@ -68,6 +68,7 @@ const MyPage = () => {
         actions={[
           <Link to="/send-token">보내기</Link>,
           <Link to="/staking">스테이킹</Link>,
+          <Link to="/voting">보팅</Link>,
         ]}
       >
         <Statistic
