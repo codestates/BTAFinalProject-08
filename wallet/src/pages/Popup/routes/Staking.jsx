@@ -1,9 +1,7 @@
-//import { useQuery } from '@tanstack/react-query';
 import { List, Skeleton } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getValidator } from '../utils/api';
-//import { getValidator } from '../utils/api';
 
 const Staking = () => {
   const [validators, setValidators] = useState();
