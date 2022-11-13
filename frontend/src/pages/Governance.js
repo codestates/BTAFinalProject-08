@@ -1,8 +1,8 @@
-import { Table, Tag, Tooltip } from 'antd'
+import { Card, Table, Tag, Tooltip } from 'antd'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { getProposals } from '../api/blockchain'
+import { getProposals, getProposalStatistics } from '../api/blockchain'
 import { subtractNowAndTime } from '../utils/converter'
 
 const Wrapper = styled.div`
@@ -19,11 +19,13 @@ const column = [
     {
         title: '#ID',
         dataIndex: 'proposal_id',
+        key: 'proposal_id',
         render: (v) => '#' + v,
     },
     {
         title: 'Title',
         dataIndex: 'content',
+        key: 'content',
         render: (v, record) => (
             <Tooltip title={v.description} placement="topLeft">
                 <Link to={`/governance/${record.proposal_id}`}>
@@ -42,6 +44,7 @@ const column = [
     {
         title: 'Status',
         dataIndex: 'status',
+        key: 'status',
         render: (v) => {
             let color =
                 (v.startsWith('PROPOSAL_STATUS_', 0)
@@ -61,28 +64,47 @@ const column = [
     {
         title: 'Voting Start',
         dataIndex: 'voting_start_time',
+        key: 'voting_start_time',
         render: (v) =>
             v === '0001-01-01T00:00:00Z' ? '-' : subtractNowAndTime(v),
     },
     {
         title: 'Submit Time',
         dataIndex: 'submit_time',
+        key: 'submit_time',
         render: (v) => subtractNowAndTime(v),
     },
     {
         title: 'Total Deposit',
         dataIndex: 'total_deposit',
+        key: 'total_deposit',
         render: (v) => (!v[0] ? null : v[0].amount + 'uosmo'),
     },
 ]
 export default function Governance() {
     const { isLoading, data } = useQuery(['proposal'], getProposals)
-    console.log(data)
+    console.log('[proposal data]', data)
+    if (data?.proposals.length >= 2) {
+        for (let i = 1; i <= data?.proposals.length; i++) {
+            Object.assign(data.proposals[i - 1], { key: i })
+        }
+    }
     return (
         <Wrapper>
             <Header>PROPOSALS</Header>
             <Table
                 columns={column}
+                expandable={{
+                    expandedRowRender: async (record) => {
+                        const proposalData = await getProposalStatistics(
+                            record.proposal_id
+                        )
+                        console.log(proposalData)
+                        return <Card>{proposalData?.data?.yes}</Card>
+                    },
+                    rowExpandable: (record) =>
+                        record.status !== 'PROPOSAL_STATUS_DEPOSIT_PERIOD',
+                }}
                 dataSource={!data ? null : data.proposals}
             ></Table>
         </Wrapper>

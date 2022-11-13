@@ -85,3 +85,8 @@ export const getAccountDetails = (address) =>
         .then((res) => res.data)
 //export const getProposalId = (id) =>
 //    axios.get(`${NODE_URL_API}/${}`)
+
+export const getProposalStatistics = (id) =>
+    axios
+        .get(`${NODE_URL_API}/cosmos/gov/v1beta1/proposals/${id}/tally`)
+        .then((res) => res.data)
