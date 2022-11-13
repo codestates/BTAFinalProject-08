@@ -55,7 +55,7 @@ const Home = () => {
             refetchInterval: refetchTime,
         }
     )
-    console.log(data)
+    //console.log(data)
     /*
         NOTE 블록, 트랜잭션, 본디드 토큰, 풀, 인플레이션, 스테이킹 apr, 로딩을 요청하고 데이터
         를 뿌려준다.

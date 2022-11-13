@@ -55,9 +55,11 @@ const Content = styled.div`
 `
 
 export default function CardSecondRowVoteCol({ icon1, header1, votingPeriod }) {
-    const limit = votingPeriod.length
     const [num, setNum] = useState(0)
-    console.log('[voting period]', votingPeriod)
+    if (!votingPeriod) {
+        return
+    }
+    const limit = votingPeriod?.length
     const checkNum = (v) => {
         v = num + v
         if (v < 0) {

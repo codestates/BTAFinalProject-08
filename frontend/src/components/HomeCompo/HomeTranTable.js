@@ -10,6 +10,7 @@ const columnsTransaction = [
     {
         title: 'Tx Hash',
         dataIndex: 'txHash',
+        key: 'txHash',
         render: (txt) => (
             <Link to={`/txs/${txt}`}>
                 {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
@@ -19,21 +20,23 @@ const columnsTransaction = [
     {
         title: 'Type',
         dataIndex: 'type',
+        key: 'type',
         render: (txt) => <Tag color="geekblue">{txt}</Tag>,
     },
     {
         title: 'Height',
         dataIndex: 'height',
+        key: 'height',
     },
     {
         title: 'Time',
         dataIndex: 'time',
+        key: 'time',
         render: (txt) => <>{subtractNowAndTime(txt)}</>,
     },
 ]
 export default function HomeTranTable() {
     let limit = 5
-    const [toggle, setToggle] = useState(false)
     const { isLoading, data } = useQuery(
         ['transaction', limit],
         () => getTrans(limit),

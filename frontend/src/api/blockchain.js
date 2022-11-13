@@ -75,9 +75,7 @@ export const getProposals = () =>
 */
 
 export const getProposals = () =>
-    axios
-        .get(`${NODE_URL_API}/cosmos/gov/v1beta1/proposals`)
-        .then((res) => res.data)
+    axios.get(`${BASE_URL_API}/proposal/`).then((res) => res.data)
 
 export const getAccountDetails = (address) =>
     axios
