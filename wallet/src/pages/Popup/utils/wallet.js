@@ -4,8 +4,9 @@ import { getOfflineSignerProto } from 'cosmjs-utils';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import CryptoJS from 'crypto-js';
-import { longify } from './num';
-import { VoteOption } from 'osmojs/types/codegen/cosmos/gov/v1/gov';
+import { longify } from '@cosmjs/stargate/build/queryclient';
+import { FIXED_FEE } from '../constants';
+
 
 export const utils = {
   getMnemonic: async () => {
@@ -74,6 +75,46 @@ export const utils = {
     console.log(msg, fee, 'check fee msg');
     return await signingClient.signAndBroadcast(fromAddress, [msg], fee);
   },
+  sendDeposit: async (proposalId, signingClient, address, amount) => {
+    const { deposit } = cosmos.gov.v1beta1.MessageComposer.withTypeUrl;
+    const depositMsg = deposit({
+      amount: [{ denom: 'uosmo', amount }],
+      depositor: address,
+      proposalId: longify(proposalId),
+    });
+    return await signingClient.signAndBroadcast(
+      address,
+      [depositMsg],
+      FIXED_FEE
+    );
+  },
+  sendVoting: async (proposalId, signingClient, address, voteOption) => {
+    const { vote } = cosmos.gov.v1beta1.MessageComposer.withTypeUrl;
+    let option;
+    switch (voteOption) {
+      case 'yes':
+        option = 1;
+        break;
+      case 'abstrain':
+        option = 2;
+        break;
+      case 'no':
+        option = 3;
+        break;
+      case 'noWithVeto':
+        option = 4;
+        break;
+
+      default:
+        return 'yes';
+    }
+    const voteMsg = vote({
+      proposalId: longify(proposalId),
+      voter: address,
+      option,
+    });
+    return await signingClient.signAndBroadcast(address, [voteMsg], FIXED_FEE);
+  },
   getTx: async (address, signingClient) => {
     // 해당 주소의 송금 및 트랜젝션 정보 리턴
     const transaction = await signingClient.searchTx({
@@ -97,7 +138,6 @@ export const utils = {
     // 사용자의 mnemonic을 패스워드를 사용하여 암호화
     return CryptoJS.AES.encrypt(mnemonic, password).toString();
   },
-
   aes256Decrypt: async (encrypted, password) => {
     // 크롬 스토리지에 저장된 암호화된 mnemonic을 패스워드를 사용하여 복호화
     return CryptoJS.AES.decrypt(encrypted, password).toString(
