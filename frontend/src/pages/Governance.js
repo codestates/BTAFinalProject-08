@@ -89,18 +89,14 @@ export default function Governance() {
     const { isLoading, data } = useQuery(['proposal'], getProposals, {
         refetchInterval: refetchTime,
     })
-    console.log('[proposal data]', data)
-    if (data?.length >= 2) {
-        for (let i = 1; i <= data?.length; i++) {
-            Object.assign(data[i - 1], { key: i })
-        }
-    }
+
     return (
         <Wrapper>
             <Header>PROPOSALS</Header>
             <Table
                 loading={isLoading}
                 columns={column}
+                rowKey={'proposalId'}
                 expandable={{
                     expandedRowRender: (record) => (
                         <>

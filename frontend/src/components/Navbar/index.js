@@ -139,45 +139,6 @@ const Navbar = () => {
                                     </StyledLink>
                                 ),
                             },
-                            {
-                                key: 'Wallet',
-                                label: (
-                                    <StyledLink
-                                        to="/wallet"
-                                        reloadDocument={true}
-                                    >
-                                        <Icon
-                                            icon="fluent:wallet-32-regular"
-                                            style={{ marginRight: '5px' }}
-                                        />
-                                        WALLET
-                                    </StyledLink>
-                                ),
-                                children: [
-                                    {
-                                        label: (
-                                            <StyledLink
-                                                to="/wallet/staking"
-                                                reloadDocument={true}
-                                            >
-                                                STAKING
-                                            </StyledLink>
-                                        ),
-                                        key: 'setting:3',
-                                    },
-                                    {
-                                        label: (
-                                            <StyledLink
-                                                to="/wallet/governance"
-                                                reloadDocument={true}
-                                            >
-                                                GOVERNANCE
-                                            </StyledLink>
-                                        ),
-                                        key: 'setting:4',
-                                    },
-                                ],
-                            },
                         ]}
                     />
                     <Search
