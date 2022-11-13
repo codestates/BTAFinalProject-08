@@ -13,11 +13,9 @@ const columnsBlock = [
     },
     {
         title: 'Proposer',
-        dataIndex: 'proposerAddress',
-        render: (txt) => (
-            <Link to={`/validators/${operatorMap[txt]} `}>
-                {validatorMap[txt]}
-            </Link>
+        dataIndex: 'operatorAddress',
+        render: (txt, record) => (
+            <Link to={`/validators/${txt} `}>{record.moniker}</Link>
         ),
     },
     {
@@ -39,6 +37,7 @@ export default function HomeBlockTable() {
             refetchInterval: refetchTime,
         }
     )
+    console.log('[home block table]', data)
 
     return (
         <Table
