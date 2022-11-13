@@ -3,5 +3,5 @@ const { getProposals ,getProposalDetails,getVotingPeriodProposals} = require("..
 const {getRecentBlock} = require("../controllers/block");
 router.get('/', getProposals);
 // router.get('/period', getVotingPeriodProposals);
-// router.get('/details', getProposalDetails);
+router.get('/details', getProposalDetails);
 module.exports = router;
