@@ -1,10 +1,10 @@
-import { Table } from 'antd'
+import { Table, Tag } from 'antd'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { getBlocks, getTrans } from '../../api/blockchain'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime, uosmoToOsmo } from '../../utils/converter'
 
 const columnsTransaction = [
     {
@@ -19,7 +19,7 @@ const columnsTransaction = [
     {
         title: 'Type',
         dataIndex: 'type',
-        render: (txt) => <>{txt}</>,
+        render: (txt) => <Tag color="blue">{txt}</Tag>,
     },
     {
         title: 'Result',
@@ -30,7 +30,7 @@ const columnsTransaction = [
     {
         title: 'Fee',
         dataIndex: 'fee',
-        render: (txt) => <>{txt + 'uosmo'}</>,
+        render: (txt) => <>{uosmoToOsmo(txt) + 'osmo'}</>,
     },
     {
         title: 'Height',
@@ -53,6 +53,7 @@ export default function TransTable() {
             refetchInterval: refetchTime,
         }
     )
+    console.log('[transaction limit 20]', data)
     //console.log(Array(data.txs).reverse())
 
     return (

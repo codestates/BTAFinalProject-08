@@ -1,4 +1,4 @@
-import { Input, Switch, Table } from 'antd'
+import { Input, Switch, Table, Tag } from 'antd'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -19,27 +19,32 @@ const columns = [
     },
     {
         title: 'Voting Power',
-        dataIndex: 'tokens',
+        dataIndex: 'votingPower',
         sorter: {
             compare: (a, b) => a.votingPower - b.votingPower,
         },
-        render: (txt) => <> {txt / 1000000}</>,
+        render: (txt) => <> {txt}</>,
         mutiple: 4,
     },
     {
         title: 'Uptime',
-        dataIndex: 'tokens',
+        dataIndex: 'isActive',
         sorter: {
             compare: (a, b) => a.votingPower - b.votingPower,
+        },
+        render: (v) => {
+            const color = v ? 'geekblue' : '#f19494'
+            return <Tag color={color}>{v ? 'active' : 'inactive'}</Tag>
         },
         mutiple: 4,
     },
     {
         title: 'participate',
+        dataIndex: 'totalProposals',
     },
     {
         title: 'Commissions',
-        dataIndex: 'commistionRate',
+        dataIndex: 'commistion',
         render: (txt) => <> {(txt * 100).toFixed(1) + '%'}</>,
     },
 ]
@@ -69,12 +74,12 @@ export default function ValidatorTable({ loading, valArray }) {
                     placeholder="search validator"
                 />
                 <ContentBodyHeaderWrapinput>
-                    <Switch
+                    {/*<Switch
                         checked={checkStrictly}
                         onChange={setCheckStrictly}
                         checkedChildren="inactive"
                         unCheckedChildren="unactive"
-                    />
+                    />*/}
                 </ContentBodyHeaderWrapinput>
             </ContentBodyHeader>
             <Table loading={loading} columns={columns} dataSource={valArray} />

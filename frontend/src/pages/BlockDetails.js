@@ -7,7 +7,7 @@ import ContentHeaderDiv from '../components/BlockDetailsCompo/ContentHeaderDiv'
 import { operatorMap, validatorMap } from '../utils/blockchain'
 import { cardShadow } from '../utils/color'
 import { cardBorderRadius, refetchTime } from '../utils/size'
-import { subtractNowAndTime } from '../utils/time'
+import { subtractNowAndTime } from '../utils/converter'
 
 const Wrapper = styled.div`
     max-width: 1000px;

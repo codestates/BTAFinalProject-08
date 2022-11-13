@@ -18,3 +18,7 @@ export const subtractNowAndTime = (isoTime) => {
     }
     return Math.floor(day) + 'day ago'
 }
+
+export const uosmoToOsmo = (v) => {
+    return v / 1000000
+}

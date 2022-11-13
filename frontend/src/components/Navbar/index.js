@@ -101,7 +101,19 @@ const Navbar = () => {
                                             icon="fa6-solid:faucet"
                                             style={{ marginRight: '5px' }}
                                         />
-                                        Faucet
+                                        FAUCET
+                                    </StyledLink>
+                                ),
+                            },
+                            {
+                                key: 'Governance',
+                                label: (
+                                    <StyledLink to="/governance">
+                                        <Icon
+                                            icon="fa-solid:vote-yea"
+                                            style={{ marginRight: '5px' }}
+                                        />
+                                        GOVERNANCE
                                     </StyledLink>
                                 ),
                             },
@@ -116,7 +128,7 @@ const Navbar = () => {
                                             icon="fluent:wallet-32-regular"
                                             style={{ marginRight: '5px' }}
                                         />
-                                        Wallet
+                                        WALLET
                                     </StyledLink>
                                 ),
                                 children: [
@@ -126,7 +138,7 @@ const Navbar = () => {
                                                 to="/wallet/staking"
                                                 reloadDocument={true}
                                             >
-                                                Staking
+                                                STAKING
                                             </StyledLink>
                                         ),
                                         key: 'setting:3',
@@ -137,7 +149,7 @@ const Navbar = () => {
                                                 to="/wallet/governance"
                                                 reloadDocument={true}
                                             >
-                                                Governance
+                                                GOVERNANCE
                                             </StyledLink>
                                         ),
                                         key: 'setting:4',
