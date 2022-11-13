@@ -13,6 +13,7 @@ import AddressDetails from './pages/AddressDetails'
 import Faucet from './pages/Faucet'
 import Wallet from './pages/Wallet'
 import Governance from './pages/Governance'
+import GovernanceDetails from './pages/GovernanceDetails'
 
 function App() {
     return (
@@ -45,6 +46,10 @@ function App() {
                     />
                     <Route path="faucet" element={<Faucet />} />
                     <Route path="/governance" element={<Governance />} />
+                    <Route
+                        path="/governance/:proposalId"
+                        element={<GovernanceDetails />}
+                    />
                     <Route path="/wallet" element={<Wallet />} />
                     <Route path="/wallet/:type" element={<Wallet />} />
                 </Routes>
