@@ -42,8 +42,8 @@ const columns = [
         title: 'participation',
         dataIndex: ['participation', 'totalProposals'],
         render: (temp, obj) => {
-            return <>{obj.participation + " / " + obj.totalProposals}</>
-        }
+            return <>{obj.participation + ' / ' + obj.totalProposals}</>
+        },
     },
     {
         title: 'Commissions',
@@ -72,10 +72,6 @@ export default function ValidatorTable({ loading, valArray }) {
     return (
         <>
             <ContentBodyHeader>
-                <Input
-                    style={{ width: 340, marginRight: 10 }}
-                    placeholder="search validator"
-                />
                 <ContentBodyHeaderWrapinput>
                     {/*<Switch
                         checked={checkStrictly}
