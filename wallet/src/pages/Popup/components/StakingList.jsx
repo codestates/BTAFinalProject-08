@@ -43,7 +43,6 @@ const StakingList = () => {
             if (res) return { ...res, validator, reward };
           })
         ).then((response) => response.filter((item) => item !== undefined));
-
         setStakingList(res);
       }
     };
@@ -51,7 +50,6 @@ const StakingList = () => {
   }, [address, signingClient]);
 
   const onClickGetReward = async (key) => {
-    const signingClient = await wallet.utils.getSigningClient(API_URL, signer);
     const feeAmount = FEES.osmosis.swapExactAmountIn('low');
     const tx = await signingClient.withdrawRewards(
       address,
