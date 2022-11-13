@@ -4,6 +4,11 @@ import { cardShadow } from '../utils/color'
 import { cardBorderRadius } from '../utils/size'
 import FirstRow from '../components/AccountDetailsCompo/FirstRow'
 import { Table } from 'antd'
+import { useQuery } from 'react-query'
+import { getAccountDetails } from '../api/blockchain'
+import SecondTable from '../components/AccountDetailsCompo/DelegationTable'
+import DelegationTable from '../components/AccountDetailsCompo/DelegationTable'
+import TransactionsTable from '../components/AccountDetailsCompo/TransactionsTable'
 const Wrapper = styled.div`
     max-width: 1200px;
     min-width: 900px;
@@ -16,15 +21,6 @@ const Header = styled.div`
     font-weight: 500;
 `
 
-const SecondRow = styled.div`
-    width: 100%;
-    height: 400px;
-    background-color: #ffffff;
-    margin-top: 10px;
-    box-shadow: ${cardShadow};
-    border-radius: ${cardBorderRadius};
-    padding: 20px;
-`
 const ThirdRow = styled.div`
     padding: 20px;
     width: 100%;
@@ -42,18 +38,21 @@ const RowHeader = styled.div`
 
 export default function AddressDetails() {
     const { addressid } = useParams()
+    const { isLoading, data } = useQuery(['addressDetail', addressid], () =>
+        getAccountDetails(addressid)
+    )
+    console.log('[address Details]', addressid)
+    console.log('[address Details]', data)
     return (
         <Wrapper>
             <Header>ACCOUNT DETAIL</Header>
-            <FirstRow addressid={addressid} data={''} />
-            <SecondRow>
-                <RowHeader>Delegation</RowHeader>
-                <Table></Table>
-            </SecondRow>
-            <ThirdRow>
-                <RowHeader>Transactions</RowHeader>
-                <Table></Table>
-            </ThirdRow>
+            <FirstRow addressid={addressid} staData={!data ? null : data} />
+            <DelegationTable delegation={!data ? null : data.delegations} />
+
+            <TransactionsTable
+                transactions={!data ? null : data.transactions}
+                loading={isLoading}
+            ></TransactionsTable>
         </Wrapper>
     )
 }

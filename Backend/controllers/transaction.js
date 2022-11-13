@@ -1,44 +1,74 @@
-const { decodeTxRaw } = require('@cosmjs/proto-signing');
-const { SigningStargateClient, StargateClient } = require('@cosmjs/stargate');
-const { toHex } = require("@cosmjs/encoding");
-const { sha256 } = require("@cosmjs/crypto");
-const { extractTxInfo } = require("../modules/parseTxInfo");
-const env = process.env;
-
-const endPoint = env.END_POINT // 노드 주소
-
+const { Transaction } = require("../models");
+const { StargateClient } = require("@cosmjs/stargate");
+const { osmosis } = require("osmojs");
+const {extractMessagesFromTxHash} = require("../modules/parseMessage");
 
 module.exports = {
-    getTxHashFromTxRaw: async (req, res) => { // txRaw로부터 해당 트랜잭션 해쉬 리턴 Tx Raw to Tx Hash
+
+    getRecentTransaction: async (req, res) => { //  최근 limit 개의 트랜잭션 정보 리턴
         try {
-            let { txRaw } = req.body;
-            console.log(txRaw)
-            const txHash_signing = toHex(sha256(Buffer.from(txRaw, 'base64')));
-            res.status(200).json(txHash_signing);
+            let limit = Number(req.query.limit);
+            if (isNaN(limit)) {
+                limit = 1;
+            }
+            const recentTransactions = await Transaction.findAll({
+                order: [["time", "DESC"]],
+                offset: 0,
+                limit: limit
+            })
+            res.status(200).json(recentTransactions);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
     },
-
-    getTxInfoFromTxRaw: async (req, res) => { // txRaw로부터 해당 트랜잭션 정보 리턴
+    getTransactionFromHash: async (req, res) => { //  해당 txHash 의 트랜잭션 정보 리턴
         try {
-            let { txRaw } = req.body;
-            const txInfo_signing = decodeTxRaw(txRaw);
-            res.status(200).json(txInfo_signing);
+            const txHash = req.query.hash;
+            const tx = await Transaction.findOne({
+                where: { txHash: txHash },
+            })
+            const messages = await extractMessagesFromTxHash(txHash)
+            const resultObject ={
+                txInfo: tx,
+                messages:messages
+            }
+
+            res.status(200).json(resultObject);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
     },
-
-    getTxInfoFromTxHash: async (req, res) => { // txHash로부터 해당 트랜잭션 정보 리턴
+    // getTransactionFromHeight: async (req, res) => { //  해당 height에 속한 트랜잭션 정보 리턴    ====> 블록에서 한번에 주는방식으로 변경
+    //     try {
+    //         const height = req.query.height;
+    //         const tx = await Transaction.findAll({
+    //             where: { height: height },
+    //         })
+    //         res.status(200).json(tx);
+    //     } catch (err) {
+    //         res.status(400).json({ message: err.message });
+    //     }
+    // },
+    getTransactionsFromAddress: async (req, res) => {
         try {
-            const signingClient = await SigningStargateClient.connect(endPoint)
-            let txHash = req.query.hash;
-            const txInfoAfterSigned = await signingClient.getTx(txHash);
-            const extractedTx = await extractTxInfo(txInfoAfterSigned);
-            res.status(200).json(extractedTx);
+            const address = req.params.address;
+            const client = await StargateClient.connect(process.env.END_POINT)
+            let transactions = await client.searchTx({ sentFromOrTo: address }) // 해당 주소와 관련된 모든 트랜잭션 리턴
+            let resultObject = []
+            for (let i of transactions) {
+                const tx = await Transaction.findOne({
+                    attributes: ['txHash', 'type', 'status', 'fee', 'height', 'time'],
+                    where: { txHash: i.hash }
+                })
+                resultObject.push(tx)
+            }
+            resultObject.sort(function (a, b) { //시간순 정렬
+                return a.time > b.time ? -1 : a < b ? 1 : 0;
+            })
+            res.status(200).json(resultObject);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
     }
+
 }

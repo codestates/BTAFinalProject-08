@@ -53,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     );
     Block.associate = function (models) {
 
+
     };
     return Block;
 };

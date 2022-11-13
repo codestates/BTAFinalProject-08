@@ -1,13 +1,13 @@
 import { Card, Divider, Table } from 'antd'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { getBlockIdTransaction, getBlockInfo } from '../api/blockchain'
+import { getBlockInfo } from '../api/blockchain'
 import ContentHeaderDiv from '../components/BlockDetailsCompo/ContentHeaderDiv'
-import { validatorMap } from '../utils/blockchain'
+import { operatorMap, validatorMap } from '../utils/blockchain'
 import { cardShadow } from '../utils/color'
 import { cardBorderRadius, refetchTime } from '../utils/size'
-import { subtractNowAndTime } from '../utils/time'
+import { subtractNowAndTime } from '../utils/converter'
 
 const Wrapper = styled.div`
     max-width: 1000px;
@@ -46,26 +46,43 @@ const ContentHeaderWrapDiv = styled.div`
     justify-content: space-between;
     padding-bottom: 10px;
 `
+
 const column = [
     {
         title: 'Tx Hash',
-        dataIndex: 'type',
+        dataIndex: 'txHash',
+        render: (txt) => (
+            <Link to={`/txs/${txt}`}>
+                {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
+            </Link>
+        ),
+        key: 'txHash',
     },
     {
         title: 'Type',
         dataIndex: 'type',
+        render: (txt) => <>{txt}</>,
     },
     {
         title: 'Result',
+        dataIndex: 'status',
+        render: (txt) => <>success</>,
+        key: 'status',
     },
-    {
-        title: 'Amount',
-    },
+
     {
         title: 'Fee',
+        dataIndex: 'fee',
+        render: (txt) => <>{txt + 'uosmo'}</>,
+    },
+    {
+        title: 'Height',
+        dataIndex: 'height',
     },
     {
         title: 'Time',
+        dataIndex: 'time',
+        render: (txt) => <>{subtractNowAndTime(txt)}</>,
     },
 ]
 export default function BlockDetails() {
@@ -113,40 +130,54 @@ export default function BlockDetails() {
                         <ContentHeaderWrapDiv>
                             <ContentHeaderDiv
                                 header={'Chain Id'}
-                                content={data.chainId}
+                                content={data.blockInfo.chainId}
                             />
                             <ContentHeaderDiv
                                 header={'Height'}
-                                content={data.height}
+                                content={data.blockInfo.height}
                             />
                             <ContentHeaderDiv
                                 header={'Block Time'}
-                                content={subtractNowAndTime(data.time)}
+                                content={subtractNowAndTime(
+                                    data.blockInfo.time
+                                )}
                             />
                             <ContentHeaderDiv
                                 header={'Block Hash'}
-                                content={data.hash}
+                                content={data.blockInfo.hash}
                             />
                             <ContentHeaderDiv
                                 header={'Number of Tx'}
-                                content={data.numOfTx}
+                                content={data.blockInfo.numOfTx}
                             />
-                            <ContentHeaderDiv
+                            {/*<ContentHeaderDiv
                                 header={'Gas (used / wanted)'}
                                 content={`${
-                                    data.gas.gasUsed +
+                                    data.blockInfo.gas.gasUsed +
                                     ' / ' +
                                     data.gas.gasWanted
                                 }`}
-                            />
+                            />*/}
                             <ContentHeaderDiv
                                 header={'Block Round'}
-                                content={data.round}
+                                content={data.blockInfo.round}
                             />
                             <ContentHeaderDiv
                                 header={'Proposer'}
                                 content={
-                                    <a>{validatorMap[data.proposerAddress]} </a>
+                                    <Link
+                                        to={`/validators/${
+                                            operatorMap[
+                                                data.blockInfo.proposerAddress
+                                            ]
+                                        }`}
+                                    >
+                                        {
+                                            validatorMap[
+                                                data.blockInfo.proposerAddress
+                                            ]
+                                        }
+                                    </Link>
                                 }
                             />
                         </ContentHeaderWrapDiv>
@@ -155,7 +186,11 @@ export default function BlockDetails() {
             </ContentHeader>
             <ContentTransaction>
                 <h2>Transactions</h2>
-                <Table columns={column}></Table>
+                <Table
+                    loading={isLoading}
+                    columns={column}
+                    dataSource={!data ? null : data.txs}
+                ></Table>
             </ContentTransaction>
         </Wrapper>
     )

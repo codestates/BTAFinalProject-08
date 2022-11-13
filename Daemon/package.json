@@ -10,18 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@cosmjs/crypto": "^0.29.3",
-    "@cosmjs/encoding": "^0.29.3",
-    "@cosmjs/proto-signing": "^0.29.3",
     "@cosmjs/stargate": "^0.29.3",
     "axios": "^1.1.3",
-    "body-parser": "^1.20.1",
     "dotenv": "^8.2.0",
-    "express": "^4.18.2",
     "mysql2": "^2.3.3",
-    "node-cron": "^3.0.2",
     "nodemon": "^2.0.20",
     "sequelize": "^6.25.3",
-    "sequelize-cli": "^6.5.2"
+    "sequelize-cli": "^6.5.2",
+    "tendermint": "^5.0.2"
   }
 }

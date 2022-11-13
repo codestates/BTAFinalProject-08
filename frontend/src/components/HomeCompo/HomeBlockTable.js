@@ -2,43 +2,50 @@ import { Table } from 'antd'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { getBlocks } from '../../api/blockchain'
-import { validatorMap } from '../../utils/blockchain'
+import { operatorMap, validatorMap } from '../../utils/blockchain'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime } from '../../utils/converter'
 const columnsBlock = [
     {
         title: 'Height',
-        dataIndex: 'header',
-        render: (txt) => (
-            <Link to={`/blocks/${txt.height}`}>#{txt.height}</Link>
-        ),
+        dataIndex: 'height',
+        render: (txt) => <Link to={`/blocks/${txt}`}>#{txt}</Link>,
     },
     {
         title: 'Proposer',
-        dataIndex: 'header',
-        render: (txt) => <Link>{validatorMap[txt.proposer_address]}</Link>,
+        dataIndex: 'proposerAddress',
+        render: (txt) => (
+            <Link to={`/validators/${operatorMap[txt]} `}>
+                {validatorMap[txt]}
+            </Link>
+        ),
     },
     {
         title: 'Txs',
-        dataIndex: 'num_txs',
+        dataIndex: 'numOfTx',
     },
     {
         title: 'Time',
-        dataIndex: 'header',
-        render: (txt) => <>{subtractNowAndTime(txt.time)}</>,
+        dataIndex: 'time',
+        render: (txt) => <>{subtractNowAndTime(txt)}</>,
     },
 ]
 export default function HomeBlockTable() {
-    const { isLoading, data } = useQuery(['blocks'], getBlocks, {
-        refetchInterval: refetchTime,
-    })
+    let limit = 5
+    const { isLoading, data } = useQuery(
+        ['blocks', 5],
+        () => getBlocks(limit),
+        {
+            refetchInterval: refetchTime,
+        }
+    )
 
     return (
         <Table
             columns={columnsBlock}
             pagination={false}
             loading={isLoading}
-            dataSource={!data ? null : data.result.block_metas.slice(0, 5)}
+            dataSource={!data ? null : data}
         />
     )
 }

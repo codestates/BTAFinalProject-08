@@ -13,7 +13,7 @@ module.exports = {
                             ...getThemeVariables({
                                 dark: false,
                             }),
-                            '@primary-color': '#4834d4',
+                            '@primary-color': '#390368',
                         },
                     },
                 },

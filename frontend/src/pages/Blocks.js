@@ -10,7 +10,6 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    //padding: 20px;
 `
 
 const BlockContent = styled.div`
@@ -22,7 +21,7 @@ const BlockContent = styled.div`
     box-shadow: ${cardShadow};
 `
 
-const Header = styled.div`
+export const Title = styled.div`
     width: 100%;
     height: 40px;
     font-size: 28px;
@@ -62,7 +61,7 @@ const Blocks = () => {
 
     return (
         <Wrapper>
-            <Header>BLOCKS</Header>
+            <Title>BLOCKS</Title>
             <BlockContent>
                 <BlockHeader>
                     <HeaderWrapButton>

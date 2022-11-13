@@ -1,11 +1,13 @@
 import { Table } from 'antd'
 import React from 'react'
+import { useQuery } from 'react-query'
 import styled from 'styled-components'
+import { getDashboardStatistics } from '../api/blockchain'
 import HomeBlockTable from '../components/HomeCompo/HomeBlockTable'
 import HomeCardFirstRow from '../components/HomeCompo/HomeFirstRow'
 import HomeCardSecondRow from '../components/HomeCompo/HomeSecodeRow'
 import HomeTranTable from '../components/HomeCompo/HomeTranTable'
-import { cardBorderRadius } from '../utils/size'
+import { cardBorderRadius, refetchTime } from '../utils/size'
 const Wrapper = styled.div`
     //min-height: 1300px;
     max-width: 1200px;
@@ -46,6 +48,14 @@ const HomeTableHeader = styled.div`
 `
 
 const Home = () => {
+    const { data, isLoading } = useQuery(
+        ['homeDashboard'],
+        getDashboardStatistics,
+        {
+            refetchInterval: refetchTime,
+        }
+    )
+    //console.log(data)
     /*
         NOTE 블록, 트랜잭션, 본디드 토큰, 풀, 인플레이션, 스테이킹 apr, 로딩을 요청하고 데이터
         를 뿌려준다.
@@ -55,12 +65,13 @@ const Home = () => {
             <CardWHeaderrapper>
                 <HomeCardFirstRow />
                 <HomeCardSecondRow
-                    height={1}
-                    transaction={2}
-                    bondedToken={3}
-                    communnityPool={4}
-                    inflation={5}
-                    stakingApr={6}
+                    height={data?.height}
+                    transaction={data?.transactions}
+                    bondedToken={data?.bondedTokens}
+                    communnityPool={data?.communityPool}
+                    totalValidators={data?.totalValidators}
+                    votingPeriod={data?.votingPeriod}
+                    activeValidator={data?.activeValidators}
                     loading={true}
                 />
 

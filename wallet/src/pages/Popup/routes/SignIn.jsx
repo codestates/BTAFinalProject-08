@@ -1,11 +1,28 @@
-import { Button, Card, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
-import logo from '../../../assets/img/icon-128.png';
+import { Button, Card, Input, message } from 'antd';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../../assets/img/icon-home.png';
+import * as storage from '../utils/storage';
+import * as wallet from '../utils/wallet';
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [pw, setPw] = useState(null);
 
-  useEffect(() => {}, []);
+  const onClickSignIn = async () => {
+    try {
+      const { auth } = await storage.utils.getSyncStorageData('auth');
+      const mnemonic = await wallet.utils.aes256Decrypt(auth, pw);
+      if (mnemonic !== '') {
+        chrome.storage.session.set({ mnemonic });
+        navigate('/popup.html');
+      } else {
+        message.error('패스워드가 틀립니다.');
+      }
+    } catch (err) {
+      message.error('패스워드가 틀립니다.');
+    }
+  };
 
   return (
     <Card
@@ -31,9 +48,12 @@ const SignIn = () => {
         style={{ marginBottom: 14 }}
         onChange={({ target: { value } }) => setPw(value)}
       />
-      <Button type="primary" size="large">
-        로그인
-      </Button>
+      <div style={{ marginBottom: 14 }}>
+        <Button type="primary" size="large" onClick={onClickSignIn}>
+          로그인
+        </Button>
+      </div>
+      <Link to="/import">비밀번호를 잊으셨습니까?</Link>
     </Card>
   );
 };

@@ -34,14 +34,26 @@ const Validators = () => {
     const { isLoading, data } = useQuery(['validators'], getAllValidator, {
         refetchInterval: refetchTime,
     })
+    console.log('[validators pages]', data)
 
     return (
         <Wrapper>
-            <ValidatorContentHeader />
+            {data && (
+                <ValidatorContentHeader
+                    height={data?.height}
+                    blockTime={
+                        !data?.blockTimeInMs
+                            ? null
+                            : (data?.blockTimeInMs / 1000).toFixed(2)
+                    }
+                    totalVal={data?.totalValidatorNum}
+                    bondedTokens={10}
+                />
+            )}
             <ContentBody>
                 <ContentBodyWrapTable>
                     <ValidatorTable
-                        valArray={!data ? '' : data}
+                        valArray={!data ? '' : data.validators}
                         loading={isLoading}
                     />
                 </ContentBodyWrapTable>

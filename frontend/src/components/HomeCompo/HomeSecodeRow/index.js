@@ -4,6 +4,7 @@ import { GiToken } from 'react-icons/gi'
 import { Card, Col, Divider, Row, Table } from 'antd'
 import React from 'react'
 import CardSecondRowCol from './HomeDivideCard'
+import CardSecondRowVoteCol from './HomeVoteCard'
 
 const CardSecondRowRoot = styled.div`
     height: 190px;
@@ -18,8 +19,9 @@ export default function HomeCardSecondRow({
     transaction,
     bondedToken,
     communnityPool,
-    inflation,
-    stakingApr,
+    totalValidators,
+    activeValidator,
+    votingPeriod,
     loading,
 }) {
     return (
@@ -58,8 +60,8 @@ export default function HomeCardSecondRow({
                 icon1={
                     <Icon icon="octicon:graph-16" color="#7a7979" width="32" />
                 }
-                header1={'Inflation'}
-                data1={inflation}
+                header1={'Total validators'}
+                data1={totalValidators}
                 icon2={
                     <Icon
                         icon="iconoir:percentage-square"
@@ -67,25 +69,10 @@ export default function HomeCardSecondRow({
                         width={32}
                     />
                 }
-                header2={'Staking APR'}
-                data2={stakingApr}
+                header2={'Active validators'}
+                data2={activeValidator}
             />
-            <CardSecondRowCol
-                icon1={
-                    <Icon
-                        icon="clarity:blocks-group-solid"
-                        color="#7a7979"
-                        width="32"
-                    />
-                }
-                header1={'Staking APR'}
-                data1={'1'}
-                icon2={
-                    <Icon icon="uil:transaction" color="#7a7979" width="32" />
-                }
-                header2={'Transactions'}
-                data2={'2'}
-            />
+            <CardSecondRowVoteCol votingPeriod={votingPeriod} />
         </CardSecondRowRoot>
     )
 }

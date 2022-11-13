@@ -1,15 +1,16 @@
-import { Table } from 'antd'
+import { Table, Tag } from 'antd'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { getTrans } from '../../api/blockchain'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime } from '../../utils/converter'
 
 const columnsTransaction = [
     {
         title: 'Tx Hash',
-        dataIndex: 'txhash',
+        dataIndex: 'txHash',
+        key: 'txHash',
         render: (txt) => (
             <Link to={`/txs/${txt}`}>
                 {txt.slice(0, 6) + '...' + txt.slice(-7, -1)}
@@ -18,34 +19,36 @@ const columnsTransaction = [
     },
     {
         title: 'Type',
-        dataIndex: 'tx',
-        render: (txt) => (
-            <>
-                {!txt?.value?.msg[0]?.type
-                    ? null
-                    : txt.value.msg[0].type.split('/')[1].slice(3)}
-            </>
-        ),
+        dataIndex: 'type',
+        key: 'type',
+        render: (txt) => <Tag color="geekblue">{txt}</Tag>,
     },
     {
         title: 'Height',
         dataIndex: 'height',
+        key: 'height',
     },
     {
         title: 'Time',
-        dataIndex: 'timestamp',
+        dataIndex: 'time',
+        key: 'time',
         render: (txt) => <>{subtractNowAndTime(txt)}</>,
     },
 ]
 export default function HomeTranTable() {
-    const [toggle, setToggle] = useState(false)
-    const { isLoading, data } = useQuery(['transaction'], getTrans, {
-        refetchInterval: refetchTime,
-    })
+    let limit = 5
+    const { isLoading, data } = useQuery(
+        ['transaction', limit],
+        () => getTrans(limit),
+        {
+            refetchInterval: refetchTime,
+        }
+    )
     return (
         <Table
             columns={columnsTransaction}
-            dataSource={!data ? null : data.txs.slice(-5).reverse()}
+            loading={isLoading}
+            dataSource={!data ? null : data}
             pagination={false}
         />
     )
