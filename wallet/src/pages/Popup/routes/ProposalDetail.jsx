@@ -94,12 +94,16 @@ const ProposalDetail = () => {
         <Descriptions.Item label="Submit time">
           {moment(proposal.submit_time).format('YYYY-MM-DD HH:m:s')}
         </Descriptions.Item>
-        <Descriptions.Item label="Voting Start">
-          {moment(proposal.voting_start_time).format('YYYY-MM-DD HH:m:s')}
-        </Descriptions.Item>
-        <Descriptions.Item label="Voting End">
-          {moment(proposal.voting_end_time).format('YYYY-MM-DD HH:m:s')}
-        </Descriptions.Item>
+        {!isDepositPeriod(proposal.status) && (
+          <>
+            <Descriptions.Item label="Voting Start">
+              {moment(proposal.voting_start_time).format('YYYY-MM-DD HH:m:s')}
+            </Descriptions.Item>
+            <Descriptions.Item label="Voting End">
+              {moment(proposal.voting_end_time).format('YYYY-MM-DD HH:m:s')}
+            </Descriptions.Item>
+          </>
+        )}
         <Descriptions.Item label="Submit Time">
           {moment(proposal.submit_time).format('YYYY-MM-DD HH:m:s')}
         </Descriptions.Item>
