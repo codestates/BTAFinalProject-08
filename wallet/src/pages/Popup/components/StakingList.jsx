@@ -1,9 +1,7 @@
-import { Button, List, Modal } from 'antd';
+import { Button, List, Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../constants';
+import { FIXED_FEE } from '../constants';
 import { useGetSignerInfo } from '../hooks/useGetSignerInfo';
-import * as wallet from '../utils/wallet';
-import { FEES } from 'osmojs';
 import { getRewardAmount, getValidator } from '../utils/api';
 
 const StakingList = () => {
@@ -18,7 +16,6 @@ const StakingList = () => {
         const { validators } = await getValidator;
         const res = await Promise.all(
           validators.map(async (validator) => {
-            console.log(validator.addressInfo.operatorAddress, address);
             const res = await signingClient.getDelegation(
               address,
               validator.addressInfo.operatorAddress
@@ -33,9 +30,9 @@ const StakingList = () => {
               );
               reward = rewards;
               console.log(
+                'res',
                 rewards,
                 res,
-                'fdsa',
                 address,
                 validator.addressInfo.operatorAddress
               );
@@ -51,14 +48,17 @@ const StakingList = () => {
   }, [address, signingClient]);
 
   const onClickGetReward = async (key) => {
-    const signingClient = await wallet.utils.getSigningClient(API_URL, signer);
-    const feeAmount = FEES.osmosis.swapExactAmountIn('low');
-    const tx = await signingClient.withdrawRewards(
-      address,
-      stakingList[key].validator.addressInfo.operatorAddress,
-      feeAmount
-    );
-    console.log(tx, 'tx');
+    try {
+      const tx = await signingClient.withdrawRewards(
+        address,
+        stakingList[key].validator.addressInfo.operatorAddress,
+        FIXED_FEE
+      );
+      console.log(tx.json(), 'tx finish');
+      message.success('리워드 얻기 성공');
+    } catch (e) {
+      message.error('리워드 얻기 실패');
+    }
     //To do: 리워드 이후 액션
   };
 
