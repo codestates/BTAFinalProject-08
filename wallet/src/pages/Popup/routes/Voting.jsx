@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getProposals } from '../utils/api';
-import { Table } from 'antd';
-import { Link } from 'react-router-dom';
+import { Table, Button } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DEPOSIT_PERIOD = 'PROPOSAL_STATUS_DEPOSIT_PERIOD';
 const VOTING_PERIOD = 'PROPOSAL_STATUS_VOTING_PERIOD';
@@ -10,6 +10,7 @@ export const isDepositPeriod = (status) =>
   status === DEPOSIT_PERIOD ? true : false;
 
 const Voting = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -60,14 +61,24 @@ const Voting = () => {
     fetchProposals();
   }, []);
 
+  const onClickCreateProposal = () => navigate('/proposal/new');
+
   return (
-    <Table
-      size="small"
-      dataSource={data}
-      columns={columns}
-      rowKey="proposalId"
-      isLoading={isLoading}
-    />
+    <>
+      <Table
+        size="small"
+        dataSource={data}
+        columns={columns}
+        rowKey="proposalId"
+        isLoading={isLoading}
+        pagination={{ pageSize: 5 }}
+      />
+      <div style={{ margin: 14 }}>
+        <Button type="primary" size="large" onClick={onClickCreateProposal}>
+          제안 등록
+        </Button>
+      </div>
+    </>
   );
 };
 

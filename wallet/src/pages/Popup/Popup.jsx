@@ -16,6 +16,7 @@ import Delegate from './routes/Delegate';
 import UnDelegate from './routes/UnDelegate';
 import Voting from './routes/Voting';
 import ProposalDetail from './routes/ProposalDetail';
+import CreateProposal from './routes/CreateProposal';
 
 const Popup = () => {
   const { Header } = Layout;
@@ -68,6 +69,7 @@ const Popup = () => {
         <Route path="/staking" element={<Staking />} />
         <Route path="/voting" element={<Voting />} />
         <Route path="/proposal/:id" element={<ProposalDetail />} />
+        <Route path="/proposal/new" element={<CreateProposal />} />
         <Route
           path="/staking/delegate/:operatorAddress"
           element={<Delegate />}
