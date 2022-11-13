@@ -25,26 +25,7 @@ export default function GovernanceDetails() {
             refetchInterval: refetchTime,
         }
     )
-    const test = {
-        proposalId: '3',
-        proposalTitle: 'Test Proposal',
-        proposer: 'osmo1gzms2g22x5hc5dlgw4zrzn5jwukvq2zx5n5wjm',
-        proposalDetails:
-            'This proposal proposes to test whether this proposal passes',
-        status: 'PROPOSAL_STATUS_VOTING_PERIOD',
-        initialDeposit: '1000000',
-        totalDeposit: '11000000',
-        votingStart: '2022-11-12T15:49:13.666186860Z',
-        votingEnd: '2022-11-14T15:49:13.666186860Z',
-        submitTime: '2022-11-12T13:46:02.913382512Z',
-        depositEndTime: '2022-11-14T13:46:02.913382512Z',
-        voteResult: {
-            yes: '0',
-            abstain: '0',
-            no: '0',
-            no_with_veto: '0',
-        },
-    }
+
     console.log('[governance details]', data)
     return (
         <Wrapper>

@@ -37,7 +37,6 @@ export default function HomeBlockTable() {
             refetchInterval: refetchTime,
         }
     )
-    console.log('[home block table]', data)
 
     return (
         <Table

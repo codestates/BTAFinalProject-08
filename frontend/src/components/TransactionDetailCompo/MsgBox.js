@@ -26,7 +26,6 @@ export default function TranMsgBox({ data, type }) {
         return
     }
 
-    console.log('[msg box]', type, data)
     let msg = data
     //console.log(msg, 'msg')
     switch (type) {

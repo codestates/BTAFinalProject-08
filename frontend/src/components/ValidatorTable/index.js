@@ -9,7 +9,7 @@ const columns = [
         dataIndex: 'moniker',
         filterMode: 'tree',
         filterSearch: true,
-        onFilter: (value, record) => console.log(value),
+        //onFilter: (value, record) => console.log(value),
         //onFilter: (value, record) => record.name.startsWith(value),
         render: (text, record) => (
             <Link to={`/validators/${record.addressInfo.operatorAddress}`}>
