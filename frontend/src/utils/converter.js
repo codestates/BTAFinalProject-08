@@ -22,3 +22,11 @@ export const subtractNowAndTime = (isoTime) => {
 export const uosmoToOsmo = (v) => {
     return v / 1000000
 }
+
+export const parseAndLocaleString = (v) => {
+    if (v === '0001-01-01T00:00:00Z' || !v) {
+        return '-'
+    }
+    let date = new Date(v)
+    return date.toLocaleString()
+}
