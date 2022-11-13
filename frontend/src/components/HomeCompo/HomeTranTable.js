@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { getTrans } from '../../api/blockchain'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime } from '../../utils/converter'
 
 const columnsTransaction = [
     {

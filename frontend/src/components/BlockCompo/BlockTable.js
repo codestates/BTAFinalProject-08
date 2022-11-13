@@ -3,7 +3,7 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime } from '../../utils/converter'
 import { getBlocks } from '../../api/blockchain'
 import { validatorMap } from '../../utils/blockchain'
 

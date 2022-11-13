@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { getDelegations } from '../../api/blockchain'
 import { cardShadow, defaultColor } from '../../utils/color'
 import { cardBorderRadius } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime, uosmoToOsmo } from '../../utils/converter'
 const SecondRowRoot = styled.div`
     margin-top: 10px;
     height: 400px;
@@ -44,7 +44,7 @@ const column1 = [
     {
         title: 'balance',
         dataIndex: 'amount',
-        render: (txt) => txt,
+        render: (txt) => uosmoToOsmo(txt) + 'osmo',
     },
 ]
 

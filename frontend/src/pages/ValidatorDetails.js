@@ -52,7 +52,9 @@ export default function ValidatorDetails() {
                     operatorAddr={valaddress}
                     addr={data?.addressInfo.address}
                     website=""
-                    commission={(data?.commission * 100).toFixed(1) + '%'}
+                    commission={
+                        !data ? null : (data?.commission * 100).toFixed(1) + '%'
+                    }
                     bodedHeight={data?.bondedHeight}
                     uptime={data?.isActive ? '100' : '0'}
                     selfBonded={data?.selfBonded}

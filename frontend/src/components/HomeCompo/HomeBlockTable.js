@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { getBlocks } from '../../api/blockchain'
 import { operatorMap, validatorMap } from '../../utils/blockchain'
 import { refetchTime } from '../../utils/size'
-import { subtractNowAndTime } from '../../utils/time'
+import { subtractNowAndTime } from '../../utils/converter'
 const columnsBlock = [
     {
         title: 'Height',

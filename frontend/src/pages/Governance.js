@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getProposals } from '../api/blockchain'
-import { subtractNowAndTime } from '../utils/time'
+import { subtractNowAndTime } from '../utils/converter'
 
 const Wrapper = styled.div`
     min-width: 900px;

@@ -6,7 +6,7 @@ import { getTransactionMsg, getTransInfo } from '../api/blockchain'
 import InfoContent from '../components/TransactionDetailInfoCard'
 import { cardShadow } from '../utils/color'
 import { cardBorderRadius } from '../utils/size'
-import { subtractNowAndTime } from '../utils/time'
+import { subtractNowAndTime } from '../utils/converter'
 import { Icon } from '@iconify/react'
 import TranMsgBox from '../components/TransactionDetailCompo/MsgBox'
 
@@ -42,6 +42,7 @@ export default function TransactionDetail() {
     const { data, isLoading } = useQuery(['transDetail', transactionid], () =>
         getTransInfo(transactionid)
     )
+    console.log('[transaction details]', data)
 
     return (
         <Wrapper>
@@ -58,28 +59,25 @@ export default function TransactionDetail() {
                 loading={isLoading}
                 data={data}
             />
-            <MsgWrapper>
-                <Card style={{ height: '400px' }}>
-                    <MessageHeader>
-                        <Icon
-                            icon="bx:message-alt-detail"
-                            style={{ marginRight: '10px' }}
-                        />
-                        Message
-                    </MessageHeader>
-                    <Divider></Divider>
-                    {!data?.messages
-                        ? null
-                        : data.messages.map((v, i) => {
-                              return (
-                                  <TranMsgBox
-                                      type={data?.txInfo.type}
-                                      data={v}
-                                  />
-                              )
-                          })}
-                </Card>
-            </MsgWrapper>
+            {data?.messages && (
+                <MsgWrapper>
+                    <Card style={{ height: '400px' }}>
+                        <MessageHeader>
+                            <Icon
+                                icon="bx:message-alt-detail"
+                                style={{ marginRight: '10px' }}
+                            />
+                            Message
+                        </MessageHeader>
+                        <Divider></Divider>
+                        {data.messages.map((v, i) => {
+                            return (
+                                <TranMsgBox type={data?.txInfo.type} data={v} />
+                            )
+                        })}
+                    </Card>
+                </MsgWrapper>
+            )}
         </Wrapper>
     )
 }
