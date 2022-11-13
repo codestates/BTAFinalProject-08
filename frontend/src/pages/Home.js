@@ -66,11 +66,11 @@ const Home = () => {
                 <HomeCardFirstRow />
                 <HomeCardSecondRow
                     height={data?.height}
-                    transaction={data?.transaction}
+                    transaction={data?.transactions}
                     bondedToken={data?.bondedTokens}
                     communnityPool={data?.communityPool}
-                    inflation={0}
-                    stakingApr={6}
+                    totalValidators={data?.totalValidators}
+                    activeValidator={data?.activeValidators}
                     loading={true}
                 />
 

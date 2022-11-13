@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Menu, Input } from 'antd'
+import { Layout, Menu, Input, notification } from 'antd'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 import styled from 'styled-components'
@@ -23,20 +23,42 @@ const ItemWrapper = styled.div`
 
 const Navbar = () => {
     const [error, setError] = useState(false)
+    const notFindArgs = {
+        message: 'notification',
+        description: "can't search",
+        duration: 1,
+        placement: 'topLeft',
+    }
+    const findArgs = {
+        message: 'notification',
+        description: 'search',
+        duration: 1,
+        placement: 'topLeft',
+    }
     const navi = useNavigate()
     const onSearch = (v) => {
         if (v.startsWith('osmovaloper', 0)) {
             navi(`/validators/${v}`)
+            notification.success(findArgs)
+            return
         } else if (v.startsWith('osmo', 0)) {
+            notification.success(findArgs)
             navi(`/account/${v}`)
+            return
         } else if (v.length === 64) {
+            notification.success(findArgs)
             navi(`/txs/${v}`)
+            return
         } else if (integerCheck(v)) {
+            notification.success(findArgs)
             navi(`/blocks/${v}`)
+            return
         } else {
             setError(true)
-            return
         }
+
+        notification.error(notFindArgs)
+
         setError(false)
     }
     return (

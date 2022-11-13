@@ -26,6 +26,7 @@ export default function TranMsgBox({ data, type }) {
         return
     }
 
+    console.log('[msg box]', type, data)
     let msg = data
     //console.log(msg, 'msg')
     switch (type) {
@@ -85,6 +86,43 @@ export default function TranMsgBox({ data, type }) {
                     <DivMsg header={'Amount'} body={msg.amounts + 'usosmo'} />
                 </Wrapper>
             )
+        case 'Vote':
+            return (
+                <Wrapper>
+                    <DivMsgMainHeader>Vote</DivMsgMainHeader>
+                    <DivMsg header={'Voter address'} body={msg.voter} />
+                    <DivMsg header={'Proposal id'} body={msg.proposalId} />
+
+                    <DivMsg header={'Tx type'} body={msg.txType} />
+                    <DivMsg header={'option'} body={msg.option} />
+                </Wrapper>
+            )
+        case 'Deposit':
+            return (
+                <Wrapper>
+                    <DivMsgMainHeader>Deposit</DivMsgMainHeader>
+                    <DivMsg header={'Depositor address'} body={msg.depositor} />
+                    <DivMsg header={'Proposal id'} body={msg.proposalId} />
+
+                    <DivMsg header={'Amount'} body={msg.amount} />
+                    <DivMsg header={'Tx type'} body={msg.txType} />
+                </Wrapper>
+            )
+        case 'SubmitProposal':
+            return (
+                <Wrapper>
+                    <DivMsgMainHeader>Submit Proposa;</DivMsgMainHeader>
+                    <DivMsg header={'Proposer address'} body={msg.proposer} />
+                    <DivMsg header={'title'} body={msg.title} />
+                    <DivMsg header={'description'} body={msg.description} />
+                    <DivMsg
+                        header={'initialDeposit'}
+                        body={msg.initialDeposit}
+                    />
+                    <DivMsg header={'Tx type'} body={msg.txType} />
+                </Wrapper>
+            )
+
         default:
             return null
     }

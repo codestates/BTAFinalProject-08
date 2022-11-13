@@ -18,8 +18,8 @@ export default function HomeCardSecondRow({
     transaction,
     bondedToken,
     communnityPool,
-    inflation,
-    stakingApr,
+    totalValidators,
+    activeValidator,
     loading,
 }) {
     return (
@@ -58,8 +58,8 @@ export default function HomeCardSecondRow({
                 icon1={
                     <Icon icon="octicon:graph-16" color="#7a7979" width="32" />
                 }
-                header1={'Inflation'}
-                data1={inflation}
+                header1={'Total validators'}
+                data1={totalValidators}
                 icon2={
                     <Icon
                         icon="iconoir:percentage-square"
@@ -67,8 +67,8 @@ export default function HomeCardSecondRow({
                         width={32}
                     />
                 }
-                header2={'Staking APR'}
-                data2={stakingApr}
+                header2={'Active validators'}
+                data2={activeValidator}
             />
             <CardSecondRowCol
                 icon1={
