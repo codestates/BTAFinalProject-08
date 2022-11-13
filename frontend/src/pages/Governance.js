@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getProposals, getProposalStatistics } from '../api/blockchain'
 import { subtractNowAndTime } from '../utils/converter'
+import { refetchTime } from '../utils/size'
 
 const Wrapper = styled.div`
     min-width: 900px;
@@ -14,31 +15,40 @@ const Header = styled.div`
     font-size: 30px;
     color: #222222;
 `
+const DivContent = styled.div`
+    width: 100%;
+    display: flex;
+`
+const DivContentHeader = styled.div`
+    width: 10%;
+    font-weight: 500;
+`
+const DivContentBody = styled.div`
+    width: 80%;
+`
 
 const column = [
     {
         title: '#ID',
-        dataIndex: 'proposal_id',
-        key: 'proposal_id',
+        dataIndex: 'proposalId',
+        key: 'proposalId',
         render: (v) => '#' + v,
     },
     {
         title: 'Title',
-        dataIndex: 'content',
-        key: 'content',
+        dataIndex: 'proposalTitle',
+        key: 'proposalTitle',
         render: (v, record) => (
-            <Tooltip title={v.description} placement="topLeft">
-                <Link to={`/governance/${record.proposal_id}`}>
-                    <div
-                        style={{
-                            fontWeight: 500,
-                            display: 'flex',
-                        }}
-                    >
-                        {v.title}
-                    </div>
-                </Link>
-            </Tooltip>
+            <Link to={`/governance/${record.proposalId}`}>
+                <div
+                    style={{
+                        fontWeight: 500,
+                        display: 'flex',
+                    }}
+                >
+                    {v}
+                </div>
+            </Link>
         ),
     },
     {
@@ -61,51 +71,71 @@ const column = [
             )
         },
     },
-    {
-        title: 'Voting Start',
-        dataIndex: 'voting_start_time',
-        key: 'voting_start_time',
-        render: (v) =>
-            v === '0001-01-01T00:00:00Z' ? '-' : subtractNowAndTime(v),
-    },
+
     {
         title: 'Submit Time',
-        dataIndex: 'submit_time',
-        key: 'submit_time',
+        dataIndex: 'submitTime',
+        key: 'submitTime',
         render: (v) => subtractNowAndTime(v),
     },
     {
         title: 'Total Deposit',
-        dataIndex: 'total_deposit',
-        key: 'total_deposit',
-        render: (v) => (!v[0] ? null : v[0].amount + 'uosmo'),
+        dataIndex: 'totalDeposit',
+        key: 'totalDeposit',
+        render: (v) => (!v ? null : v.amount + 'uosmo'),
     },
 ]
 export default function Governance() {
-    const { isLoading, data } = useQuery(['proposal'], getProposals)
+    const { isLoading, data } = useQuery(['proposal'], getProposals, {
+        refetchInterval: refetchTime,
+    })
     console.log('[proposal data]', data)
-    if (data?.proposals.length >= 2) {
-        for (let i = 1; i <= data?.proposals.length; i++) {
-            Object.assign(data.proposals[i - 1], { key: i })
+    if (data?.length >= 2) {
+        for (let i = 1; i <= data?.length; i++) {
+            Object.assign(data[i - 1], { key: i })
         }
     }
     return (
         <Wrapper>
             <Header>PROPOSALS</Header>
             <Table
+                loading={isLoading}
                 columns={column}
                 expandable={{
-                    expandedRowRender: async (record) => {
-                        const proposalData = await getProposalStatistics(
-                            record.proposal_id
-                        )
-                        console.log(proposalData)
-                        return <Card>{proposalData?.data?.yes}</Card>
-                    },
+                    expandedRowRender: (record) => (
+                        <>
+                            <DivContent>
+                                <DivContentHeader>abstain</DivContentHeader>
+                                <DivContentBody>
+                                    {record.tally.abstain + ' uosmo'}
+                                </DivContentBody>
+                            </DivContent>
+                            <DivContent>
+                                <DivContentHeader>
+                                    no with veto
+                                </DivContentHeader>
+                                <DivContentBody>
+                                    {record.tally.no_with_veto + ' uosmo'}
+                                </DivContentBody>
+                            </DivContent>
+                            <DivContent>
+                                <DivContentHeader>no</DivContentHeader>
+                                <DivContentBody>
+                                    {record.tally.no + ' uosmo'}
+                                </DivContentBody>
+                            </DivContent>
+                            <DivContent>
+                                <DivContentHeader>yes</DivContentHeader>
+                                <DivContentBody>
+                                    {record.tally.yes + ' uosmo'}
+                                </DivContentBody>
+                            </DivContent>
+                        </>
+                    ),
                     rowExpandable: (record) =>
-                        record.status !== 'PROPOSAL_STATUS_DEPOSIT_PERIOD',
+                        record.status === 'PROPOSAL_STATUS_VOTING_PERIOD',
                 }}
-                dataSource={!data ? null : data.proposals}
+                dataSource={!data ? null : data}
             ></Table>
         </Wrapper>
     )

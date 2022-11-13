@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const BASE_URL_API = 'http://127.0.0.1:4567'
+export const BASE_URL_API = 'http://54.183.220.98:4567'
 export const NODE_URL_API = 'http://34.155.184.217:1317'
 //const BASE_URL_RPC = 'http://34.155.184.217:26657'
 //const LOCAL_BASE_URL = 'http://localhost:4567'
@@ -75,9 +75,7 @@ export const getProposals = () =>
 */
 
 export const getProposals = () =>
-    axios
-        .get(`${NODE_URL_API}/cosmos/gov/v1beta1/proposals`)
-        .then((res) => res.data)
+    axios.get(`${BASE_URL_API}/proposal/`).then((res) => res.data)
 
 export const getAccountDetails = (address) =>
     axios
