@@ -95,6 +95,7 @@ export default function BlockDetails() {
         }
     )
 
+    console.log('[blockinfo]', data.blockInfo)
     //console.log(blockTransaction.data)
     // tx > value > msg[] > value
     /*!SECTION
@@ -166,17 +167,9 @@ export default function BlockDetails() {
                                 header={'Proposer'}
                                 content={
                                     <Link
-                                        to={`/validators/${
-                                            operatorMap[
-                                                data.blockInfo.proposerAddress
-                                            ]
-                                        }`}
+                                        to={`/validators/${data.blockInfo.operatorAddress}`}
                                     >
-                                        {
-                                            validatorMap[
-                                                data.blockInfo.proposerAddress
-                                            ]
-                                        }
+                                        {data.blockInfo.moniker}
                                     </Link>
                                 }
                             />
