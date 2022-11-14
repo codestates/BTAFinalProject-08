@@ -68,7 +68,10 @@ export default function ValidatorDetails() {
                     delegators={data?.delegators}
                     loading={isLoading}
                 />
-                <ThirdRow voteData={''} loading={false} />
+                <ThirdRow
+                    voteData={data?.votes}
+                    loading={isLoading}
+                />
             </WrapContent>
         </Wrapper>
     )
