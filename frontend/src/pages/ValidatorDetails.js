@@ -7,6 +7,7 @@ import FirstRow from '../components/ValiDatorDetailsCompo/FirstRow'
 import SecondRow from '../components/ValiDatorDetailsCompo/SecodeRow'
 import ThirdRow from '../components/ValiDatorDetailsCompo/ThirdRow'
 import { cardShadow, defaultColor, headerColor } from '../utils/color'
+import { ValAddressToMoniker } from '../utils/moniker'
 import { headerBold, headerSize, refetchTime } from '../utils/size'
 
 const Wrapper = styled.div`
@@ -49,6 +50,7 @@ export default function ValidatorDetails() {
                 <Header>VALIDATOR DETAILS</Header>
 
                 <FirstRow
+                    moniker={valaddress ? ValAddressToMoniker[valaddress] : "MONIKER"}
                     operatorAddr={valaddress}
                     addr={data?.addressInfo.address}
                     website=""

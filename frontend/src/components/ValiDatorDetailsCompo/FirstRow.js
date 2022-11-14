@@ -70,6 +70,7 @@ const FirstRowBodyDivContent = styled.div`
     height: 100%;
 `
 export default function FirstRow({
+    moniker = ' ',
     operatorAddr = 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
     addr = 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     website = 'https://www.naver.com',
@@ -89,7 +90,7 @@ export default function FirstRow({
                 <FirstRowHeader>
                     <FirstRowHeaderLeft>
                         <FirstRowHeaderLeftHeader>
-                            <h2>MONIKER</h2>
+                            <h2>{moniker}</h2>
                         </FirstRowHeaderLeftHeader>
                         <FirstRowHeaderLeftBody>
                             <h3>Operator Address</h3>
