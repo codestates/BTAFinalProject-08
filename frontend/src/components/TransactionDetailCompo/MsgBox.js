@@ -82,11 +82,24 @@ export default function TranMsgBox({ data, type }) {
                         header={'Validator address'}
                         body={msg.validatorAddress}
                     />
-                    <DivMsg header={'Amount'} body={msg.amounts + 'uosmo'} />
+                    <DivMsg header={'Amount'} body={msg.amount + 'uosmo'} />
                 </Wrapper>
             )
         case 'Undelegate':
-            return <div>helo</div>
+            return (
+                <Wrapper>
+                    <DivMsgMainHeader>Undelegate</DivMsgMainHeader>
+                    <DivMsg
+                        header={'Delegator address'}
+                        body={msg.delegatorAddress}
+                    />
+                    <DivMsg
+                        header={'Validator address'}
+                        body={msg.validatorAddress}
+                    />
+                    <DivMsg header={'Amount'} body={msg.amount + 'uosmo'} />
+                </Wrapper>
+            )
         case 'Vote':
             return (
                 <Wrapper>
