@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { voteOption } from '../../utils/converter'
 import DivMsg from './DivMsg'
 
 const Wrapper = styled.div`
@@ -27,7 +28,6 @@ export default function TranMsgBox({ data, type }) {
     }
 
     let msg = data
-    //console.log(msg, 'msg')
     switch (type) {
         case 'Send':
             return (
@@ -82,7 +82,22 @@ export default function TranMsgBox({ data, type }) {
                         header={'Validator address'}
                         body={msg.validatorAddress}
                     />
-                    <DivMsg header={'Amount'} body={msg.amounts + 'uosmo'} />
+                    <DivMsg header={'Amount'} body={msg.amount + 'uosmo'} />
+                </Wrapper>
+            )
+        case 'Undelegate':
+            return (
+                <Wrapper>
+                    <DivMsgMainHeader>Undelegate</DivMsgMainHeader>
+                    <DivMsg
+                        header={'Delegator address'}
+                        body={msg.delegatorAddress}
+                    />
+                    <DivMsg
+                        header={'Validator address'}
+                        body={msg.validatorAddress}
+                    />
+                    <DivMsg header={'Amount'} body={msg.amount + 'uosmo'} />
                 </Wrapper>
             )
         case 'Vote':
@@ -93,7 +108,7 @@ export default function TranMsgBox({ data, type }) {
                     <DivMsg header={'Proposal id'} body={msg.proposalId} />
 
                     <DivMsg header={'Tx type'} body={msg.txType} />
-                    <DivMsg header={'option'} body={msg.option} />
+                    <DivMsg header={'option'} body={voteOption(msg.option)} />
                 </Wrapper>
             )
         case 'Deposit':

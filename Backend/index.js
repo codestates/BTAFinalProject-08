@@ -9,7 +9,6 @@ const faucetRoutes = require("./routes/faucet");
 const dashboardRoutes = require("./routes/dashboard");
 const accountRoutes = require("./routes/account");
 const proposalRoutes = require("./routes/proposal");
-
 const app = express();
 const PORT = process.env.PORT;
 

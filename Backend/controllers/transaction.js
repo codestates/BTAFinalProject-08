@@ -1,6 +1,5 @@
 const { Transaction } = require("../models");
 const { StargateClient } = require("@cosmjs/stargate");
-const { osmosis } = require("osmojs");
 const {extractMessagesFromTxHash} = require("../modules/parseMessage");
 
 module.exports = {
@@ -38,17 +37,7 @@ module.exports = {
             res.status(400).json({ message: err.message });
         }
     },
-    // getTransactionFromHeight: async (req, res) => { //  해당 height에 속한 트랜잭션 정보 리턴    ====> 블록에서 한번에 주는방식으로 변경
-    //     try {
-    //         const height = req.query.height;
-    //         const tx = await Transaction.findAll({
-    //             where: { height: height },
-    //         })
-    //         res.status(200).json(tx);
-    //     } catch (err) {
-    //         res.status(400).json({ message: err.message });
-    //     }
-    // },
+
     getTransactionsFromAddress: async (req, res) => {
         try {
             const address = req.params.address;

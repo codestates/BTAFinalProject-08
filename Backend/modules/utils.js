@@ -1,6 +1,5 @@
 const { sha256 } = require("@cosmjs/crypto");
-const { Bech32, fromBase64, toHex } = require("@cosmjs/encoding");
-const { encodeBech32Pubkey, decodeBech32Pubkey } = require("@cosmjs/launchpad");
+const { fromBase64, toHex } = require("@cosmjs/encoding");
 
 
 const Cothi = Object.freeze({
@@ -55,6 +54,7 @@ const TxTypes = Object.freeze({
     SEND: "Send",
     CREATE_VALIDATOR: "CreateValidator",
     DELEGATE: "Delegate",
+    UNDELEGATE: "Undelegate",
     WITHDRAW_DELEGATOR_REWARD: "WithdrawDelegationReward",
     SUBMIT_PROPOSAL: "SubmitProposal",
     DEPOSIT: "Deposit",

@@ -1,7 +1,6 @@
 const env = process.env;
 const axios = require('axios');
 const { Block } = require('../models');
-const Transaction = require('../models/Transaction');
 const { MonikerToAddressInfo, VoteOptions } = require('./utils');
 require("dotenv").config();
 
@@ -107,7 +106,7 @@ const loadValidatorDetails = async (operatorAddress, blockLimit) => {
                 break;
             }
         }
-        const limit = 10000000;
+        const limit = 100; // max value
         const minHeight = 30000;
         const txsData = (await axios.get(env.LCD_END_POINT + "txs?message.action=/cosmos.gov.v1beta1.MsgVote&message.sender=" + addressInfo.address + "&limit=" + limit + "&tx.minheight=" + minHeight)).data;
         let txHash = "";
