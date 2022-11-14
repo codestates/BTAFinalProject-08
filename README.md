@@ -12,10 +12,10 @@
  ## Introduce
  
  <p align="middle" >
-    <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/21306769-930b-4dda-98a2-34980c2afd9e/Untitled.png" alt="logo"/>
+    <img src="https://user-images.githubusercontent.com/80636401/201603920-11a33651-b48a-4f04-bbdf-cf673a0d2058.png" alt="logo"/>
 </p>
 <p align="middle" >
-    <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/699a4fd0-dc41-466d-8f18-97c6e1485d84/balance.png" alt="logo"/>
+    <img src="https://user-images.githubusercontent.com/80636401/201603933-9b890217-e89f-463c-abb6-753a2d17fcee.png" alt="logo"/>
 </p>
 
 > Osmosis 네트워크 기반의 블록체인 Explorer 및 핫 월렛 개발 프로젝트 입니다.
