@@ -54,6 +54,7 @@ const TxTypes = Object.freeze({
     SEND: "Send",
     CREATE_VALIDATOR: "CreateValidator",
     DELEGATE: "Delegate",
+    UNDELEGATE: "Undelegate",
     WITHDRAW_DELEGATOR_REWARD: "WithdrawDelegationReward",
     SUBMIT_PROPOSAL: "SubmitProposal",
     DEPOSIT: "Deposit",

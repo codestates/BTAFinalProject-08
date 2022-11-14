@@ -46,7 +46,18 @@ const extractMessagesFromTxHash = async (txHash) => {
                     txType,
                     delegatorAddress,
                     validatorAddress,
-                    amounts: BigInt(amount).toString()
+                    amount,
+                }
+            })
+            return messages;
+        case TxTypes.UNDELEGATE:
+            messages = msg.map(m => {
+                const { value: { delegator_address: delegatorAddress, validator_address: validatorAddress, amount: { amount } } } = m;
+                return {
+                    txType,
+                    delegatorAddress,
+                    validatorAddress,
+                    amount,
                 }
             })
             return messages;

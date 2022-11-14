@@ -2,6 +2,8 @@ import { Table } from 'antd'
 import styled from 'styled-components'
 import { cardShadow, headerColor } from '../../utils/color'
 import { cardBorderRadius } from '../../utils/size'
+import { Link } from 'react-router-dom'
+import { parseAndLocaleString } from '../../utils/converter'
 
 const ThirdRowRoot = styled.div`
     margin-top: 10px;
@@ -23,27 +25,39 @@ const MarginDiv = styled.div`
 const column = [
     {
         title: '#ID',
+        dataIndex: 'id',
     },
     {
         title: 'Title',
+        dataIndex: 'title',
     },
     {
         title: 'Tx Hash',
+        dataIndex: 'txHash',
+        render: h => <Link to={`/txs/${h}`}>{h !== '' ? `${h.slice(0, 5)}...${h.slice(-5)}` : ""}</Link>,
     },
     {
         title: 'Answer',
+        dataIndex: 'answer',
     },
     {
         title: 'Time Submitted',
+        dataIndex: 'timeSubmitted',
+        render: t => parseAndLocaleString(t),
     },
 ]
 
-export default function ThirdRow() {
+export default function ThirdRow({ voteData, loading }) {
     return (
         <>
             <ThirdRowRoot>
                 <ThirdRowHeader>Votes</ThirdRowHeader>
-                <Table columns={column}></Table>
+                <Table
+                    loading={loading}
+                    pagination={{ pageSize: 5 }}
+                    columns={column}
+                    dataSource={!voteData ? null : voteData}
+                ></Table>
             </ThirdRowRoot>
             <MarginDiv />
         </>
