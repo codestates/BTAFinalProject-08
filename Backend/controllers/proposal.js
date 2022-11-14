@@ -43,6 +43,7 @@ module.exports = {
             const proposalId = req.query.id
             const proposalInfo = (await axios.get(env.LCD_END_POINT + "cosmos/gov/v1beta1/proposals/" + proposalId)).data.proposal;
             const depositInfo = (await axios.get(env.LCD_END_POINT + "cosmos/gov/v1beta1/proposals/" + proposalId+"/deposits")).data.deposits[0];
+            const tally = (await axios.get(env.LCD_END_POINT + `cosmos/gov/v1beta1/proposals/${proposalId}/tally`)).data.tally;
             const proposer = depositInfo.depositor
             const initialDeposit = depositInfo.amount[0].amount
             const proposal = {
@@ -57,7 +58,8 @@ module.exports = {
                 votingEnd: proposalInfo.voting_end_time,
                 submitTime:proposalInfo.submit_time,
                 depositEndTime:proposalInfo.deposit_end_time,
-                voteResult:proposalInfo.final_tally_result
+                voteResult:proposalInfo.final_tally_result,
+                tally:tally
             }
             res.status(200).json(proposal);
         } catch (err) {
